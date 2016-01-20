@@ -18,19 +18,18 @@ def get_tokens(code):
 
 def evaluate(tokens):
 	name = tokens[0]
+	tokens = tokens[1:]
 	if name not in functions:
-		return int(name), 1
+		return int(name), tokens
 
 	function = functions[name]
 	arguments = []
-	offset = 1
 	for _ in xrange(function[0]):
-		value, shift = evaluate(tokens[offset:])
+		value, tokens = evaluate(tokens)
 		arguments.append(value)
-		offset += shift
 
 	value = function[1](*arguments)
-	return value, 1 + len(arguments)
+	return value, tokens
 
 if __name__ == '__main__':
 	code = get_code()
