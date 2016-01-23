@@ -5,18 +5,26 @@ from operator import add, sub, mul, div
 from uuid import uuid4
 
 class function:
-	def __init__(self, number_of_arguments, handle):
-		self.number_of_arguments = number_of_arguments
+	def __init__(self, handle, arguments=None, arity=None):
 		self.handle = handle
+		self.arguments = arguments
+		if arity is None:
+			self.arity = len(arguments)
+		else:
+			self.arity = arity
 
 	def __repr__(self):
-		return '({:d}, {!s})'.format(self.number_of_arguments, self.handle)
+		return '({!s}, {!s}, {:d})'.format( \
+			self.handle, \
+			self.arguments, \
+			self.arity \
+		)
 
 functions = { \
-	'+': function(2, add), \
-	'-': function(2, sub), \
-	'*': function(2, mul), \
-	'/': function(2, div) \
+	'+': function(add, arity=2), \
+	'-': function(sub, arity=2), \
+	'*': function(mul, arity=2), \
+	'/': function(div, arity=2) \
 }
 
 def head(list):
@@ -56,9 +64,9 @@ def parse_function_name(tokens):
 	return name, tokens
 
 def parse_function_arguments(tokens):
-	arguments = 0
+	arguments = []
 	while head(tokens) != ')':
-		arguments += 1
+		arguments.append(head(tokens))
 		tokens = tail(tokens)
 
 	# cut the close parenthesis
@@ -86,7 +94,7 @@ def parse_function(tokens):
 	name, tokens = parse_function_name(tokens)
 	arguments, tokens = parse_function_arguments(tokens)
 	body, tokens = parse_function_body(tokens)
-	return name, function(arguments, body), tokens
+	return name, function(body, arguments=arguments), tokens
 
 def evaluate_arguments(tokens, number):
 	arguments = []
@@ -107,10 +115,7 @@ def evaluate(tokens):
 	if name not in functions:
 		return int(name), tokens
 
-	arguments, tokens = evaluate_arguments( \
-		tokens, \
-		functions[name].number_of_arguments \
-	)
+	arguments, tokens = evaluate_arguments(tokens, functions[name].arity)
 	value = apply(functions[name].handle, arguments)
 
 	return value, tokens
