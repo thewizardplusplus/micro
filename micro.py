@@ -30,6 +30,9 @@ def parse_function(tokens):
 	# cut the open parenthesis
 	tokens = tokens[1:]
 
+	if name in functions:
+		raise Exception('found a duplicate of the "{:s}" function'.format(name))
+
 	arguments = 0
 	while tokens[0] != ')':
 		arguments += 1
