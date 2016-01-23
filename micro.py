@@ -4,11 +4,19 @@ from sys import argv
 from operator import add, sub, mul, div
 from uuid import uuid4
 
+class function:
+	def __init__(self, number_of_arguments, handle):
+		self.number_of_arguments = number_of_arguments
+		self.handle = handle
+
+	def __repr__(self):
+		return '({:d}, {!s})'.format(self.number_of_arguments, self.handle)
+
 functions = { \
-	'+': (2, add), \
-	'-': (2, sub), \
-	'*': (2, mul), \
-	'/': (2, div) \
+	'+': function(2, add), \
+	'-': function(2, sub), \
+	'*': function(2, mul), \
+	'/': function(2, div) \
 }
 
 def head(list):
@@ -78,7 +86,7 @@ def parse_function(tokens):
 	name, tokens = parse_function_name(tokens)
 	arguments, tokens = parse_function_arguments(tokens)
 	body, tokens = parse_function_body(tokens)
-	return name, (arguments, body), tokens
+	return name, function(arguments, body), tokens
 
 def evaluate_arguments(tokens, number):
 	arguments = []
@@ -99,8 +107,11 @@ def evaluate(tokens):
 	if name not in functions:
 		return int(name), tokens
 
-	arguments, tokens = evaluate_arguments(tokens, functions[name][0])
-	value = apply(functions[name][1], arguments)
+	arguments, tokens = evaluate_arguments( \
+		tokens, \
+		functions[name].number_of_arguments \
+	)
+	value = apply(functions[name].handle, arguments)
 
 	return value, tokens
 
