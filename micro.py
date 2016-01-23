@@ -30,7 +30,14 @@ def parse_function(tokens):
 	# cut the open parenthesis
 	tokens = tokens[1:]
 
-	return name, (23, None), tokens[-1:]
+	arguments = 0
+	while tokens[0] != ')':
+		arguments += 1
+		tokens = tokens[1:]
+	# cut the close parenthesis
+	tokens = tokens[1:]
+
+	return name, (arguments, None), tokens[-1:]
 
 def evaluate(tokens):
 	name = tokens[0]
