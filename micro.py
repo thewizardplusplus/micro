@@ -11,6 +11,12 @@ functions = { \
 	'/': (2, div) \
 }
 
+def head(list):
+	return list[0]
+
+def tail(list):
+	return list[1:]
+
 def get_code():
 	return argv[1]
 
@@ -22,42 +28,42 @@ def generate_name():
 
 def parse_function(tokens):
 	name = ''
-	if tokens[0] != '(':
-		name = tokens[0]
-		tokens = tokens[1:]
+	if head(tokens) != '(':
+		name = head(tokens)
+		tokens = tail(tokens)
 	else:
 		name = generate_name()
 	# cut the open parenthesis
-	tokens = tokens[1:]
+	tokens = tail(tokens)
 
 	if name in functions:
 		raise Exception('found a duplicate of the "{:s}" function'.format(name))
 
 	arguments = 0
-	while tokens[0] != ')':
+	while head(tokens) != ')':
 		arguments += 1
-		tokens = tokens[1:]
+		tokens = tail(tokens)
 	# cut the close parenthesis
-	tokens = tokens[1:]
+	tokens = tail(tokens)
 
 	level = 1
 	body = []
 	while level > 0:
-		if tokens[0] == 'fn':
+		if head(tokens) == 'fn':
 			level += 1
-		if tokens[0] == ';':
+		if head(tokens) == ';':
 			level -= 1
 
 		# except the final semicolon
 		if level > 0:
-			body.append(tokens[0])
-		tokens = tokens[1:]
+			body.append(head(tokens))
+		tokens = tail(tokens)
 
 	return name, (arguments, body), tokens
 
 def evaluate(tokens):
-	name = tokens[0]
-	tokens = tokens[1:]
+	name = head(tokens)
+	tokens = tail(tokens)
 	if name == 'fn':
 		name, function, tokens = parse_function(tokens)
 		functions[name] = function
