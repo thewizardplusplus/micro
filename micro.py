@@ -17,6 +17,9 @@ def head(list):
 def tail(list):
 	return list[1:]
 
+def apply(function, arguments):
+	return function(*arguments)
+
 def get_code():
 	return argv[1]
 
@@ -77,6 +80,14 @@ def parse_function(tokens):
 	body, tokens = parse_function_body(tokens)
 	return name, (arguments, body), tokens
 
+def evaluate_arguments(tokens, number):
+	arguments = []
+	for _ in xrange(number):
+		value, tokens = evaluate(tokens)
+		arguments.append(value)
+
+	return arguments, tokens
+
 def evaluate(tokens):
 	name = head(tokens)
 	tokens = tail(tokens)
@@ -88,13 +99,9 @@ def evaluate(tokens):
 	if name not in functions:
 		return int(name), tokens
 
-	function = functions[name]
-	arguments = []
-	for _ in xrange(function[0]):
-		value, tokens = evaluate(tokens)
-		arguments.append(value)
+	arguments, tokens = evaluate_arguments(tokens, functions[name][0])
+	value = apply(functions[name][1], arguments)
 
-	value = function[1](*arguments)
 	return value, tokens
 
 if __name__ == '__main__':
