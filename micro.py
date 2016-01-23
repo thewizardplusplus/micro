@@ -37,7 +37,20 @@ def parse_function(tokens):
 	# cut the close parenthesis
 	tokens = tokens[1:]
 
-	return name, (arguments, None), tokens[-1:]
+	level = 1
+	body = []
+	while level > 0:
+		if tokens[0] == 'fn':
+			level += 1
+		if tokens[0] == ';':
+			level -= 1
+
+		# except the final semicolon
+		if level > 0:
+			body.append(tokens[0])
+		tokens = tokens[1:]
+
+	return name, (arguments, body), tokens
 
 def evaluate(tokens):
 	name = tokens[0]
