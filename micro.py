@@ -26,26 +26,36 @@ def get_tokens(code):
 def generate_name():
 	return str(uuid4())
 
-def parse_function(tokens):
+def parse_function_name(tokens):
 	name = ''
 	if head(tokens) != '(':
 		name = head(tokens)
+		if name in functions:
+			raise Exception( \
+				'found a duplicate of the "{:s}" function'.format(name) \
+			)
+
 		tokens = tail(tokens)
 	else:
 		name = generate_name()
+
 	# cut the open parenthesis
 	tokens = tail(tokens)
 
-	if name in functions:
-		raise Exception('found a duplicate of the "{:s}" function'.format(name))
+	return name, tokens
 
+def parse_function_arguments(tokens):
 	arguments = 0
 	while head(tokens) != ')':
 		arguments += 1
 		tokens = tail(tokens)
+
 	# cut the close parenthesis
 	tokens = tail(tokens)
 
+	return arguments, tokens
+
+def parse_function_body(tokens):
 	level = 1
 	body = []
 	while level > 0:
@@ -59,6 +69,12 @@ def parse_function(tokens):
 			body.append(head(tokens))
 		tokens = tail(tokens)
 
+	return body, tokens
+
+def parse_function(tokens):
+	name, tokens = parse_function_name(tokens)
+	arguments, tokens = parse_function_arguments(tokens)
+	body, tokens = parse_function_body(tokens)
 	return name, (arguments, body), tokens
 
 def evaluate(tokens):
