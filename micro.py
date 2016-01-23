@@ -2,6 +2,7 @@
 
 from sys import argv
 from operator import add, sub, mul, div
+from uuid import uuid4
 
 functions = { \
 	'+': (2, add), \
@@ -16,8 +17,20 @@ def get_code():
 def get_tokens(code):
 	return code.split(' ')
 
+def generate_name():
+	return str(uuid4())
+
 def parse_function(tokens):
-	return 'test', (23, None), tokens[-1:]
+	name = ''
+	if tokens[0] != '(':
+		name = tokens[0]
+		tokens = tokens[1:]
+	else:
+		name = generate_name()
+	# cut the open parenthesis
+	tokens = tokens[1:]
+
+	return name, (23, None), tokens[-1:]
 
 def evaluate(tokens):
 	name = tokens[0]
