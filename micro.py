@@ -117,6 +117,27 @@ def evaluate_arguments(tokens, variables, number):
 def closure(handle, primary_arguments, secondary_arguments):
 	return apply(handle, primary_arguments + list(secondary_arguments))
 
+def evaluate_function(function_object, tokens, variables):
+	arguments, tokens = evaluate_arguments( \
+		tokens, \
+		variables, \
+		function_object.arity \
+	)
+	if len(arguments) < function_object.arity:
+		handle = lambda *parameters: closure( \
+			function_object.handle, \
+			arguments, \
+			parameters \
+		)
+		new_arguments = function_object.arguments[len(arguments):]
+		return function(handle, arguments=new_arguments), tokens
+
+	result = apply(function_object.handle, arguments)
+	if isinstance(result, function):
+		return evaluate_function(result, tokens, variables)
+
+	return result, tokens
+
 def evaluate(tokens, variables):
 	name = head(tokens)
 	tokens = tail(tokens)
@@ -135,27 +156,12 @@ def evaluate(tokens, variables):
 	else:
 		return int(name), tokens
 
-	arguments, tokens = evaluate_arguments( \
-		tokens, \
-		variables, \
-		function_object.arity \
-	)
-	if len(arguments) < function_object.arity:
-		handle = lambda *parameters: closure( \
-			function_object.handle, \
-			arguments, \
-			parameters \
-		)
-		new_arguments = function_object.arguments[len(arguments):]
-		return function(handle, arguments=new_arguments), tokens
-
-	value = apply(function_object.handle, arguments)
-
-	return value, tokens
+	return evaluate_function(function_object, tokens, variables)
 
 if __name__ == '__main__':
 	code = get_code()
 	tokens = get_tokens(code)
-	value, _ = evaluate(tokens, {})
+	value, tokens = evaluate(tokens, {})
 	print(value)
+	print(tokens)
 	print(functions)
