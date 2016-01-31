@@ -90,11 +90,16 @@ def parse_function_body(tokens):
 
 	return body, tokens
 
+def custom_handle(tokens):
+	value, _ = evaluate(tokens)
+	return value
+
 def parse_function(tokens):
 	name, tokens = parse_function_name(tokens)
 	arguments, tokens = parse_function_arguments(tokens)
 	body, tokens = parse_function_body(tokens)
-	return name, function(body, arguments=arguments), tokens
+	handle = lambda: custom_handle(body)
+	return name, function(handle, arguments=arguments), tokens
 
 def evaluate_arguments(tokens, number):
 	arguments = []
@@ -110,8 +115,6 @@ def evaluate(tokens):
 	if name == 'fn':
 		name, function, tokens = parse_function(tokens)
 		functions[name] = function
-
-		return 0, tokens
 	if name not in functions:
 		return int(name), tokens
 
