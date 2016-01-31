@@ -120,16 +120,21 @@ def closure(handle, primary_arguments, secondary_arguments):
 def evaluate(tokens, variables):
 	name = head(tokens)
 	tokens = tail(tokens)
+	function_object = None
 	if name == 'fn':
 		name, function_object, tokens = parse_function(tokens)
 		functions[name] = function_object
-	if name not in functions:
-		if name in variables:
-			return variables[name], tokens
+	elif name in variables:
+		variable = variables[name]
+		if isinstance(variable, function):
+			function_object = variable
 		else:
-			return int(name), tokens
+			return variable, tokens
+	elif name in functions:
+		function_object = functions[name]
+	else:
+		return int(name), tokens
 
-	function_object = functions[name]
 	arguments, tokens = evaluate_arguments( \
 		tokens, \
 		variables, \
