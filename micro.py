@@ -90,35 +90,43 @@ def parse_function_body(tokens):
 
 	return body, tokens
 
-def custom_handle(tokens):
-	value, _ = evaluate(tokens)
+def custom_handle(tokens, names, values):
+	variables = dict(zip(names, values))
+	value, _ = evaluate(tokens, variables)
 	return value
 
 def parse_function(tokens):
 	name, tokens = parse_function_name(tokens)
 	arguments, tokens = parse_function_arguments(tokens)
 	body, tokens = parse_function_body(tokens)
-	handle = lambda: custom_handle(body)
+	handle = lambda *parameters: custom_handle(body, arguments, parameters)
 	return name, function(handle, arguments=arguments), tokens
 
-def evaluate_arguments(tokens, number):
+def evaluate_arguments(tokens, variables, number):
 	arguments = []
 	for _ in xrange(number):
-		value, tokens = evaluate(tokens)
+		value, tokens = evaluate(tokens, variables)
 		arguments.append(value)
 
 	return arguments, tokens
 
-def evaluate(tokens):
+def evaluate(tokens, variables):
 	name = head(tokens)
 	tokens = tail(tokens)
 	if name == 'fn':
 		name, function, tokens = parse_function(tokens)
 		functions[name] = function
 	if name not in functions:
-		return int(name), tokens
+		if name in variables:
+			return variables[name], tokens
+		else:
+			return int(name), tokens
 
-	arguments, tokens = evaluate_arguments(tokens, functions[name].arity)
+	arguments, tokens = evaluate_arguments( \
+		tokens, \
+		variables, \
+		functions[name].arity \
+	)
 	value = apply(functions[name].handle, arguments)
 
 	return value, tokens
@@ -126,6 +134,6 @@ def evaluate(tokens):
 if __name__ == '__main__':
 	code = get_code()
 	tokens = get_tokens(code)
-	value, _ = evaluate(tokens)
+	value, _ = evaluate(tokens, {})
 	print(value)
 	print(functions)
