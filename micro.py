@@ -105,29 +105,46 @@ def parse_function(tokens):
 def evaluate_arguments(tokens, variables, number):
 	arguments = []
 	for _ in xrange(number):
+		if head(tokens) == "'":
+			tokens = tail(tokens)
+			break
+
 		value, tokens = evaluate(tokens, variables)
 		arguments.append(value)
 
 	return arguments, tokens
 
+def closure(handle, primary_arguments, secondary_arguments):
+	return apply(handle, primary_arguments + secondary_arguments)
+
 def evaluate(tokens, variables):
 	name = head(tokens)
 	tokens = tail(tokens)
 	if name == 'fn':
-		name, function, tokens = parse_function(tokens)
-		functions[name] = function
+		name, function_object, tokens = parse_function(tokens)
+		functions[name] = function_object
 	if name not in functions:
 		if name in variables:
 			return variables[name], tokens
 		else:
 			return int(name), tokens
 
+	function_object = functions[name]
 	arguments, tokens = evaluate_arguments( \
 		tokens, \
 		variables, \
-		functions[name].arity \
+		function_object.arity \
 	)
-	value = apply(functions[name].handle, arguments)
+	if len(arguments) < function_object.arity:
+		handle = lambda *parameters: closure( \
+			function_object.handle, \
+			arguments, \
+			parameters \
+		)
+		new_arguments = function_object.arguments[len(arguments):]
+		return function(handle, arguments=new_arguments), tokens
+
+	value = apply(function_object.handle, arguments)
 
 	return value, tokens
 
