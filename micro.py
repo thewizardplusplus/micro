@@ -115,7 +115,7 @@ def evaluate_arguments(tokens, variables, number):
 	return arguments, tokens
 
 def closure(handle, primary_arguments, secondary_arguments):
-	return apply(handle, primary_arguments + secondary_arguments)
+	return apply(handle, primary_arguments + list(secondary_arguments))
 
 def evaluate(tokens, variables):
 	name = head(tokens)
