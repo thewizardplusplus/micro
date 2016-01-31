@@ -90,16 +90,22 @@ def parse_function_body(tokens):
 
 	return body, tokens
 
-def custom_handle(tokens, names, values):
-	variables = dict(zip(names, values))
-	value, _ = evaluate(tokens, variables)
+def custom_handle(tokens, variables, names, values):
+	new_variables = dict(zip(names, values))
+	new_variables = dict(variables.items() + new_variables.items())
+	value, _ = evaluate(tokens, new_variables)
 	return value
 
-def parse_function(tokens):
+def parse_function(tokens, variables):
 	name, tokens = parse_function_name(tokens)
 	arguments, tokens = parse_function_arguments(tokens)
 	body, tokens = parse_function_body(tokens)
-	handle = lambda *parameters: custom_handle(body, arguments, parameters)
+	handle = lambda *parameters: custom_handle( \
+		body, \
+		variables, \
+		arguments, \
+		parameters \
+	)
 	return name, function(handle, arguments=arguments), tokens
 
 def evaluate_arguments(tokens, variables, number):
@@ -143,7 +149,7 @@ def evaluate(tokens, variables):
 	tokens = tail(tokens)
 	function_object = None
 	if name == 'fn':
-		name, function_object, tokens = parse_function(tokens)
+		name, function_object, tokens = parse_function(tokens, variables)
 		functions[name] = function_object
 	elif name in variables:
 		variable = variables[name]
