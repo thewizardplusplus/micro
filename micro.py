@@ -147,27 +147,32 @@ def evaluate_function(function_object, tokens, variables):
 def evaluate(tokens, variables):
 	name = head(tokens)
 	tokens = tail(tokens)
-	function_object = None
+	result = None
 	if name == 'fn':
-		name, function_object, tokens = parse_function(tokens, variables)
-		functions[name] = function_object
+		name, result, tokens = parse_function(tokens, variables)
+		functions[name] = result
 	elif name in variables:
-		variable = variables[name]
-		if isinstance(variable, function):
-			function_object = variable
-		else:
-			return variable, tokens
+		result = variables[name]
 	elif name in functions:
-		function_object = functions[name]
+		result = functions[name]
 	else:
-		return int(name), tokens
+		result = int(name)
 
-	return evaluate_function(function_object, tokens, variables)
+	if isinstance(result, function):
+		result, tokens = evaluate_function(result, tokens, variables)
+
+	return result, tokens
+
+def evaluate_list(tokens):
+	result = None
+	while tokens:
+		result, tokens = evaluate(tokens, {})
+
+	return result
 
 if __name__ == '__main__':
 	code = get_code()
 	tokens = get_tokens(code)
-	value, tokens = evaluate(tokens, {})
+	value = evaluate_list(tokens)
 	print(value)
-	print(tokens)
 	print(functions)
