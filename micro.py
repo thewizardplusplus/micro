@@ -2,7 +2,6 @@
 
 from sys import argv
 from operator import add, sub, mul, div
-from uuid import uuid4
 
 class function:
 	def __init__(self, handle, arguments=None, arity=None):
@@ -42,9 +41,6 @@ def get_code():
 def get_tokens(code):
 	return code.split(' ')
 
-def generate_name():
-	return str(uuid4())
-
 def parse_function_name(tokens):
 	name = ''
 	if head(tokens) != '(':
@@ -55,8 +51,6 @@ def parse_function_name(tokens):
 			)
 
 		tokens = tail(tokens)
-	else:
-		name = generate_name()
 
 	# cut the open parenthesis
 	tokens = tail(tokens)
@@ -150,7 +144,8 @@ def evaluate(tokens, variables):
 	result = None
 	if name == 'fn':
 		name, result, tokens = parse_function(tokens, variables)
-		functions[name] = result
+		if name:
+			functions[name] = result
 	elif name in variables:
 		result = variables[name]
 	elif name in functions:
