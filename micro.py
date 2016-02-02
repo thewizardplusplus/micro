@@ -1,24 +1,37 @@
 #!/usr/bin/env python
 
+from re import sub as re_sub
 from sys import argv
 from operator import add, sub, mul, div
-from uuid import uuid4
+from copy import copy
 
 class function:
-	def __init__(self, handle, arguments=None, arity=None):
+	def __init__(self, handle, arguments=None, arity=None, body=[]):
 		self.handle = handle
 		self.arguments = arguments
-		if arity is None:
+		self.body = body
+
+		if not arguments is None:
 			self.arity = len(arguments)
-		else:
+		elif not arity is None:
 			self.arity = arity
 
+			self.arguments = []
+			for i in range(arity):
+				argument = '_{:d}'.format(i)
+				self.arguments.append(argument)
+		else:
+			raise Exception('invalid arguments of the function object')
+
 	def __repr__(self):
-		return '({!s}, {!s}, {:d})'.format( \
-			self.handle, \
-			self.arguments, \
-			self.arity \
-		)
+		body = ' '.join(self.body) if self.body else '[unknown]'
+		body = re_sub(r"\s?(\(|\))\s?", r'\1', body)
+		body = re_sub(r"\s(;|')", r'\1', body)
+		body = re_sub("';", ';', body)
+		body = re_sub(r'^fn\(\)(.*);$', r'\1', body)
+
+		arguments = ' '.join(self.arguments)
+		return 'fn({:s}){:s};'.format(arguments, body)
 
 functions = { \
 	'+': function(add, arity=2), \
@@ -42,9 +55,6 @@ def get_code():
 def get_tokens(code):
 	return code.split(' ')
 
-def generate_name():
-	return str(uuid4())
-
 def parse_function_name(tokens):
 	name = ''
 	if head(tokens) != '(':
@@ -55,8 +65,6 @@ def parse_function_name(tokens):
 			)
 
 		tokens = tail(tokens)
-	else:
-		name = generate_name()
 
 	# cut the open parenthesis
 	tokens = tail(tokens)
@@ -106,12 +114,12 @@ def parse_function(tokens, variables):
 		arguments, \
 		parameters \
 	)
-	return name, function(handle, arguments=arguments), tokens
+	return name, function(handle, arguments=arguments, body=body), tokens
 
 def evaluate_arguments(tokens, variables, number):
 	arguments = []
 	for _ in xrange(number):
-		if head(tokens) == "'":
+		if not tokens or head(tokens) == "'":
 			tokens = tail(tokens)
 			break
 
@@ -135,8 +143,15 @@ def evaluate_function(function_object, tokens, variables):
 			arguments, \
 			parameters \
 		)
+
 		new_arguments = function_object.arguments[len(arguments):]
-		return function(handle, arguments=new_arguments), tokens
+		rest_arguments = function_object.arguments[:len(arguments)]
+
+		function_object_copy = copy(function_object)
+		function_object_copy.arguments = rest_arguments
+		body = [str(function_object_copy)] + map(str, arguments)
+
+		return function(handle, arguments=new_arguments, body=body), tokens
 
 	result = apply(function_object.handle, arguments)
 	if isinstance(result, function):
@@ -150,7 +165,8 @@ def evaluate(tokens, variables):
 	result = None
 	if name == 'fn':
 		name, result, tokens = parse_function(tokens, variables)
-		functions[name] = result
+		if name:
+			functions[name] = result
 	elif name in variables:
 		result = variables[name]
 	elif name in functions:
