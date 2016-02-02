@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
+from re import sub as re_sub
 from sys import argv
 from operator import add, sub, mul, div
 
 class function:
-	def __init__(self, handle, arguments=None, arity=None):
+	def __init__(self, handle, arguments=None, arity=None, body=[]):
 		self.handle = handle
 		self.arguments = arguments
+		self.body = body
 
 		if not arguments is None:
 			self.arity = len(arguments)
@@ -21,11 +23,14 @@ class function:
 			raise Exception('invalid arguments of the function object')
 
 	def __repr__(self):
-		return '({!s}, {!s}, {:d})'.format( \
-			self.handle, \
-			self.arguments, \
-			self.arity \
-		)
+		body = ' '.join(self.body) if self.body else '[unknown]'
+		body = re_sub(r"\s?(\(|\))\s?", r'\1', body)
+		body = re_sub(r"\s(;|')", r'\1', body)
+		body = re_sub("';", ';', body)
+		body = re_sub(r'^fn\(\)(.*);$', r'\1', body)
+
+		arguments = ' '.join(self.arguments)
+		return 'fn({:s}){:s};'.format(arguments, body)
 
 functions = { \
 	'+': function(add, arity=2), \
