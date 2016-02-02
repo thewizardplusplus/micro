@@ -7,10 +7,18 @@ class function:
 	def __init__(self, handle, arguments=None, arity=None):
 		self.handle = handle
 		self.arguments = arguments
-		if arity is None:
+
+		if not arguments is None:
 			self.arity = len(arguments)
-		else:
+		elif not arity is None:
 			self.arity = arity
+
+			self.arguments = []
+			for i in range(arity):
+				argument = '_{:d}'.format(i)
+				self.arguments.append(argument)
+		else:
+			raise Exception('invalid arguments of the function object')
 
 	def __repr__(self):
 		return '({!s}, {!s}, {:d})'.format( \
