@@ -3,6 +3,7 @@
 from re import sub as re_sub
 from sys import argv
 from operator import add, sub, mul, div
+from copy import copy
 
 class function:
 	def __init__(self, handle, arguments=None, arity=None, body=[]):
@@ -113,7 +114,7 @@ def parse_function(tokens, variables):
 		arguments, \
 		parameters \
 	)
-	return name, function(handle, arguments=arguments), tokens
+	return name, function(handle, arguments=arguments, body=body), tokens
 
 def evaluate_arguments(tokens, variables, number):
 	arguments = []
@@ -142,8 +143,15 @@ def evaluate_function(function_object, tokens, variables):
 			arguments, \
 			parameters \
 		)
+
 		new_arguments = function_object.arguments[len(arguments):]
-		return function(handle, arguments=new_arguments), tokens
+		rest_arguments = function_object.arguments[:len(arguments)]
+
+		function_object_copy = copy(function_object)
+		function_object_copy.arguments = rest_arguments
+		body = [str(function_object_copy)] + map(str, arguments)
+
+		return function(handle, arguments=new_arguments, body=body), tokens
 
 	result = apply(function_object.handle, arguments)
 	if isinstance(result, function):
