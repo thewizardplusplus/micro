@@ -105,7 +105,7 @@ def parse_function(tokens, variables):
 def evaluate_arguments(tokens, variables, number):
 	arguments = []
 	for _ in xrange(number):
-		if head(tokens) == "'":
+		if not tokens or head(tokens) == "'":
 			tokens = tail(tokens)
 			break
 
