@@ -35,18 +35,22 @@ class function:
 		arguments = ' '.join(self.arguments)
 		return 'fn({:s}){:s};'.format(arguments, body)
 
-functions = { \
-	'+': function(add, arity=2), \
-	'-': function(sub, arity=2), \
-	'*': function(mul, arity=2), \
-	'/': function(div, arity=2) \
-}
-
 def head(list):
 	return list[0]
 
 def tail(list):
 	return list[1:]
+
+functions = { \
+	'+': function(add, arity=2), \
+	'-': function(sub, arity=2), \
+	'*': function(mul, arity=2), \
+	'/': function(div, arity=2), \
+	'$': function(lambda: [], arity=0), \
+	':': function(lambda value, list: [value] + list, arity=2), \
+	'head': function(head, arity=1), \
+	'tail': function(tail, arity=1) \
+}
 
 def apply(function, arguments):
 	return function(*arguments)
