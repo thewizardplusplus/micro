@@ -65,6 +65,21 @@ def get_tokens(code):
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
 
+def preprocess(tokens):
+	new_tokens = []
+	i = 0
+	while i < len(tokens):
+		if tokens[i] == '=':
+			new_tokens += ['fn', tokens[i + 1], '(', ')']
+
+			i += 2
+			continue
+
+		new_tokens.append(tokens[i])
+		i += 1
+
+	return new_tokens
+
 def parse_function_name(tokens):
 	name = ''
 	if head(tokens) != '(':
@@ -200,6 +215,7 @@ if __name__ == '__main__':
 	code = get_code()
 	code = remove_comments(code)
 	tokens = get_tokens(code)
+	tokens = preprocess(tokens)
 	value, _ = evaluate_list(tokens, {}, functions)
 	print(value)
 	print(functions)
