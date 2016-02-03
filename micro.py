@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from re import sub as re_sub
-from sys import argv
+from sys import stdin
 from string import punctuation
 from re import escape, IGNORECASE, findall
 from operator import add, sub, mul, div
@@ -52,7 +52,7 @@ def apply(function, arguments):
 	return function(*arguments)
 
 def get_code():
-	return argv[1]
+	return stdin.read()
 
 def get_tokens(code):
 	allowed_punctuation = escape(punctuation.translate(None, "();'"))
