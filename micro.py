@@ -69,11 +69,6 @@ def parse_function_name(tokens):
 	name = ''
 	if head(tokens) != '(':
 		name = head(tokens)
-		if name in functions:
-			raise Exception( \
-				'found a duplicate of the "{:s}" function'.format(name) \
-			)
-
 		tokens = tail(tokens)
 
 	# cut the open parenthesis
