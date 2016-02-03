@@ -3,7 +3,7 @@
 from re import sub as re_sub
 from sys import stdin
 from string import punctuation
-from re import escape, IGNORECASE, findall
+from re import DOTALL, escape, IGNORECASE, findall
 from operator import add, sub, mul, div
 from copy import copy
 
@@ -53,6 +53,11 @@ def apply(function, arguments):
 
 def get_code():
 	return stdin.read()
+
+def remove_comments(code):
+	code = re_sub(r'\bnb:.*\bnb;', '', code, flags=DOTALL)
+	code = re_sub(r'\bnb\b.*\n', '', code)
+	return code
 
 def get_tokens(code):
 	allowed_punctuation = escape(punctuation.translate(None, "();'"))
@@ -193,6 +198,7 @@ def evaluate_list(tokens):
 
 if __name__ == '__main__':
 	code = get_code()
+	code = remove_comments(code)
 	tokens = get_tokens(code)
 	value = evaluate_list(tokens)
 	print(value)
