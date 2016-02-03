@@ -111,7 +111,7 @@ def parse_function_body(tokens):
 def custom_handle(tokens, variables, names, values):
 	new_variables = dict(zip(names, values))
 	new_variables = dict(variables.items() + new_variables.items())
-	value, _ = evaluate(tokens, new_variables)
+	value, _ = evaluate_list(tokens, new_variables)
 	return value
 
 def parse_function(tokens, variables):
@@ -189,17 +189,17 @@ def evaluate(tokens, variables):
 
 	return result, tokens
 
-def evaluate_list(tokens):
+def evaluate_list(tokens, variables):
 	result = None
 	while tokens:
-		result, tokens = evaluate(tokens, {})
+		result, tokens = evaluate(tokens, variables)
 
-	return result
+	return result, tokens
 
 if __name__ == '__main__':
 	code = get_code()
 	code = remove_comments(code)
 	tokens = get_tokens(code)
-	value = evaluate_list(tokens)
+	value, _ = evaluate_list(tokens, {})
 	print(value)
 	print(functions)
