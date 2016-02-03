@@ -55,6 +55,12 @@ functions = { \
 def apply(function, arguments):
 	return function(*arguments)
 
+def str_to_list(str):
+	return map(ord, str)
+
+def list_to_str(list):
+	return ''.join(map(chr, list))
+
 def get_code():
 	return stdin.read()
 
@@ -64,8 +70,9 @@ def remove_comments(code):
 	return code
 
 def get_tokens(code):
-	allowed_punctuation = escape(punctuation.translate(None, "();'"))
-	grammar = r"[a-z_]+|\d+|\(|\)|;|'|[{:s}]+".format(allowed_punctuation)
+	allowed_punctuation = escape(punctuation.translate(None, '();\'"'))
+	grammar = r"""[a-z_]+|\d+|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
+	grammar = grammar.format(allowed_punctuation)
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
 
@@ -200,6 +207,8 @@ def evaluate(tokens, variables, functions):
 		result = variables[name]
 	elif name in functions:
 		result = functions[name]
+	elif head(name) == '"':
+		result = str_to_list(name.strip('"'))
 	else:
 		result = int(name)
 
