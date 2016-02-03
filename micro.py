@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 from re import sub as re_sub
-from sys import argv
+from sys import stdin
+from string import punctuation
+from re import DOTALL, escape, IGNORECASE, findall
 from operator import add, sub, mul, div
 from copy import copy
 
@@ -50,10 +52,18 @@ def apply(function, arguments):
 	return function(*arguments)
 
 def get_code():
-	return argv[1]
+	return stdin.read()
+
+def remove_comments(code):
+	code = re_sub(r'\bnb:.*\bnb;', '', code, flags=DOTALL)
+	code = re_sub(r'\bnb\b.*\n', '', code)
+	return code
 
 def get_tokens(code):
-	return code.split(' ')
+	allowed_punctuation = escape(punctuation.translate(None, "();'"))
+	grammar = r"[a-z_]+|\d+|\(|\)|;|'|[{:s}]+".format(allowed_punctuation)
+	tokens = findall(grammar, code, IGNORECASE)
+	return filter(lambda token: token.strip(), tokens)
 
 def parse_function_name(tokens):
 	name = ''
@@ -188,6 +198,7 @@ def evaluate_list(tokens):
 
 if __name__ == '__main__':
 	code = get_code()
+	code = remove_comments(code)
 	tokens = get_tokens(code)
 	value = evaluate_list(tokens)
 	print(value)
