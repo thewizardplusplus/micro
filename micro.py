@@ -103,32 +103,36 @@ def parse_function_body(tokens):
 
 	return body, tokens
 
-def custom_handle(tokens, variables, names, values):
+def custom_handle(tokens, variables, functions, names, values):
 	new_variables = dict(zip(names, values))
 	new_variables = dict(variables.items() + new_variables.items())
-	value, _ = evaluate_list(tokens, new_variables)
+
+	new_functions = copy(functions)
+	value, _ = evaluate_list(tokens, new_variables, new_functions)
+
 	return value
 
-def parse_function(tokens, variables):
+def parse_function(tokens, variables, functions):
 	name, tokens = parse_function_name(tokens)
 	arguments, tokens = parse_function_arguments(tokens)
 	body, tokens = parse_function_body(tokens)
 	handle = lambda *parameters: custom_handle( \
 		body, \
 		variables, \
+		functions, \
 		arguments, \
 		parameters \
 	)
 	return name, function(handle, arguments=arguments, body=body), tokens
 
-def evaluate_arguments(tokens, variables, number):
+def evaluate_arguments(number, tokens, variables, functions):
 	arguments = []
 	for _ in xrange(number):
 		if not tokens or head(tokens) == "'":
 			tokens = tail(tokens)
 			break
 
-		value, tokens = evaluate(tokens, variables)
+		value, tokens = evaluate(tokens, variables, functions)
 		arguments.append(value)
 
 	return arguments, tokens
@@ -136,11 +140,12 @@ def evaluate_arguments(tokens, variables, number):
 def closure(handle, primary_arguments, secondary_arguments):
 	return apply(handle, primary_arguments + list(secondary_arguments))
 
-def evaluate_function(function_object, tokens, variables):
+def evaluate_function(function_object, tokens, variables, functions):
 	arguments, tokens = evaluate_arguments( \
+		function_object.arity, \
 		tokens, \
 		variables, \
-		function_object.arity \
+		functions \
 	)
 	if len(arguments) < function_object.arity:
 		handle = lambda *parameters: closure( \
@@ -160,16 +165,16 @@ def evaluate_function(function_object, tokens, variables):
 
 	result = apply(function_object.handle, arguments)
 	if isinstance(result, function):
-		return evaluate_function(result, tokens, variables)
+		return evaluate_function(result, tokens, variables, functions)
 
 	return result, tokens
 
-def evaluate(tokens, variables):
+def evaluate(tokens, variables, functions):
 	name = head(tokens)
 	tokens = tail(tokens)
 	result = None
 	if name == 'fn':
-		name, result, tokens = parse_function(tokens, variables)
+		name, result, tokens = parse_function(tokens, variables, functions)
 		if name:
 			functions[name] = result
 	elif name in variables:
@@ -180,14 +185,14 @@ def evaluate(tokens, variables):
 		result = int(name)
 
 	if isinstance(result, function):
-		result, tokens = evaluate_function(result, tokens, variables)
+		result, tokens = evaluate_function(result, tokens, variables, functions)
 
 	return result, tokens
 
-def evaluate_list(tokens, variables):
+def evaluate_list(tokens, variables, functions):
 	result = None
 	while tokens:
-		result, tokens = evaluate(tokens, variables)
+		result, tokens = evaluate(tokens, variables, functions)
 
 	return result, tokens
 
@@ -195,6 +200,6 @@ if __name__ == '__main__':
 	code = get_code()
 	code = remove_comments(code)
 	tokens = get_tokens(code)
-	value, _ = evaluate_list(tokens, {})
+	value, _ = evaluate_list(tokens, {}, functions)
 	print(value)
 	print(functions)
