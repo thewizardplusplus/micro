@@ -35,21 +35,31 @@ class function:
 		arguments = ' '.join(self.arguments)
 		return 'fn({:s}){:s};'.format(arguments, body)
 
-functions = { \
-	'+': function(add, arity=2), \
-	'-': function(sub, arity=2), \
-	'*': function(mul, arity=2), \
-	'/': function(div, arity=2) \
-}
-
 def head(list):
 	return list[0]
 
 def tail(list):
 	return list[1:]
 
+functions = { \
+	'+': function(add, arity=2), \
+	'-': function(sub, arity=2), \
+	'*': function(mul, arity=2), \
+	'/': function(div, arity=2), \
+	'$': function(lambda: [], arity=0), \
+	':': function(lambda value, list: [value] + list, arity=2), \
+	'head': function(head, arity=1), \
+	'tail': function(tail, arity=1) \
+}
+
 def apply(function, arguments):
 	return function(*arguments)
+
+def str_to_list(str):
+	return map(ord, str)
+
+def list_to_str(list):
+	return ''.join(map(chr, list))
 
 def get_code():
 	return stdin.read()
@@ -60,25 +70,11 @@ def remove_comments(code):
 	return code
 
 def get_tokens(code):
-	allowed_punctuation = escape(punctuation.translate(None, "();'"))
-	grammar = r"[a-z_]+|\d+|\(|\)|;|'|[{:s}]+".format(allowed_punctuation)
+	allowed_punctuation = escape(punctuation.translate(None, '();\'"'))
+	grammar = r"""[a-z_]+|\d+|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
+	grammar = grammar.format(allowed_punctuation)
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
-
-def preprocess(tokens):
-	new_tokens = []
-	i = 0
-	while i < len(tokens):
-		if tokens[i] == '=':
-			new_tokens += ['fn', tokens[i + 1], '(', ')']
-
-			i += 2
-			continue
-
-		new_tokens.append(tokens[i])
-		i += 1
-
-	return new_tokens
 
 def parse_function_name(tokens):
 	name = ''
@@ -196,6 +192,8 @@ def evaluate(tokens, variables, functions):
 		result = variables[name]
 	elif name in functions:
 		result = functions[name]
+	elif head(name) == '"':
+		result = str_to_list(name.strip('"'))
 	else:
 		result = int(name)
 
@@ -204,7 +202,19 @@ def evaluate(tokens, variables, functions):
 
 	return result, tokens
 
+def add_value(functions, name, value):
+	new_name = list_to_str(name)
+	new_value = function(lambda: value, arity=0)
+	functions[new_name] = new_value
+
+	return value
+
 def evaluate_list(tokens, variables, functions):
+	functions['='] = function( \
+		lambda name, value: add_value(functions, name, value),
+		arity=2 \
+	)
+
 	result = None
 	while tokens:
 		result, tokens = evaluate(tokens, variables, functions)
@@ -215,7 +225,6 @@ if __name__ == '__main__':
 	code = get_code()
 	code = remove_comments(code)
 	tokens = get_tokens(code)
-	tokens = preprocess(tokens)
 	value, _ = evaluate_list(tokens, {}, functions)
 	print(value)
 	print(functions)
