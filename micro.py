@@ -4,6 +4,7 @@ from re import sub as re_sub
 from sys import stdin
 from string import punctuation
 from re import DOTALL, escape, IGNORECASE, findall
+from numbers import Number
 from math import floor, ceil, trunc
 from operator import add, sub, mul, div
 from copy import copy
@@ -55,6 +56,22 @@ def head(list):
 def tail(list):
 	return list[1:]
 
+def modulo(a, b):
+	if \
+		not isinstance(a, Number) \
+		or not float(a).is_integer() \
+		or not isinstance(b, Number) \
+		or not float(b).is_integer() \
+	:
+		raise TypeError( \
+			"unsupported operand type(s) for %: '{:s}' and '{:s}'".format( \
+				type(a).__name__, \
+				type(b).__name__, \
+			) \
+		)
+
+	return a % b
+
 functions = { \
 	'floor': function(floor, arity=1), \
 	'ceil': function(ceil, arity=1), \
@@ -63,6 +80,13 @@ functions = { \
 	'-': function(sub, arity=2), \
 	'*': function(mul, arity=2), \
 	'/': function(div, arity=2), \
+	'%': function(modulo, arity=2), \
+	'==': function(lambda a, b: to_boolean(a == b), arity=2), \
+	'!=': function(lambda a, b: to_boolean(a != b), arity=2), \
+	'<': function(lambda a, b: to_boolean(float(a) < float(b)), arity=2), \
+	'<=': function(lambda a, b: to_boolean(float(a) <= float(b)), arity=2), \
+	'>': function(lambda a, b: to_boolean(float(a) > float(b)), arity=2), \
+	'>=': function(lambda a, b: to_boolean(float(a) >= float(b)), arity=2), \
 	'true': function(lambda: true, arity=0), \
 	'false': function(lambda: false, arity=0), \
 	'&&': function(lambda a, b: a and b, arity=2), \
