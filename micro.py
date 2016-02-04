@@ -6,7 +6,7 @@ from string import punctuation
 from re import DOTALL, escape, IGNORECASE, findall
 from numbers import Number
 from math import floor, ceil, trunc
-from operator import add, sub, mul, div
+from operator import sub, div
 from copy import copy
 
 class function:
@@ -55,6 +55,28 @@ def head(list):
 
 def tail(list):
 	return list[1:]
+
+def add(a, b):
+	if not isinstance(a, Number) or not isinstance(b, Number):
+		raise TypeError( \
+			"unsupported operand type(s) for +: '{:s}' and '{:s}'".format( \
+				type(a).__name__, \
+				type(b).__name__, \
+			) \
+		)
+
+	return a + b
+
+def mul(a, b):
+	if not isinstance(a, Number) or not isinstance(b, Number):
+		raise TypeError( \
+			"unsupported operand type(s) for *: '{:s}' and '{:s}'".format( \
+				type(a).__name__, \
+				type(b).__name__, \
+			) \
+		)
+
+	return a * b
 
 def modulo(a, b):
 	if \
