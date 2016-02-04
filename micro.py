@@ -35,6 +35,16 @@ class function:
 		arguments = ' '.join(self.arguments)
 		return 'fn({:s}){:s};'.format(arguments, body)
 
+class boolean:
+	def __nonzero__(self):
+		return self == true
+
+	def __repr__(self):
+		return 'true' if self else 'false'
+
+true = boolean()
+false = boolean()
+
 def head(list):
 	return list[0]
 
@@ -46,6 +56,8 @@ functions = { \
 	'-': function(sub, arity=2), \
 	'*': function(mul, arity=2), \
 	'/': function(div, arity=2), \
+	'true': function(lambda: true, arity=0), \
+	'false': function(lambda: false, arity=0), \
 	'$': function(lambda: [], arity=0), \
 	':': function(lambda value, list: [value] + list, arity=2), \
 	'head': function(head, arity=1), \
