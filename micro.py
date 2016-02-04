@@ -45,6 +45,9 @@ class boolean:
 true = boolean()
 false = boolean()
 
+def to_boolean(value):
+	return true if value else false
+
 def head(list):
 	return list[0]
 
@@ -58,6 +61,9 @@ functions = { \
 	'/': function(div, arity=2), \
 	'true': function(lambda: true, arity=0), \
 	'false': function(lambda: false, arity=0), \
+	'&&': function(lambda a, b: a and b, arity=2), \
+	'||': function(lambda a, b: a or b, arity=2), \
+	'!': function(lambda a: to_boolean(not a), arity=1), \
 	'$': function(lambda: [], arity=0), \
 	':': function(lambda value, list: [value] + list, arity=2), \
 	'head': function(head, arity=1), \
