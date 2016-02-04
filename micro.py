@@ -4,6 +4,7 @@ from re import sub as re_sub
 from sys import stdin
 from string import punctuation
 from re import DOTALL, escape, IGNORECASE, findall
+from math import floor, ceil, trunc
 from operator import add, sub, mul, div
 from copy import copy
 
@@ -55,6 +56,9 @@ def tail(list):
 	return list[1:]
 
 functions = { \
+	'floor': function(floor, arity=1), \
+	'ceil': function(ceil, arity=1), \
+	'trunc': function(trunc, arity=1), \
 	'+': function(add, arity=2), \
 	'-': function(sub, arity=2), \
 	'*': function(mul, arity=2), \
@@ -89,7 +93,8 @@ def remove_comments(code):
 
 def get_tokens(code):
 	allowed_punctuation = escape(punctuation.translate(None, '();\'"'))
-	grammar = r"""[a-z_]+|\d+|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
+	grammar = \
+		r"""[a-z_]+|(?:\d+(?:\.\d+)?)|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
 	grammar = grammar.format(allowed_punctuation)
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
@@ -213,7 +218,10 @@ def evaluate(tokens, variables, functions):
 	elif head(name) == '"':
 		result = str_to_list(name.strip('"'))
 	else:
-		result = int(name)
+		try:
+			result = int(name)
+		except ValueError:
+			result = float(name)
 
 	if isinstance(result, function):
 		result, tokens = evaluate_function(result, tokens, variables, functions)
