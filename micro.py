@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from re import sub as re_sub
-from sys import stdin
+from sys import stdin, stdout
 from string import punctuation
 from re import DOTALL, escape, IGNORECASE, findall
 from numbers import Number
@@ -94,6 +94,19 @@ def modulo(a, b):
 
 	return a % b
 
+def print_function(value):
+	stdout.write(str(value))
+	return value
+
+def list_to_str(list):
+	return ''.join(map(chr, list))
+
+def print_as_string_function(value):
+	new_value = list_to_str(value)
+	stdout.write(new_value)
+
+	return value
+
 functions = { \
 	'floor': function(floor, arity=1), \
 	'ceil': function(ceil, arity=1), \
@@ -117,7 +130,9 @@ functions = { \
 	'$': function(lambda: [], arity=0), \
 	':': function(lambda value, list: [value] + list, arity=2), \
 	'head': function(head, arity=1), \
-	'tail': function(tail, arity=1) \
+	'tail': function(tail, arity=1), \
+	'print': function(print_function, arity=1), \
+	'print_str': function(print_as_string_function, arity=1) \
 }
 
 def apply(function, arguments):
@@ -125,9 +140,6 @@ def apply(function, arguments):
 
 def str_to_list(str):
 	return map(ord, str)
-
-def list_to_str(list):
-	return ''.join(map(chr, list))
 
 def get_code():
 	return stdin.read()
@@ -298,5 +310,6 @@ if __name__ == '__main__':
 	code = remove_comments(code)
 	tokens = get_tokens(code)
 	value, _ = evaluate_list(tokens, {}, functions)
+	print('')
 	print(value)
 	print(functions)
