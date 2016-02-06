@@ -4,7 +4,9 @@ from re import sub as re_sub
 from sys import stdin
 from string import punctuation
 from re import DOTALL, escape, IGNORECASE, findall
-from operator import add, sub, mul, div
+from numbers import Number
+from math import floor, ceil, trunc
+from operator import sub, div
 from copy import copy
 
 class function:
@@ -54,11 +56,59 @@ def head(list):
 def tail(list):
 	return list[1:]
 
+def add(a, b):
+	if not isinstance(a, Number) or not isinstance(b, Number):
+		raise TypeError( \
+			"unsupported operand type(s) for +: '{:s}' and '{:s}'".format( \
+				type(a).__name__, \
+				type(b).__name__, \
+			) \
+		)
+
+	return a + b
+
+def mul(a, b):
+	if not isinstance(a, Number) or not isinstance(b, Number):
+		raise TypeError( \
+			"unsupported operand type(s) for *: '{:s}' and '{:s}'".format( \
+				type(a).__name__, \
+				type(b).__name__, \
+			) \
+		)
+
+	return a * b
+
+def modulo(a, b):
+	if \
+		not isinstance(a, Number) \
+		or not float(a).is_integer() \
+		or not isinstance(b, Number) \
+		or not float(b).is_integer() \
+	:
+		raise TypeError( \
+			"unsupported operand type(s) for %: '{:s}' and '{:s}'".format( \
+				type(a).__name__, \
+				type(b).__name__, \
+			) \
+		)
+
+	return a % b
+
 functions = { \
+	'floor': function(floor, arity=1), \
+	'ceil': function(ceil, arity=1), \
+	'trunc': function(trunc, arity=1), \
 	'+': function(add, arity=2), \
 	'-': function(sub, arity=2), \
 	'*': function(mul, arity=2), \
 	'/': function(div, arity=2), \
+	'%': function(modulo, arity=2), \
+	'==': function(lambda a, b: to_boolean(a == b), arity=2), \
+	'!=': function(lambda a, b: to_boolean(a != b), arity=2), \
+	'<': function(lambda a, b: to_boolean(float(a) < float(b)), arity=2), \
+	'<=': function(lambda a, b: to_boolean(float(a) <= float(b)), arity=2), \
+	'>': function(lambda a, b: to_boolean(float(a) > float(b)), arity=2), \
+	'>=': function(lambda a, b: to_boolean(float(a) >= float(b)), arity=2), \
 	'true': function(lambda: true, arity=0), \
 	'false': function(lambda: false, arity=0), \
 	'&&': function(lambda a, b: a and b, arity=2), \
@@ -89,7 +139,8 @@ def remove_comments(code):
 
 def get_tokens(code):
 	allowed_punctuation = escape(punctuation.translate(None, '();\'"'))
-	grammar = r"""[a-z_]+|\d+|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
+	grammar = \
+		r"""[a-z_]+|(?:\d+(?:\.\d+)?)|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
 	grammar = grammar.format(allowed_punctuation)
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
@@ -213,7 +264,10 @@ def evaluate(tokens, variables, functions):
 	elif head(name) == '"':
 		result = str_to_list(name.strip('"'))
 	else:
-		result = int(name)
+		try:
+			result = int(name)
+		except ValueError:
+			result = float(name)
 
 	if isinstance(result, function):
 		result, tokens = evaluate_function(result, tokens, variables, functions)
