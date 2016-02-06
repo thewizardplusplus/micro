@@ -277,7 +277,8 @@ def evaluate(tokens, variables, functions):
 		if len(name) == 1 or name[-1] != '"':
 			raise Exception('invalid string token {:s}'.format(repr(name)))
 
-		result = str_to_list(name.strip('"'))
+		name = name.strip('"').decode('string_escape')
+		result = str_to_list(name)
 	else:
 		try:
 			result = int(name)
@@ -311,6 +312,7 @@ def evaluate_list(tokens, variables, functions):
 if __name__ == '__main__':
 	code = get_code()
 	code = remove_comments(code)
+	print(code)
 	tokens = get_tokens(code)
 	print(tokens)
 	value, _ = evaluate_list(tokens, {}, functions)
