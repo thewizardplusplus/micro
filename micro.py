@@ -150,7 +150,7 @@ def remove_comments(code):
 	return code
 
 def get_tokens(code):
-	allowed_punctuation = escape(punctuation.translate(None, '();\'"'))
+	allowed_punctuation = escape(punctuation.translate(None, '_.();\'"'))
 	grammar = \
 		r"""[a-z_]+|(?:\d+(?:\.\d+)?)|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
 	grammar = grammar.format(allowed_punctuation)
