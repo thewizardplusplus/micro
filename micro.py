@@ -274,6 +274,9 @@ def evaluate(tokens, variables, functions):
 	elif name in functions:
 		result = functions[name]
 	elif head(name) == '"':
+		if len(name) == 1 or name[-1] != '"':
+			raise Exception('invalid string token {:s}'.format(repr(name)))
+
 		result = str_to_list(name.strip('"'))
 	else:
 		try:
