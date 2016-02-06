@@ -150,9 +150,16 @@ def remove_comments(code):
 	return code
 
 def get_tokens(code):
-	allowed_punctuation = escape(punctuation.translate(None, '_.();\'"'))
-	grammar = \
-		r"""[a-z_]+|(?:\d+(?:\.\d+)?)|\(|\)|;|'|(?:"(?:\\.|[^"])*"?)|[{:s}]+"""
+	allowed_punctuation = escape(punctuation.translate(None, '_.();\'`"'))
+	grammar = '[a-z_]+' \
+		+ r'|(?:\d+(?:\.\d+)?)' \
+		+ r'|\(' \
+		+ r'|\)' \
+		+ '|;' \
+		+ "|'" \
+		+ r'|(?:`(?:\\.|[^`])*`?)' \
+		+ r'|(?:"(?:\\.|[^"])*"?)' \
+		+ '|[{:s}]+'
 	grammar = grammar.format(allowed_punctuation)
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
@@ -279,6 +286,17 @@ def evaluate(tokens, variables, functions):
 
 		name = name.strip('"').decode('string_escape')
 		result = str_to_list(name)
+	elif head(name) == '`':
+		if len(name) == 1 or name[-1] != '`':
+			raise Exception('invalid character token {:s}'.format(repr(name)))
+
+		name = name.strip('`').decode('string_escape')
+		if len(name) != 1:
+			raise Exception( \
+				'invalid length of character token {:s}'.format(repr(name)) \
+			)
+
+		result = ord(name)
 	else:
 		try:
 			result = int(name)
