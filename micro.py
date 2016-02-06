@@ -147,6 +147,7 @@ functions = { \
 	'&&': function(lambda a, b: a and b, arity=2), \
 	'||': function(lambda a, b: a or b, arity=2), \
 	'!': function(lambda a: to_boolean(not a), arity=1), \
+	'if': function(lambda condition, a, b: a if condition else b, arity=3), \
 	'$': function(lambda: [], arity=0), \
 	':': function(lambda value, list: [value] + list, arity=2), \
 	'head': function(head, arity=1), \
