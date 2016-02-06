@@ -94,18 +94,38 @@ def modulo(a, b):
 
 	return a % b
 
-def print_function(value):
-	stdout.write(str(value))
-	return value
-
 def list_to_str(list):
 	return ''.join(map(chr, list))
 
-def print_as_string_function(value):
-	new_value = list_to_str(value)
-	stdout.write(new_value)
+def str_to_list(str):
+	return map(ord, str)
 
-	return value
+def print_function(str):
+	if not isinstance(str, list):
+		raise TypeError( \
+			"unsupported operand type(s) for print: '{:s}'".format( \
+				type(str).__name__, \
+			) \
+		)
+
+	new_str = list_to_str(str)
+	stdout.write(new_str)
+
+	return str
+
+def to_string(value):
+	return str_to_list(str(value))
+
+def to_number(value):
+	if not isinstance(value, list):
+		raise TypeError( \
+			"unsupported operand type(s) for to_num: '{:s}'".format( \
+				type(value).__name__, \
+			) \
+		)
+
+	new_value = list_to_str(value)
+	return float(new_value)
 
 functions = { \
 	'floor': function(floor, arity=1), \
@@ -132,14 +152,12 @@ functions = { \
 	'head': function(head, arity=1), \
 	'tail': function(tail, arity=1), \
 	'print': function(print_function, arity=1), \
-	'print_str': function(print_as_string_function, arity=1) \
+	'to_str': function(to_string, arity=1), \
+	'to_num': function(to_number, arity=1) \
 }
 
 def apply(function, arguments):
 	return function(*arguments)
-
-def str_to_list(str):
-	return map(ord, str)
 
 def get_code():
 	return stdin.read()
