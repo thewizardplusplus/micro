@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from re import sub as re_sub
-from sys import stdin
+from sys import stdin, stdout
 from string import punctuation
 from re import DOTALL, escape, IGNORECASE, findall
 from numbers import Number
@@ -94,6 +94,39 @@ def modulo(a, b):
 
 	return a % b
 
+def list_to_str(list):
+	return ''.join(map(chr, list))
+
+def str_to_list(str):
+	return map(ord, str)
+
+def print_function(str):
+	if not isinstance(str, list):
+		raise TypeError( \
+			"unsupported operand type(s) for print: '{:s}'".format( \
+				type(str).__name__, \
+			) \
+		)
+
+	new_str = list_to_str(str)
+	stdout.write(new_str)
+
+	return str
+
+def to_string(value):
+	return str_to_list(str(value))
+
+def to_number(value):
+	if not isinstance(value, list):
+		raise TypeError( \
+			"unsupported operand type(s) for to_num: '{:s}'".format( \
+				type(value).__name__, \
+			) \
+		)
+
+	new_value = list_to_str(value)
+	return float(new_value)
+
 functions = { \
 	'floor': function(floor, arity=1), \
 	'ceil': function(ceil, arity=1), \
@@ -117,17 +150,14 @@ functions = { \
 	'$': function(lambda: [], arity=0), \
 	':': function(lambda value, list: [value] + list, arity=2), \
 	'head': function(head, arity=1), \
-	'tail': function(tail, arity=1) \
+	'tail': function(tail, arity=1), \
+	'print': function(print_function, arity=1), \
+	'to_str': function(to_string, arity=1), \
+	'to_num': function(to_number, arity=1) \
 }
 
 def apply(function, arguments):
 	return function(*arguments)
-
-def str_to_list(str):
-	return map(ord, str)
-
-def list_to_str(list):
-	return ''.join(map(chr, list))
 
 def get_code():
 	return stdin.read()
@@ -138,9 +168,16 @@ def remove_comments(code):
 	return code
 
 def get_tokens(code):
-	allowed_punctuation = escape(punctuation.translate(None, '();\'"'))
-	grammar = \
-		r"""[a-z_]+|(?:\d+(?:\.\d+)?)|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
+	allowed_punctuation = escape(punctuation.translate(None, '_.();\'`"'))
+	grammar = '[a-z_]+' \
+		+ r'|(?:\d+(?:\.\d+)?)' \
+		+ r'|\(' \
+		+ r'|\)' \
+		+ '|;' \
+		+ "|'" \
+		+ r'|(?:`(?:\\.|[^`])*`?)' \
+		+ r'|(?:"(?:\\.|[^"])*"?)' \
+		+ '|[{:s}]+'
 	grammar = grammar.format(allowed_punctuation)
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
@@ -262,7 +299,22 @@ def evaluate(tokens, variables, functions):
 	elif name in functions:
 		result = functions[name]
 	elif head(name) == '"':
-		result = str_to_list(name.strip('"'))
+		if len(name) == 1 or name[-1] != '"':
+			raise Exception('invalid string token {:s}'.format(repr(name)))
+
+		name = name.strip('"').decode('string_escape')
+		result = str_to_list(name)
+	elif head(name) == '`':
+		if len(name) == 1 or name[-1] != '`':
+			raise Exception('invalid character token {:s}'.format(repr(name)))
+
+		name = name.strip('`').decode('string_escape')
+		if len(name) != 1:
+			raise Exception( \
+				'invalid length of character token {:s}'.format(repr(name)) \
+			)
+
+		result = ord(name)
 	else:
 		try:
 			result = int(name)
@@ -296,7 +348,10 @@ def evaluate_list(tokens, variables, functions):
 if __name__ == '__main__':
 	code = get_code()
 	code = remove_comments(code)
+	print(code)
 	tokens = get_tokens(code)
+	print(tokens)
 	value, _ = evaluate_list(tokens, {}, functions)
+	print('')
 	print(value)
 	print(functions)
