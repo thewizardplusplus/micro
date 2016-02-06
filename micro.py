@@ -152,7 +152,7 @@ def remove_comments(code):
 def get_tokens(code):
 	allowed_punctuation = escape(punctuation.translate(None, '_.();\'"'))
 	grammar = \
-		r"""[a-z_]+|(?:\d+(?:\.\d+)?)|\(|\)|;|'|(?:"(?:\\.|[^"])*")|[{:s}]+"""
+		r"""[a-z_]+|(?:\d+(?:\.\d+)?)|\(|\)|;|'|(?:"(?:\\.|[^"])*"?)|[{:s}]+"""
 	grammar = grammar.format(allowed_punctuation)
 	tokens = findall(grammar, code, IGNORECASE)
 	return filter(lambda token: token.strip(), tokens)
@@ -309,6 +309,7 @@ if __name__ == '__main__':
 	code = get_code()
 	code = remove_comments(code)
 	tokens = get_tokens(code)
+	print(tokens)
 	value, _ = evaluate_list(tokens, {}, functions)
 	print('')
 	print(value)
