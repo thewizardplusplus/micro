@@ -320,7 +320,10 @@ def evaluate(tokens, variables, functions):
 		try:
 			result = int(name)
 		except ValueError:
-			result = float(name)
+			try:
+				result = float(name)
+			except ValueError:
+				raise Exception('unknown function {:s}'.format(repr(name)))
 
 	if isinstance(result, function):
 		result, tokens = evaluate_function(result, tokens, variables, functions)
