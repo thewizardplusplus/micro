@@ -12,15 +12,15 @@ def search_name(functions, name):
         return search_name(get_parent(functions), name)
 
 def add_assignment(functions):
-    functions['='] = function( \
+    functions['='] = function(
         lambda name, value: add_value(functions, name, value),
-        arity=2 \
+        arity=2
     )
 
 def add_assignment_to_parent(functions):
-    functions[':='] = function( \
+    functions[':='] = function(
         lambda name, value: add_value_to_parent(functions, name, value),
-        arity=2 \
+        arity=2
     )
 
 def get_parent(functions):

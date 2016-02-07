@@ -42,18 +42,18 @@ def evaluate(tokens, variables):
     return result, tokens
 
 def evaluate_function(function_instance, tokens, variables):
-    arguments, tokens = evaluate_arguments( \
-        function_instance.arity, \
-        tokens, \
-        variables \
+    arguments, tokens = evaluate_arguments(
+        function_instance.arity,
+        tokens,
+        variables
     )
     if len(arguments) == function_instance.arity:
         result = function_instance.handle(*arguments)
         if isinstance(result, function):
-            result, tokens = evaluate_function( \
-                result, \
-                tokens, \
-                variables \
+            result, tokens = evaluate_function(
+                result,
+                tokens,
+                variables
             )
     else:
         result = make_closure(function_instance, arguments)
@@ -73,10 +73,10 @@ def evaluate_arguments(number, tokens, variables):
     return arguments, tokens
 
 def make_closure(function_instance, arguments):
-    handle = lambda *parameters: closure_body( \
-        function_instance.handle, \
-        arguments, \
-        parameters \
+    handle = lambda *parameters: closure_body(
+        function_instance.handle,
+        arguments,
+        parameters
     )
     new_arguments = function_instance.arguments[len(arguments):]
     body = closure_body_representation(function_instance, arguments)

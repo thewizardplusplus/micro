@@ -14,15 +14,17 @@ def tokenize(code):
     allowed_punctuation = punctuation.translate(None, '_.();\'`"')
     allowed_punctuation = escape(allowed_punctuation)
 
-    grammar = '[a-z_]+' \
-        + r'|(?:\d+(?:\.\d+)?)' \
-        + r'|\(' \
-        + r'|\)' \
-        + '|;' \
-        + "|'" \
-        + r'|(?:`(?:\\.|[^`])*`?)' \
-        + r'|(?:"(?:\\.|[^"])*"?)' \
+    grammar = (
+        '[a-z_]+'
+        + r'|(?:\d+(?:\.\d+)?)'
+        + r'|\('
+        + r'|\)'
+        + '|;'
+        + "|'"
+        + r'|(?:`(?:\\.|[^`])*`?)'
+        + r'|(?:"(?:\\.|[^"])*"?)'
         + '|[{:s}]+'
+    )
     grammar = grammar.format(allowed_punctuation)
 
     tokens = findall(grammar, code, IGNORECASE)

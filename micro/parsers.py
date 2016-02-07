@@ -8,11 +8,11 @@ def parse_function(tokens, variables):
     name, tokens = parse_function_name(tokens)
     arguments, tokens = parse_function_arguments(tokens)
     body, tokens = parse_function_body(tokens)
-    handle = lambda *parameters: custom_handle( \
-        body, \
-        variables, \
-        arguments, \
-        parameters \
+    handle = lambda *parameters: custom_handle(
+        body,
+        variables,
+        arguments,
+        parameters
     )
     function_instance = function(handle, arguments=arguments, body=body)
     return name, function_instance, tokens
@@ -30,8 +30,8 @@ def parse_character(str):
 
     str = str.strip('`').decode('string_escape')
     if len(str) != 1:
-        raise Exception( \
-            'invalid length of character token {:s}'.format(repr(str)) \
+        raise Exception(
+            'invalid length of character token {:s}'.format(repr(str))
         )
 
     return ord(str)
