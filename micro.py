@@ -382,7 +382,7 @@ def evaluate_list(tokens, variables, functions):
 		arity=2 \
 	)
 
-	result = None
+	result = nil_object
 	while tokens:
 		result, tokens = evaluate(tokens, variables, functions)
 
