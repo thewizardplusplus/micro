@@ -236,8 +236,9 @@ def custom_handle(tokens, variables, functions, names, values):
 	new_variables = dict(variables.items() + new_variables.items())
 
 	new_functions = copy(functions)
-	value, _ = evaluate_list(tokens, new_variables, new_functions)
+	new_functions[':parent'] = functions
 
+	value, _ = evaluate_list(tokens, new_variables, new_functions)
 	return value
 
 def parse_function(tokens, variables, functions):
@@ -347,9 +348,19 @@ def add_value(functions, name, value):
 
 	return value
 
+def get_parent(functions):
+	if not ':parent' in functions:
+		functions[':parent'] = {}
+
+	return functions[':parent']
+
 def evaluate_list(tokens, variables, functions):
 	functions['='] = function( \
 		lambda name, value: add_value(functions, name, value),
+		arity=2 \
+	)
+	functions[':='] = function( \
+		lambda name, value: add_value(get_parent(functions), name, value),
 		arity=2 \
 	)
 
