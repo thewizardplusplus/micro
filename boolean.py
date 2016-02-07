@@ -1,12 +1,15 @@
 class boolean:
+	def __init__(self, value):
+		self.value = bool(value)
+
 	def __nonzero__(self):
-		return self == true
+		return self.value
+
+	def __eq__(self, value):
+		return self.value == bool(value)
+
+	def __ne__(self, value):
+		return self.value != bool(value)
 
 	def __repr__(self):
-		return 'true' if self else 'false'
-
-true = boolean()
-false = boolean()
-
-def to_boolean(value):
-	return true if value else false
+		return str(self.value).lower()

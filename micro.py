@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from function import function
-from boolean import to_boolean
+from boolean import boolean
 
 from re import sub as re_sub
 from sys import stdin, stdout
@@ -126,17 +126,17 @@ functions = { \
 	'*': function(mul, arity=2), \
 	'/': function(div, arity=2), \
 	'%': function(modulo, arity=2), \
-	'==': function(lambda a, b: to_boolean(a == b), arity=2), \
-	'!=': function(lambda a, b: to_boolean(a != b), arity=2), \
-	'<': function(lambda a, b: to_boolean(float(a) < float(b)), arity=2), \
-	'<=': function(lambda a, b: to_boolean(float(a) <= float(b)), arity=2), \
-	'>': function(lambda a, b: to_boolean(float(a) > float(b)), arity=2), \
-	'>=': function(lambda a, b: to_boolean(float(a) >= float(b)), arity=2), \
-	'true': function(lambda: to_boolean(True), arity=0), \
-	'false': function(lambda: to_boolean(False), arity=0), \
+	'==': function(lambda a, b: boolean(a == b), arity=2), \
+	'!=': function(lambda a, b: boolean(a != b), arity=2), \
+	'<': function(lambda a, b: boolean(float(a) < float(b)), arity=2), \
+	'<=': function(lambda a, b: boolean(float(a) <= float(b)), arity=2), \
+	'>': function(lambda a, b: boolean(float(a) > float(b)), arity=2), \
+	'>=': function(lambda a, b: boolean(float(a) >= float(b)), arity=2), \
+	'true': function(lambda: boolean(True), arity=0), \
+	'false': function(lambda: boolean(False), arity=0), \
 	'&&': function(lambda a, b: a and b, arity=2), \
 	'||': function(lambda a, b: a or b, arity=2), \
-	'!': function(lambda a: to_boolean(not a), arity=1), \
+	'!': function(lambda a: boolean(not a), arity=1), \
 	'if': function(lambda condition, a, b: a if condition else b, arity=3), \
 	'$': function(lambda: [], arity=0), \
 	':': function(lambda value, list: [value] + list, arity=2), \
