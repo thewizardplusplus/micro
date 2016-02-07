@@ -65,6 +65,9 @@ def head(list):
 def tail(list):
 	return list[1:]
 
+def apply(function, arguments):
+	return function(*arguments)
+
 def add(a, b):
 	if not isinstance(a, Number) or not isinstance(b, Number):
 		raise TypeError( \
@@ -136,6 +139,21 @@ def to_number(value):
 	new_value = list_to_str(value)
 	return float(new_value)
 
+def while_function(condition, body):
+	if not isinstance(condition, function) or not isinstance(body, function):
+		raise TypeError( \
+			"unsupported operand type(s) for while: '{:s}' and '{:s}'".format( \
+				type(condition).__name__, \
+				type(body).__name__, \
+			) \
+		)
+
+	result = nil_object
+	while apply(condition.handle, [nil_object]):
+		result = apply(body.handle, [nil_object])
+
+	return result
+
 functions = { \
 	'nil': function(lambda: nil_object, arity=0), \
 	'floor': function(floor, arity=1), \
@@ -164,11 +182,9 @@ functions = { \
 	'tail': function(tail, arity=1), \
 	'print': function(print_function, arity=1), \
 	'to_str': function(to_string, arity=1), \
-	'to_num': function(to_number, arity=1) \
+	'to_num': function(to_number, arity=1), \
+	'while': function(while_function, arity=2) \
 }
-
-def apply(function, arguments):
-	return function(*arguments)
 
 def get_code():
 	return stdin.read()
