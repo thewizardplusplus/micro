@@ -310,6 +310,8 @@ def evaluate(tokens, variables, functions):
 		result = variables[name]
 	elif name in functions:
 		result = functions[name]
+	elif ':parent' in functions and name in functions[':parent']:
+		result = functions[':parent'][name]
 	elif head(name) == '"':
 		if len(name) == 1 or name[-1] != '"':
 			raise Exception('invalid string token {:s}'.format(repr(name)))
