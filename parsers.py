@@ -1,4 +1,6 @@
 from function import function
+from list import str_to_list
+from nil import nil_instance
 from copy import copy
 from functions import parent_name
 import evaluate_list
@@ -16,6 +18,34 @@ def parse_function(tokens, variables, functions):
 	)
 	function_instance = function(handle, arguments=arguments, body=body)
 	return name, function_instance, tokens
+
+def parse_string(str):
+	if len(str) == 1 or str[-1] != '"':
+		raise Exception('invalid string token {:s}'.format(repr(str)))
+
+	str = str.strip('"').decode('string_escape')
+	return str_to_list(str)
+
+def parse_character(str):
+	if len(str) == 1 or str[-1] != '`':
+		raise Exception('invalid character token {:s}'.format(repr(str)))
+
+	str = str.strip('`').decode('string_escape')
+	if len(str) != 1:
+		raise Exception( \
+			'invalid length of character token {:s}'.format(repr(str)) \
+		)
+
+	return ord(str)
+
+def parse_number(str):
+	result = nil_instance
+	try:
+		result = int(str)
+	except ValueError:
+		result = float(str)
+
+	return result
 
 def parse_function_name(tokens):
 	name = ''
