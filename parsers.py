@@ -5,14 +5,13 @@ from copy import copy
 from functions import parent_name
 import evaluate_list
 
-def parse_function(tokens, variables, functions):
+def parse_function(tokens, variables):
 	name, tokens = parse_function_name(tokens)
 	arguments, tokens = parse_function_arguments(tokens)
 	body, tokens = parse_function_body(tokens)
 	handle = lambda *parameters: custom_handle( \
 		body, \
 		variables, \
-		functions, \
 		arguments, \
 		parameters \
 	)
@@ -85,12 +84,10 @@ def parse_function_body(tokens):
 
 	return body, tokens
 
-def custom_handle(tokens, variables, functions, names, values):
+def custom_handle(tokens, variables, names, values):
 	new_variables = dict(zip(names, values))
 	new_variables = dict(variables.items() + new_variables.items())
+	new_variables[parent_name] = variables
 
-	new_functions = copy(functions)
-	new_functions[parent_name] = functions
-
-	value, _ = evaluate_list.evaluate_list(tokens, new_variables, new_functions)
+	value, _ = evaluate_list.evaluate_list(tokens, new_variables)
 	return value

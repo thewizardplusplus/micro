@@ -4,34 +4,28 @@ import parsers
 from function import function
 from copy import copy
 
-def evaluate_list(tokens, variables, functions):
-	add_assignment(functions)
-	add_assignment_to_parent(functions)
+def evaluate_list(tokens, variables):
+	add_assignment(variables)
+	add_assignment_to_parent(variables)
 
 	result = nil_instance
 	while tokens:
-		result, tokens = evaluate(tokens, variables, functions)
+		result, tokens = evaluate(tokens, variables)
 
 	return result, tokens
 
-def evaluate(tokens, variables, functions):
+def evaluate(tokens, variables):
 	name = tokens[0]
 	tokens = tokens[1:]
 	result = nil_instance
 	if name == 'fn':
-		name, result, tokens = parsers.parse_function( \
-			tokens, \
-			variables, \
-			functions \
-		)
+		name, result, tokens = parsers.parse_function(tokens, variables)
 		if name:
-			functions[name] = result
+			variables[name] = result
 	elif name in variables:
 		result = variables[name]
-	elif name in functions:
-		result = functions[name]
-	elif name in get_parent(functions):
-		result = get_parent(functions)[name]
+	elif name in get_parent(variables):
+		result = get_parent(variables)[name]
 	elif name[0] == '"':
 		result = parsers.parse_string(name)
 	elif name[0] == '`':
@@ -43,16 +37,15 @@ def evaluate(tokens, variables, functions):
 			raise Exception('unknown function {:s}'.format(repr(name)))
 
 	if isinstance(result, function):
-		result, tokens = evaluate_function(result, tokens, variables, functions)
+		result, tokens = evaluate_function(result, tokens, variables)
 
 	return result, tokens
 
-def evaluate_function(function_instance, tokens, variables, functions):
+def evaluate_function(function_instance, tokens, variables):
 	arguments, tokens = evaluate_arguments( \
 		function_instance.arity, \
 		tokens, \
-		variables, \
-		functions \
+		variables \
 	)
 	if len(arguments) == function_instance.arity:
 		result = function_instance.handle(*arguments)
@@ -60,22 +53,21 @@ def evaluate_function(function_instance, tokens, variables, functions):
 			result, tokens = evaluate_function( \
 				result, \
 				tokens, \
-				variables, \
-				functions \
+				variables \
 			)
 	else:
 		result = make_closure(function_instance, arguments)
 
 	return result, tokens
 
-def evaluate_arguments(number, tokens, variables, functions):
+def evaluate_arguments(number, tokens, variables):
 	arguments = []
 	for _ in xrange(number):
 		if not tokens or tokens[0] == "'":
 			tokens = tokens[1:]
 			break
 
-		value, tokens = evaluate(tokens, variables, functions)
+		value, tokens = evaluate(tokens, variables)
 		arguments.append(value)
 
 	return arguments, tokens
