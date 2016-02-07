@@ -50,11 +50,23 @@ false = boolean()
 def to_boolean(value):
 	return true if value else false
 
+class nil:
+	def __nonzero__(self):
+		return False
+
+	def __repr__(self):
+		return 'nil'
+
+nil_object = nil()
+
 def head(list):
 	return list[0]
 
 def tail(list):
 	return list[1:]
+
+def apply(function, arguments):
+	return function(*arguments)
 
 def add(a, b):
 	if not isinstance(a, Number) or not isinstance(b, Number):
@@ -127,7 +139,23 @@ def to_number(value):
 	new_value = list_to_str(value)
 	return float(new_value)
 
+def while_function(condition, body):
+	if not isinstance(condition, function) or not isinstance(body, function):
+		raise TypeError( \
+			"unsupported operand type(s) for while: '{:s}' and '{:s}'".format( \
+				type(condition).__name__, \
+				type(body).__name__, \
+			) \
+		)
+
+	result = nil_object
+	while apply(condition.handle, [nil_object]):
+		result = apply(body.handle, [nil_object])
+
+	return result
+
 functions = { \
+	'nil': function(lambda: nil_object, arity=0), \
 	'floor': function(floor, arity=1), \
 	'ceil': function(ceil, arity=1), \
 	'trunc': function(trunc, arity=1), \
@@ -154,11 +182,9 @@ functions = { \
 	'tail': function(tail, arity=1), \
 	'print': function(print_function, arity=1), \
 	'to_str': function(to_string, arity=1), \
-	'to_num': function(to_number, arity=1) \
+	'to_num': function(to_number, arity=1), \
+	'while': function(while_function, arity=2) \
 }
-
-def apply(function, arguments):
-	return function(*arguments)
 
 def get_code():
 	return stdin.read()
@@ -226,8 +252,9 @@ def custom_handle(tokens, variables, functions, names, values):
 	new_variables = dict(variables.items() + new_variables.items())
 
 	new_functions = copy(functions)
-	value, _ = evaluate_list(tokens, new_variables, new_functions)
+	new_functions[':parent'] = functions
 
+	value, _ = evaluate_list(tokens, new_variables, new_functions)
 	return value
 
 def parse_function(tokens, variables, functions):
@@ -299,6 +326,8 @@ def evaluate(tokens, variables, functions):
 		result = variables[name]
 	elif name in functions:
 		result = functions[name]
+	elif ':parent' in functions and name in functions[':parent']:
+		result = functions[':parent'][name]
 	elif head(name) == '"':
 		if len(name) == 1 or name[-1] != '"':
 			raise Exception('invalid string token {:s}'.format(repr(name)))
@@ -320,7 +349,10 @@ def evaluate(tokens, variables, functions):
 		try:
 			result = int(name)
 		except ValueError:
-			result = float(name)
+			try:
+				result = float(name)
+			except ValueError:
+				raise Exception('unknown function {:s}'.format(repr(name)))
 
 	if isinstance(result, function):
 		result, tokens = evaluate_function(result, tokens, variables, functions)
@@ -334,13 +366,23 @@ def add_value(functions, name, value):
 
 	return value
 
+def get_parent(functions):
+	if not ':parent' in functions:
+		functions[':parent'] = {}
+
+	return functions[':parent']
+
 def evaluate_list(tokens, variables, functions):
 	functions['='] = function( \
 		lambda name, value: add_value(functions, name, value),
 		arity=2 \
 	)
+	functions[':='] = function( \
+		lambda name, value: add_value(get_parent(functions), name, value),
+		arity=2 \
+	)
 
-	result = None
+	result = nil_object
 	while tokens:
 		result, tokens = evaluate(tokens, variables, functions)
 
