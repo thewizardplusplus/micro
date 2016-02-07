@@ -13,15 +13,6 @@ from math import floor, ceil, trunc
 from operator import sub, div
 from copy import copy
 
-def head(list):
-	return list[0]
-
-def tail(list):
-	return list[1:]
-
-def apply(function, arguments):
-	return function(*arguments)
-
 def add(a, b):
 	if not isinstance(a, Number) or not isinstance(b, Number):
 		raise TypeError( \
@@ -103,8 +94,8 @@ def while_function(condition, body):
 		)
 
 	result = nil_instance
-	while apply(condition.handle, [nil_instance]):
-		result = apply(body.handle, [nil_instance])
+	while condition.handle(nil_instance):
+		result = body.handle(nil_instance)
 
 	return result
 
@@ -132,8 +123,8 @@ functions = { \
 	'if': function(lambda condition, a, b: a if condition else b, arity=3), \
 	'$': function(lambda: [], arity=0), \
 	':': function(lambda value, list: [value] + list, arity=2), \
-	'head': function(head, arity=1), \
-	'tail': function(tail, arity=1), \
+	'head': function(lambda list: list[0], arity=1), \
+	'tail': function(lambda list: list[1:], arity=1), \
 	'print': function(print_function, arity=1), \
 	'to_str': function(to_string, arity=1), \
 	'to_num': function(to_number, arity=1), \
@@ -165,23 +156,23 @@ def get_tokens(code):
 
 def parse_function_name(tokens):
 	name = ''
-	if head(tokens) != '(':
-		name = head(tokens)
-		tokens = tail(tokens)
+	if tokens[0] != '(':
+		name = tokens[0]
+		tokens = tokens[1:]
 
 	# cut the open parenthesis
-	tokens = tail(tokens)
+	tokens = tokens[1:]
 
 	return name, tokens
 
 def parse_function_arguments(tokens):
 	arguments = []
-	while head(tokens) != ')':
-		arguments.append(head(tokens))
-		tokens = tail(tokens)
+	while tokens[0] != ')':
+		arguments.append(tokens[0])
+		tokens = tokens[1:]
 
 	# cut the close parenthesis
-	tokens = tail(tokens)
+	tokens = tokens[1:]
 
 	return arguments, tokens
 
@@ -189,15 +180,15 @@ def parse_function_body(tokens):
 	level = 1
 	body = []
 	while level > 0:
-		if head(tokens) == 'fn':
+		if tokens[0] == 'fn':
 			level += 1
-		if head(tokens) == ';':
+		if tokens[0] == ';':
 			level -= 1
 
 		# except the final semicolon
 		if level > 0:
-			body.append(head(tokens))
-		tokens = tail(tokens)
+			body.append(tokens[0])
+		tokens = tokens[1:]
 
 	return body, tokens
 
@@ -227,8 +218,8 @@ def parse_function(tokens, variables, functions):
 def evaluate_arguments(number, tokens, variables, functions):
 	arguments = []
 	for _ in xrange(number):
-		if not tokens or head(tokens) == "'":
-			tokens = tail(tokens)
+		if not tokens or tokens[0] == "'":
+			tokens = tokens[1:]
 			break
 
 		value, tokens = evaluate(tokens, variables, functions)
@@ -237,7 +228,8 @@ def evaluate_arguments(number, tokens, variables, functions):
 	return arguments, tokens
 
 def closure(handle, primary_arguments, secondary_arguments):
-	return apply(handle, primary_arguments + list(secondary_arguments))
+	arguments = primary_arguments + list(secondary_arguments)
+	return handle(*arguments)
 
 def evaluate_function(function_object, tokens, variables, functions):
 	arguments, tokens = evaluate_arguments( \
@@ -262,15 +254,15 @@ def evaluate_function(function_object, tokens, variables, functions):
 
 		return function(handle, arguments=new_arguments, body=body), tokens
 
-	result = apply(function_object.handle, arguments)
+	result = function_object.handle(*arguments)
 	if isinstance(result, function):
 		return evaluate_function(result, tokens, variables, functions)
 
 	return result, tokens
 
 def evaluate(tokens, variables, functions):
-	name = head(tokens)
-	tokens = tail(tokens)
+	name = tokens[0]
+	tokens = tokens[1:]
 	result = None
 	if name == 'fn':
 		name, result, tokens = parse_function(tokens, variables, functions)
@@ -282,13 +274,13 @@ def evaluate(tokens, variables, functions):
 		result = functions[name]
 	elif ':parent' in functions and name in functions[':parent']:
 		result = functions[':parent'][name]
-	elif head(name) == '"':
+	elif name[0] == '"':
 		if len(name) == 1 or name[-1] != '"':
 			raise Exception('invalid string token {:s}'.format(repr(name)))
 
 		name = name.strip('"').decode('string_escape')
 		result = str_to_list(name)
-	elif head(name) == '`':
+	elif name[0] == '`':
 		if len(name) == 1 or name[-1] != '`':
 			raise Exception('invalid character token {:s}'.format(repr(name)))
 
