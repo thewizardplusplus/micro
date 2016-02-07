@@ -5,6 +5,7 @@ from boolean import boolean
 from nil import nil_instance
 from list import str_to_list, list_to_str
 from builtin_functions import builtin_functions
+from functions import parent_name, add_assignment, add_assignment_to_parent
 
 from re import sub as re_sub
 from sys import stdin, stdout
@@ -78,7 +79,7 @@ def custom_handle(tokens, variables, functions, names, values):
 	new_variables = dict(variables.items() + new_variables.items())
 
 	new_functions = copy(functions)
-	new_functions[':parent'] = functions
+	new_functions[parent_name] = functions
 
 	value, _ = evaluate_list(tokens, new_variables, new_functions)
 	return value
@@ -153,8 +154,8 @@ def evaluate(tokens, variables, functions):
 		result = variables[name]
 	elif name in functions:
 		result = functions[name]
-	elif ':parent' in functions and name in functions[':parent']:
-		result = functions[':parent'][name]
+	elif parent_name in functions and name in functions[parent_name]:
+		result = functions[parent_name][name]
 	elif name[0] == '"':
 		if len(name) == 1 or name[-1] != '"':
 			raise Exception('invalid string token {:s}'.format(repr(name)))
@@ -186,28 +187,9 @@ def evaluate(tokens, variables, functions):
 
 	return result, tokens
 
-def add_value(functions, name, value):
-	new_name = list_to_str(name)
-	new_value = function(lambda: value, arity=0)
-	functions[new_name] = new_value
-
-	return value
-
-def get_parent(functions):
-	if not ':parent' in functions:
-		functions[':parent'] = {}
-
-	return functions[':parent']
-
 def evaluate_list(tokens, variables, functions):
-	functions['='] = function( \
-		lambda name, value: add_value(functions, name, value),
-		arity=2 \
-	)
-	functions[':='] = function( \
-		lambda name, value: add_value(get_parent(functions), name, value),
-		arity=2 \
-	)
+	add_assignment(functions)
+	add_assignment_to_parent(functions)
 
 	result = nil_instance
 	while tokens:
