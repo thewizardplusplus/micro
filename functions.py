@@ -3,11 +3,13 @@ from list import list_to_str
 
 parent_name = ':parent'
 
-def get_parent(functions):
-	if parent_name not in functions:
-		functions[parent_name] = {}
-
-	return functions[parent_name]
+def search_name(functions, name):
+	if not functions:
+		return None
+	elif name in functions:
+		return functions[name]
+	else:
+		return search_name(get_parent(functions), name)
 
 def add_assignment(functions):
 	functions['='] = function( \
@@ -20,6 +22,12 @@ def add_assignment_to_parent(functions):
 		lambda name, value: add_value_to_parent(functions, name, value),
 		arity=2 \
 	)
+
+def get_parent(functions):
+	if parent_name not in functions:
+		functions[parent_name] = {}
+
+	return functions[parent_name]
 
 def add_value(functions, name, value):
 	new_name = list_to_str(name)

@@ -1,7 +1,6 @@
 from function import function
 from list import str_to_list
 from nil import nil_instance
-from copy import copy
 from functions import parent_name
 import evaluate_list
 
@@ -86,7 +85,6 @@ def parse_function_body(tokens):
 
 def custom_handle(tokens, variables, names, values):
 	new_variables = dict(zip(names, values))
-	new_variables = dict(variables.items() + new_variables.items())
 	new_variables[parent_name] = variables
 
 	value, _ = evaluate_list.evaluate_list(tokens, new_variables)

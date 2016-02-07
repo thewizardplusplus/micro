@@ -1,4 +1,4 @@
-from functions import get_parent, add_assignment, add_assignment_to_parent
+from functions import search_name, add_assignment, add_assignment_to_parent
 from nil import nil_instance
 import parsers
 from function import function
@@ -22,19 +22,19 @@ def evaluate(tokens, variables):
 		name, result, tokens = parsers.parse_function(tokens, variables)
 		if name:
 			variables[name] = result
-	elif name in variables:
-		result = variables[name]
-	elif name in get_parent(variables):
-		result = get_parent(variables)[name]
-	elif name[0] == '"':
-		result = parsers.parse_string(name)
-	elif name[0] == '`':
-		result = parsers.parse_character(name)
 	else:
-		try:
-			result = parsers.parse_number(name)
-		except ValueError:
-			raise Exception('unknown function {:s}'.format(repr(name)))
+		value = search_name(variables, name)
+		if value is not None:
+			result = value
+		elif name[0] == '"':
+			result = parsers.parse_string(name)
+		elif name[0] == '`':
+			result = parsers.parse_character(name)
+		else:
+			try:
+				result = parsers.parse_number(name)
+			except ValueError:
+				raise Exception('unknown function {:s}'.format(repr(name)))
 
 	if isinstance(result, function):
 		result, tokens = evaluate_function(result, tokens, variables)
