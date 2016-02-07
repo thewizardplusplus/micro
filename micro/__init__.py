@@ -10,7 +10,6 @@ if __name__ == '__main__':
 		code = remove_comments(code)
 
 		tokens = tokenize(code)
-		result, _ = evaluate_list(tokens, builtin_functions)
-		print(result)
+		evaluate_list(tokens, builtin_functions)
 	except Exception as exception:
 		print('Error: {!s}.'.format(exception))
