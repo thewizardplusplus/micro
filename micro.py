@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from function import function
+
 from re import sub as re_sub
 from sys import stdin, stdout
 from string import punctuation
@@ -8,34 +10,6 @@ from numbers import Number
 from math import floor, ceil, trunc
 from operator import sub, div
 from copy import copy
-
-class function:
-	def __init__(self, handle, arguments=None, arity=None, body=[]):
-		self.handle = handle
-		self.arguments = arguments
-		self.body = body
-
-		if not arguments is None:
-			self.arity = len(arguments)
-		elif not arity is None:
-			self.arity = arity
-
-			self.arguments = []
-			for i in range(arity):
-				argument = '_{:d}'.format(i)
-				self.arguments.append(argument)
-		else:
-			raise Exception('invalid arguments of the function object')
-
-	def __repr__(self):
-		body = ' '.join(self.body) if self.body else '[unknown]'
-		body = re_sub(r"\s?(\(|\))\s?", r'\1', body)
-		body = re_sub(r"\s(;|')", r'\1', body)
-		body = re_sub("';", ';', body)
-		body = re_sub(r'^fn\(\)(.*);$', r'\1', body)
-
-		arguments = ' '.join(self.arguments)
-		return 'fn({:s}){:s};'.format(arguments, body)
 
 class boolean:
 	def __nonzero__(self):
