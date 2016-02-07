@@ -50,6 +50,15 @@ false = boolean()
 def to_boolean(value):
 	return true if value else false
 
+class nil:
+	def __nonzero__(self):
+		return False
+
+	def __repr__(self):
+		return 'nil'
+
+nil_object = nil()
+
 def head(list):
 	return list[0]
 
@@ -128,6 +137,7 @@ def to_number(value):
 	return float(new_value)
 
 functions = { \
+	'nil': function(lambda: nil_object, arity=0), \
 	'floor': function(floor, arity=1), \
 	'ceil': function(ceil, arity=1), \
 	'trunc': function(trunc, arity=1), \
