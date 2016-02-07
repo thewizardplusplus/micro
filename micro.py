@@ -224,4 +224,4 @@ if __name__ == '__main__':
 	value, _ = evaluate_list(tokens, {}, builtin_functions)
 	print('')
 	print(value)
-	print(functions)
+	print(builtin_functions)
