@@ -2,6 +2,7 @@
 
 from function import function
 from boolean import boolean
+from nil import nil_instance
 
 from re import sub as re_sub
 from sys import stdin, stdout
@@ -11,15 +12,6 @@ from numbers import Number
 from math import floor, ceil, trunc
 from operator import sub, div
 from copy import copy
-
-class nil:
-	def __nonzero__(self):
-		return False
-
-	def __repr__(self):
-		return 'nil'
-
-nil_object = nil()
 
 def head(list):
 	return list[0]
@@ -110,14 +102,14 @@ def while_function(condition, body):
 			) \
 		)
 
-	result = nil_object
-	while apply(condition.handle, [nil_object]):
-		result = apply(body.handle, [nil_object])
+	result = nil_instance
+	while apply(condition.handle, [nil_instance]):
+		result = apply(body.handle, [nil_instance])
 
 	return result
 
 functions = { \
-	'nil': function(lambda: nil_object, arity=0), \
+	'nil': function(lambda: nil_instance, arity=0), \
 	'floor': function(floor, arity=1), \
 	'ceil': function(ceil, arity=1), \
 	'trunc': function(trunc, arity=1), \
@@ -344,7 +336,7 @@ def evaluate_list(tokens, variables, functions):
 		arity=2 \
 	)
 
-	result = nil_object
+	result = nil_instance
 	while tokens:
 		result, tokens = evaluate(tokens, variables, functions)
 
