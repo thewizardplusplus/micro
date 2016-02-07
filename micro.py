@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from function import function
+from boolean import to_boolean
 
 from re import sub as re_sub
 from sys import stdin, stdout
@@ -10,19 +11,6 @@ from numbers import Number
 from math import floor, ceil, trunc
 from operator import sub, div
 from copy import copy
-
-class boolean:
-	def __nonzero__(self):
-		return self == true
-
-	def __repr__(self):
-		return 'true' if self else 'false'
-
-true = boolean()
-false = boolean()
-
-def to_boolean(value):
-	return true if value else false
 
 class nil:
 	def __nonzero__(self):
@@ -144,8 +132,8 @@ functions = { \
 	'<=': function(lambda a, b: to_boolean(float(a) <= float(b)), arity=2), \
 	'>': function(lambda a, b: to_boolean(float(a) > float(b)), arity=2), \
 	'>=': function(lambda a, b: to_boolean(float(a) >= float(b)), arity=2), \
-	'true': function(lambda: true, arity=0), \
-	'false': function(lambda: false, arity=0), \
+	'true': function(lambda: to_boolean(True), arity=0), \
+	'false': function(lambda: to_boolean(False), arity=0), \
 	'&&': function(lambda a, b: a and b, arity=2), \
 	'||': function(lambda a, b: a or b, arity=2), \
 	'!': function(lambda a: to_boolean(not a), arity=1), \
