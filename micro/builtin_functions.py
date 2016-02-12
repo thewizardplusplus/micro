@@ -58,6 +58,10 @@ def modulo(a, b):
 
     return a % b
 
+def set_function(list, index, value):
+    list[index] = value
+    return value
+
 def print_function(str):
     if not isinstance(str, list):
         raise TypeError(
@@ -186,7 +190,8 @@ builtin_functions = {
     ),
     'append': function(lambda list, item: list + [item], arity=2),
     'concat': function(lambda list_1, list_2: list_1 + list_2, arity=2),
-    'item': function(lambda list, index: list[index], arity=2),
+    'get': function(lambda list, index: list[index], arity=2),
+    'set': function(set_function, arity=3),
     'len': function(lambda list: len(list), arity=1),
     'print': function(print_function, arity=1),
     'to_str': function(to_string, arity=1),
