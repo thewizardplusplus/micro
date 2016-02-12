@@ -6,6 +6,7 @@ from nil import nil_instance
 import math
 from operator import sub, div
 from boolean import boolean
+import evaluate_list
 
 def neg(a):
     if not isinstance(a, Number):
@@ -97,6 +98,10 @@ def while_function(condition, body):
 
     return result
 
+def eval_function(str):
+    str = list_to_str(str)
+    return evaluate_list.evaluate_string(str)
+
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
     'floor': function(math.floor, arity=1),
@@ -149,5 +154,6 @@ builtin_functions = {
     'print': function(print_function, arity=1),
     'to_str': function(to_string, arity=1),
     'to_num': function(to_number, arity=1),
-    'while': function(while_function, arity=2)
+    'while': function(while_function, arity=2),
+    'eval': function(eval_function, arity=1)
 }
