@@ -3,7 +3,7 @@ from list import list_to_str, str_to_list
 from sys import stdout
 from function import function
 from nil import nil_instance
-from math import floor, ceil, trunc
+import math
 from operator import sub, div
 from boolean import boolean
 
@@ -89,9 +89,9 @@ def while_function(condition, body):
 
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
-    'floor': function(floor, arity=1),
-    'ceil': function(ceil, arity=1),
-    'trunc': function(trunc, arity=1),
+    'floor': function(math.floor, arity=1),
+    'ceil': function(math.ceil, arity=1),
+    'trunc': function(math.trunc, arity=1),
     '+': function(add, arity=2),
     '-': function(sub, arity=2),
     '*': function(mul, arity=2),
@@ -103,6 +103,22 @@ builtin_functions = {
     '<=': function(lambda a, b: boolean(float(a) <= float(b)), arity=2),
     '>': function(lambda a, b: boolean(float(a) > float(b)), arity=2),
     '>=': function(lambda a, b: boolean(float(a) >= float(b)), arity=2),
+    'sin': function(lambda a: math.sin(float(a)), arity=1),
+    'cos': function(lambda a: math.cos(float(a)), arity=1),
+    'tn': function(lambda a: math.tan(float(a)), arity=1),
+    'arcsin': function(lambda a: math.asin(float(a)), arity=1),
+    'arccos': function(lambda a: math.acos(float(a)), arity=1),
+    'arctn': function(lambda a: math.atan(float(a)), arity=1),
+    'arctn2': function(lambda a, b: math.atan2(float(a), float(b)), arity=2),
+    'sh': function(lambda a: math.sinh(float(a)), arity=1),
+    'ch': function(lambda a: math.cosh(float(a)), arity=1),
+    'th': function(lambda a: math.tanh(float(a)), arity=1),
+    'sqrt': function(lambda a: math.sqrt(float(a)), arity=1),
+    'pow': function(lambda a, b: math.pow(float(a), float(b)), arity=2),
+    'exp': function(lambda a: math.exp(float(a)), arity=1),
+    'ln': function(lambda a: math.log(float(a)), arity=1),
+    'lg': function(lambda a: math.log10(float(a)), arity=1),
+    'abs': function(lambda a: math.fabs(float(a)), arity=1),
     'true': function(lambda: boolean(True), arity=0),
     'false': function(lambda: boolean(False), arity=0),
     '&&': function(lambda a, b: a and b, arity=2),
