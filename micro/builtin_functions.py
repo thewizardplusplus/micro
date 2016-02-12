@@ -2,7 +2,7 @@ from numbers import Number
 from list import list_to_str, str_to_list
 from sys import stdout
 from function import function
-from nil import nil_instance
+from nil import nil, nil_instance
 import math
 from operator import sub, div
 from boolean import boolean
@@ -103,6 +103,30 @@ def eval_function(str):
     str = list_to_str(str)
     return evaluate_list.evaluate_string(str)
 
+def type_function(value):
+    type_name = ''
+    if isinstance(value, nil):
+        type_name = 'nil'
+    elif isinstance(value, boolean):
+        type_name = 'bool'
+    elif isinstance(value, int):
+        type_name = 'int'
+    elif isinstance(value, float):
+        type_name = 'num'
+    elif isinstance(value, list):
+        type_name = 'list'
+    elif isinstance(value, function):
+        type_name = 'function'
+    else:
+        raise Exception(
+            "value {!s} has unknown type '{:s}'".format(
+                value,
+                type(value).__name__
+            )
+        )
+
+    return str_to_list(type_name)
+
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
     'floor': function(math.floor, arity=1),
@@ -158,5 +182,6 @@ builtin_functions = {
     'while': function(while_function, arity=2),
     'eval': function(eval_function, arity=1),
     'require': function(require.require, arity=1),
-    'require_once': function(require.require_once, arity=1)
+    'require_once': function(require.require_once, arity=1),
+    'type': function(type_function, arity=1)
 }
