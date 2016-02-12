@@ -7,6 +7,16 @@ import math
 from operator import sub, div
 from boolean import boolean
 
+def neg(a):
+    if not isinstance(a, Number):
+        raise TypeError(
+            "unsupported operand type(s) for #: '{:s}'".format(
+                type(a).__name__
+            )
+        )
+
+    return -a
+
 def add(a, b):
     if not isinstance(a, Number) or not isinstance(b, Number):
         raise TypeError(
@@ -92,6 +102,7 @@ builtin_functions = {
     'floor': function(math.floor, arity=1),
     'ceil': function(math.ceil, arity=1),
     'trunc': function(math.trunc, arity=1),
+    '#': function(neg, arity=1),
     '+': function(add, arity=2),
     '-': function(sub, arity=2),
     '*': function(mul, arity=2),
