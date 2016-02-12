@@ -7,6 +7,7 @@ import math
 from operator import sub, div
 from boolean import boolean
 import evaluate_list
+import require
 
 def neg(a):
     if not isinstance(a, Number):
@@ -155,5 +156,7 @@ builtin_functions = {
     'to_str': function(to_string, arity=1),
     'to_num': function(to_number, arity=1),
     'while': function(while_function, arity=2),
-    'eval': function(eval_function, arity=1)
+    'eval': function(eval_function, arity=1),
+    'require': function(require.require, arity=1),
+    'require_once': function(require.require_once, arity=1)
 }
