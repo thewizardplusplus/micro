@@ -2,10 +2,22 @@ from numbers import Number
 from list import list_to_str, str_to_list
 from sys import stdout
 from function import function
-from nil import nil_instance
-from math import floor, ceil, trunc
+from nil import nil, nil_instance
+import math
 from operator import sub, div
 from boolean import boolean
+import evaluate_list
+import require
+
+def neg(a):
+    if not isinstance(a, Number):
+        raise TypeError(
+            "unsupported operand type(s) for #: '{:s}'".format(
+                type(a).__name__
+            )
+        )
+
+    return -a
 
 def add(a, b):
     if not isinstance(a, Number) or not isinstance(b, Number):
@@ -87,11 +99,50 @@ def while_function(condition, body):
 
     return result
 
+def eval_function(str):
+    str = list_to_str(str)
+    return evaluate_list.evaluate_string(str)
+
+def type_function(value):
+    type_name = ''
+    if isinstance(value, nil):
+        type_name = 'nil'
+    elif isinstance(value, boolean):
+        type_name = 'bool'
+    elif isinstance(value, int):
+        type_name = 'int'
+    elif isinstance(value, float):
+        type_name = 'num'
+    elif isinstance(value, list):
+        type_name = 'list'
+    elif isinstance(value, function):
+        type_name = 'function'
+    else:
+        raise Exception(
+            "value {!s} has unknown type '{:s}'".format(
+                value,
+                type(value).__name__
+            )
+        )
+
+    return str_to_list(type_name)
+
+def exit_function(code):
+    if not isinstance(code, int):
+        raise TypeError(
+            "unsupported operand type(s) for exit: '{:s}'".format(
+                type(code).__name__
+            )
+        )
+
+    return exit(code)
+
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
-    'floor': function(floor, arity=1),
-    'ceil': function(ceil, arity=1),
-    'trunc': function(trunc, arity=1),
+    'floor': function(math.floor, arity=1),
+    'ceil': function(math.ceil, arity=1),
+    'trunc': function(math.trunc, arity=1),
+    '#': function(neg, arity=1),
     '+': function(add, arity=2),
     '-': function(sub, arity=2),
     '*': function(mul, arity=2),
@@ -103,6 +154,22 @@ builtin_functions = {
     '<=': function(lambda a, b: boolean(float(a) <= float(b)), arity=2),
     '>': function(lambda a, b: boolean(float(a) > float(b)), arity=2),
     '>=': function(lambda a, b: boolean(float(a) >= float(b)), arity=2),
+    'sin': function(lambda a: math.sin(float(a)), arity=1),
+    'cos': function(lambda a: math.cos(float(a)), arity=1),
+    'tn': function(lambda a: math.tan(float(a)), arity=1),
+    'arcsin': function(lambda a: math.asin(float(a)), arity=1),
+    'arccos': function(lambda a: math.acos(float(a)), arity=1),
+    'arctn': function(lambda a: math.atan(float(a)), arity=1),
+    'arctn2': function(lambda a, b: math.atan2(float(a), float(b)), arity=2),
+    'sh': function(lambda a: math.sinh(float(a)), arity=1),
+    'ch': function(lambda a: math.cosh(float(a)), arity=1),
+    'th': function(lambda a: math.tanh(float(a)), arity=1),
+    'sqrt': function(lambda a: math.sqrt(float(a)), arity=1),
+    'pow': function(lambda a, b: math.pow(float(a), float(b)), arity=2),
+    'exp': function(lambda a: math.exp(float(a)), arity=1),
+    'ln': function(lambda a: math.log(float(a)), arity=1),
+    'lg': function(lambda a: math.log10(float(a)), arity=1),
+    'abs': function(lambda a: math.fabs(float(a)), arity=1),
     'true': function(lambda: boolean(True), arity=0),
     'false': function(lambda: boolean(False), arity=0),
     '&&': function(lambda a, b: a and b, arity=2),
@@ -111,10 +178,21 @@ builtin_functions = {
     'if': function(lambda condition, a, b: a if condition else b, arity=3),
     '$': function(lambda: [], arity=0),
     ':': function(lambda value, list: [value] + list, arity=2),
-    'head': function(lambda list: list[0], arity=1),
-    'tail': function(lambda list: list[1:], arity=1),
+    'list': function(
+        lambda number, value: [value for _ in xrange(number)],
+        arity=2
+    ),
+    'append': function(lambda list, item: list + [item], arity=2),
+    'concat': function(lambda list_1, list_2: list_1 + list_2, arity=2),
+    'item': function(lambda list, index: list[index], arity=2),
+    'len': function(lambda list: len(list), arity=1),
     'print': function(print_function, arity=1),
     'to_str': function(to_string, arity=1),
     'to_num': function(to_number, arity=1),
-    'while': function(while_function, arity=2)
+    'while': function(while_function, arity=2),
+    'eval': function(eval_function, arity=1),
+    'require': function(require.require, arity=1),
+    'require_once': function(require.require_once, arity=1),
+    'type': function(type_function, arity=1),
+    'exit': function(exit_function, arity=1)
 }

@@ -1,5 +1,11 @@
-from functions import search_name, add_assignment, add_assignment_to_parent
+from functions import \
+    search_name, \
+    add_assignment, \
+    add_assignment_to_parent, \
+    add_is_define
 from nil import nil_instance
+from lexer import remove_comments, tokenize
+import builtin_functions
 import parsers
 from function import function
 from copy import copy
@@ -7,12 +13,19 @@ from copy import copy
 def evaluate_list(tokens, variables):
     add_assignment(variables)
     add_assignment_to_parent(variables)
+    add_is_define(variables)
 
     result = nil_instance
     while tokens:
         result, tokens = evaluate(tokens, variables)
 
     return result, tokens
+
+def evaluate_string(str):
+    code = remove_comments(str)
+    tokens = tokenize(code)
+    result, _ = evaluate_list(tokens, builtin_functions.builtin_functions)
+    return result
 
 def evaluate(tokens, variables):
     name = tokens[0]

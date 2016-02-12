@@ -1,5 +1,6 @@
 from function import function
 from list import list_to_str
+from boolean import boolean
 
 parent_name = ':parent'
 
@@ -21,6 +22,17 @@ def add_assignment_to_parent(functions):
     functions[':='] = function(
         lambda name, value: add_value_to_parent(functions, name, value),
         arity=2
+    )
+
+def is_define(functions, name):
+    name = list_to_str(name)
+    result = name in functions
+    return boolean(result)
+
+def add_is_define(functions):
+    functions['is_def'] = function(
+        lambda name: is_define(functions, name),
+        arity=1
     )
 
 def get_parent(functions):
