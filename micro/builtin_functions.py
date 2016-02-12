@@ -111,8 +111,14 @@ builtin_functions = {
     'if': function(lambda condition, a, b: a if condition else b, arity=3),
     '$': function(lambda: [], arity=0),
     ':': function(lambda value, list: [value] + list, arity=2),
-    'head': function(lambda list: list[0], arity=1),
-    'tail': function(lambda list: list[1:], arity=1),
+    'list': function(
+        lambda number, value: [value for _ in xrange(number)],
+        arity=2
+    ),
+    'append': function(lambda list, item: list + [item], arity=2),
+    'concat': function(lambda list_1, list_2: list_1 + list_2, arity=2),
+    'item': function(lambda list, index: list[index], arity=2),
+    'len': function(lambda list: len(list), arity=1),
     'print': function(print_function, arity=1),
     'to_str': function(to_string, arity=1),
     'to_num': function(to_number, arity=1),
