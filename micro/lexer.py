@@ -2,8 +2,15 @@ from sys import stdin
 from re import DOTALL, sub, escape, IGNORECASE, findall
 from string import punctuation
 
-def read_code():
+def read_stdin():
     return stdin.read()
+
+def read_file(path):
+    code = ''
+    with open(path, 'r') as file:
+        code = file.read()
+
+    return code
 
 def remove_comments(code):
     code = sub(r'\bnb:.*\bnb;', '', code, flags=DOTALL)
