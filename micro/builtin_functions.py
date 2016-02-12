@@ -127,6 +127,16 @@ def type_function(value):
 
     return str_to_list(type_name)
 
+def exit_function(code):
+    if not isinstance(code, int):
+        raise TypeError(
+            "unsupported operand type(s) for exit: '{:s}'".format(
+                type(code).__name__
+            )
+        )
+
+    return exit(code)
+
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
     'floor': function(math.floor, arity=1),
@@ -183,5 +193,6 @@ builtin_functions = {
     'eval': function(eval_function, arity=1),
     'require': function(require.require, arity=1),
     'require_once': function(require.require_once, arity=1),
-    'type': function(type_function, arity=1)
+    'type': function(type_function, arity=1),
+    'exit': function(exit_function, arity=1)
 }
