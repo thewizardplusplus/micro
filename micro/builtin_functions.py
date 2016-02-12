@@ -4,6 +4,7 @@ from sys import stdout
 from function import function
 from nil import nil, nil_instance
 import math
+from random import random
 from operator import sub, div
 from boolean import boolean
 import evaluate_list
@@ -170,6 +171,7 @@ builtin_functions = {
     'ln': function(lambda a: math.log(float(a)), arity=1),
     'lg': function(lambda a: math.log10(float(a)), arity=1),
     'abs': function(lambda a: math.fabs(float(a)), arity=1),
+    'rand': function(lambda: random(), arity=0),
     'true': function(lambda: boolean(True), arity=0),
     'false': function(lambda: boolean(False), arity=0),
     '&&': function(lambda a, b: a and b, arity=2),
