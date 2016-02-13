@@ -3,12 +3,13 @@ from list import list_to_str, str_to_list
 from sys import stdout
 from function import function
 from nil import nil, nil_instance
+import evaluate_list
 import math
-from random import random
 from operator import sub, div
 from boolean import boolean
-import evaluate_list
+from random import random
 import require
+from sys import stdin
 
 def neg(a):
     if not isinstance(a, Number):
@@ -193,6 +194,7 @@ builtin_functions = {
     'get': function(lambda list, index: list[index], arity=2),
     'set': function(set_function, arity=3),
     'len': function(lambda list: len(list), arity=1),
+    'read': function(lambda: ord(stdin.read(1)), arity=0),
     'print': function(print_function, arity=1),
     'to_str': function(to_string, arity=1),
     'to_num': function(to_number, arity=1),
