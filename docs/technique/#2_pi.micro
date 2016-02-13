@@ -10,9 +10,9 @@ while fn(_) > abs - a b EPSILON;' fn(_)
 	:= "a" / + previous_a b 2.0
 	:= "b" sqrt * previous_a b
 	:= "t" - t * p * - a previous_a - a previous_a
-	:= "p" * 2 p
+	:= "p" * 2.0 p
 ;'
 
-= "pi" * + a b / + a b * 4 t
+= "pi" * + a b / + a b * 4.0 t
 
 print concat "Pi = " concat to_str pi ".\n"

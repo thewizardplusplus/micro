@@ -1,0 +1,11 @@
+'.source.micro':
+	'editor':
+		'commentStart': 'nb ',
+		'increaseIndentPattern': '(?x)
+				\\bfn\\b.*$ |
+				\\(\\s*$
+			'
+		'decreaseIndentPattern': '(?x)
+				^\\s*; |
+				^\\s*\\)
+			'
