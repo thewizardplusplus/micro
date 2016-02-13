@@ -3,11 +3,13 @@ from list import list_to_str, str_to_list
 from sys import stdout
 from function import function
 from nil import nil, nil_instance
+import evaluate_list
 import math
 from operator import sub, div
 from boolean import boolean
-import evaluate_list
+from random import random
 import require
+from sys import stdin
 
 def neg(a):
     if not isinstance(a, Number):
@@ -56,6 +58,10 @@ def modulo(a, b):
         )
 
     return a % b
+
+def set_function(list, index, value):
+    list[index] = value
+    return value
 
 def print_function(str):
     if not isinstance(str, list):
@@ -170,6 +176,7 @@ builtin_functions = {
     'ln': function(lambda a: math.log(float(a)), arity=1),
     'lg': function(lambda a: math.log10(float(a)), arity=1),
     'abs': function(lambda a: math.fabs(float(a)), arity=1),
+    'rand': function(lambda: random(), arity=0),
     'true': function(lambda: boolean(True), arity=0),
     'false': function(lambda: boolean(False), arity=0),
     '&&': function(lambda a, b: a and b, arity=2),
@@ -184,8 +191,10 @@ builtin_functions = {
     ),
     'append': function(lambda list, item: list + [item], arity=2),
     'concat': function(lambda list_1, list_2: list_1 + list_2, arity=2),
-    'item': function(lambda list, index: list[index], arity=2),
+    'get': function(lambda list, index: list[index], arity=2),
+    'set': function(set_function, arity=3),
     'len': function(lambda list: len(list), arity=1),
+    'read': function(lambda: ord(stdin.read(1)), arity=0),
     'print': function(print_function, arity=1),
     'to_str': function(to_string, arity=1),
     'to_num': function(to_number, arity=1),
