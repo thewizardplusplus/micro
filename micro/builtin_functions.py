@@ -44,12 +44,7 @@ def mul(a, b):
     return a * b
 
 def modulo(a, b):
-    if (
-        not isinstance(a, Number)
-        or not float(a).is_integer()
-        or not isinstance(b, Number)
-        or not float(b).is_integer()
-    ):
+    if not isinstance(a, int) or not isinstance(b, int):
         raise TypeError(
             "unsupported operand type(s) for %: '{:s}' and '{:s}'".format(
                 type(a).__name__,
@@ -141,7 +136,8 @@ def exit_function(code):
             )
         )
 
-    return exit(code)
+    exit(code)
+    return nil_instance
 
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
