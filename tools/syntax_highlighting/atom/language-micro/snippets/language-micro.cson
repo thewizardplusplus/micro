@@ -1,0 +1,16 @@
+'.source.micro':
+	'function':
+		'prefix': 'fn'
+		'body': 'fn$1(${2:_})$3;'
+	'assignment':
+		'prefix': '='
+		'body': '= "$1" $2'
+	'assignment_to_parent':
+		'prefix': ':='
+		'body': ':= "$1" $2'
+	'condition':
+		'prefix': 'if'
+		'body': 'if $1\n\tfn(_)$2;\'\n\tfn(_)$3;\'\nnil'
+	'loop':
+		'prefix': 'while'
+		'body': 'while fn(_) $1;\' fn(_)\n\t$2\n;\''

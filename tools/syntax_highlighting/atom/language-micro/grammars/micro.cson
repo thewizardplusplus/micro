@@ -1,0 +1,70 @@
+"name": "Micro",
+"scopeName": "source.micro",
+"fileTypes": ["micro"],
+"patterns": [
+	{
+		"match": "\\bfn\\b",
+		"name": "keyword.control.statement.micro",
+		"comment": "Keywords."
+	},
+	{
+		"match": "\\(|\\)|;|'|[\\!\\#\\$\\%\\&\\*\\+\\,\\-\\/\\:\\<\\=\\>\\?\\@\\[\\\\\\]\\^\\{\\|\\}\\~]+",
+		"name": "keyword.operator.micro",
+		"comment": "Operators."
+	},
+	{
+		"match": "\\b\\d+(\\.\\d+)?\\b",
+		"name": "constant.numeric.micro",
+		"comment": "Numbers."
+	},
+	{
+		"begin": "\"",
+		"end": "\"",
+		"name": "string.quoted.double.micro",
+		"comment": "Strings.",
+		"patterns": [
+			{
+				"include": "#escaped_symbol"
+			}
+		]
+	},
+	{
+		"begin": "`",
+		"end": "`",
+		"name": "string.quoted.single.micro",
+		"comment": "Symbols.",
+		"patterns": [
+			{
+				"include": "#escaped_symbol"
+			}
+		]
+	},
+	{
+		"match": "\\bnb(?!:)\\b.*$",
+		"name": "comment.line.micro",
+		"comment": "Singleline comments."
+	},
+	{
+		"begin": "\\bnb:",
+		"end": "\\bnb;",
+		"name": "comment.block.micro",
+		"comment": "Multiline comments."
+	},
+	{
+		"match": "\\b(nil|floor|ceil|trunc|sin|cos|tn|arcsin|arccos|arctn|arctn2|sh|ch|th|sqrt|pow|exp|ln|lg|abs|rand|true|false|if|list|append|concat|get|set|len|read|print|to_str|to_num|while|eval|require|require_once|type|exit)\\b",
+		"name": "variable.function.micro",
+		"comment": "Built-in functions."
+	},
+	{
+		"match": "[A-Za-z_]+",
+		"name": "entity.name.function.micro",
+		"comment": "Functions."
+	},
+],
+"repository": {
+	"escaped_symbol": {
+		"match": "\\\\.",
+		"name": "constant.character.escape.micro",
+		"comment": "Escaped symbol."
+	}
+}
