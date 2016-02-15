@@ -224,6 +224,7 @@ Micro &mdash; интерпретируемый высокоуровневый я
 		* `nil nil()`;
 		* `str type(any value)` &mdash; возвращает название типа значения
 		`value`;
+		* `int arity(function closure)` &mdash; возвращает арность функции;
 		* `str to_str(any value)`;
 		* `num to_num(str text)`;
 	* модуль `lang.ops`:

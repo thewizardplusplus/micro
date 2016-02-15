@@ -161,6 +161,16 @@ def exit_function(code):
     exit(code)
     return nil_instance
 
+def arity_function(value):
+    if not isinstance(value, function):
+        raise TypeError(
+            "unsupported operand type(s) for arity: '{:s}'".format(
+                type(value).__name__
+            )
+        )
+
+    return value.arity
+
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
     'floor': function(math.floor, arity=1),
@@ -221,5 +231,6 @@ builtin_functions = {
     'require': function(require.require, arity=1),
     'require_once': function(require.require_once, arity=1),
     'type': function(type_function, arity=1),
-    'exit': function(exit_function, arity=1)
+    'exit': function(exit_function, arity=1),
+    'arity': function(arity_function, arity=1)
 }
