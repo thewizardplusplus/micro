@@ -1,5 +1,6 @@
-from functions import add_value
 from list import str_to_list, list_to_str
+from functions import add_value
+import require
 from os.path import dirname
 from numbers import Number
 from copy import copy
@@ -11,21 +12,35 @@ import math
 from operator import sub, div
 from boolean import boolean
 from random import random
-import require
 from sys import stdin
 
 def get_builtin_functions(script_path, args):
+    base_path = get_base_path(script_path)
+    value = get_args(base_path, args)
+
     name = str_to_list('args')
-    value = get_args(script_path, args)
     add_value(builtin_functions, name, value)
+
+    builtin_functions['require'] = function(
+        lambda path: require.require(base_path, path),
+        arity=1
+    )
+    builtin_functions['require_once'] = function(
+        lambda path: require.require_once(base_path, path),
+        arity=1
+    )
 
     return builtin_functions
 
-def get_args(script_path, args):
+def get_base_path(script_path):
+    base_path = ''
     if script_path:
-        script_path = dirname(script_path)
-        args.append(script_path)
+        base_path = dirname(script_path)
 
+    return base_path
+
+def get_args(base_path, args):
+    args.append(base_path)
     return convert_args(args)
 
 def convert_args(args):
@@ -228,8 +243,6 @@ builtin_functions = {
     'to_num': function(to_number, arity=1),
     'while': function(while_function, arity=2),
     'eval': function(eval_function, arity=1),
-    'require': function(require.require, arity=1),
-    'require_once': function(require.require_once, arity=1),
     'type': function(type_function, arity=1),
     'exit': function(exit_function, arity=1),
     'arity': function(arity_function, arity=1)

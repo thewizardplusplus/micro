@@ -1,6 +1,6 @@
 from __future__ import print_function
-from lexer import read_stdin, read_file, remove_comments, tokenize
 from options import parse_options
+from lexer import remove_comments, tokenize, read_stdin, read_file
 from builtin_functions import get_builtin_functions
 from evaluate_list import evaluate_list
 
