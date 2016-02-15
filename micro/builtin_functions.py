@@ -1,5 +1,6 @@
 from functions import add_value
 from list import str_to_list, list_to_str
+from os.path import dirname
 from numbers import Number
 from copy import copy
 from sys import stdout
@@ -13,12 +14,19 @@ from random import random
 import require
 from sys import stdin
 
-def get_builtin_functions(args):
+def get_builtin_functions(script_path, args):
     name = str_to_list('args')
-    value = convert_args(args)
+    value = get_args(script_path, args)
     add_value(builtin_functions, name, value)
 
     return builtin_functions
+
+def get_args(script_path, args):
+    if script_path:
+        script_path = dirname(script_path)
+        args.append(script_path)
+
+    return convert_args(args)
 
 def convert_args(args):
     return [str_to_list(arg) for arg in args]

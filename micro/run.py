@@ -13,7 +13,7 @@ def run():
         print(tokens)
         exit(0)
 
-    builtin_functions = get_builtin_functions(options.args)
+    builtin_functions = get_builtin_functions(options.file, options.args)
     result, _ = evaluate_list(tokens, builtin_functions)
     if getattr(options, 'print'):
         print(result)
