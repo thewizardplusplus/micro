@@ -42,6 +42,8 @@ def make_options_parser():
         action='store_true',
         help='- print a result before an exit.'
     )
-    parser.add_argument('file', nargs='?', help='- an input file.')
+
+    parser.add_argument('file', nargs='?', help='- an input file;')
+    parser.add_argument('args', nargs='*', help='- script arguments.')
 
     return parser

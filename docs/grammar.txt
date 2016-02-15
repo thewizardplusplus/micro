@@ -1,0 +1,39 @@
+program = function call list;
+
+function call list = {function call};
+function call = function name, argument list;
+function name = value;
+
+argument list = {argument};
+argument = value;
+
+value =
+	| constant
+	| identify
+	| CLOSURE MARK
+	| function definition
+	| function call;
+
+constant =
+	INTEGER CONSTANT
+	| FLOAT CONSTANT
+	| CHARACTER CONSTANT
+	| STRING CONSTANT;
+identify = ALPHABETIC IDENTIFY | PUNCTUATION IDENTIFY;
+
+function definition =
+	"fn", [identify], "(", parameter list, ")",
+		function call list,
+	";";
+parameter list = {parameter};
+parameter = identify;
+
+CLOSURE MARK = "'";
+
+INTEGER CONSTANT = ? /\d+/ ?;
+FLOAT CONSTANT = ? /\d+\.\d+/ ?;
+CHARACTER CONSTANT = ? /`(?:\\.|[^`])`/ ?;
+STRING CONSTANT = ? /"(?:\\.|[^"])*"/ ?;
+
+ALPHABETIC IDENTIFY = ? /[A-Za-z_]+/ ? - "fn";
+PUNCTUATION IDENTIFY = ? /[[:punct:]]+/ ? - ? /[\(\);\.`"_']/ ?;

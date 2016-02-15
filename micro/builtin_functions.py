@@ -1,5 +1,9 @@
+from list import str_to_list, list_to_str
+from functions import add_value
+import require
+from os.path import dirname
 from numbers import Number
-from list import list_to_str, str_to_list
+from copy import copy
 from sys import stdout
 from function import function
 from nil import nil, nil_instance
@@ -8,8 +12,39 @@ import math
 from operator import sub, div
 from boolean import boolean
 from random import random
-import require
 from sys import stdin
+
+def get_builtin_functions(script_path, args):
+    base_path = get_base_path(script_path)
+    value = get_args(base_path, args)
+
+    name = str_to_list('args')
+    add_value(builtin_functions, name, value)
+
+    builtin_functions['require'] = function(
+        lambda path: require.require(base_path, path),
+        arity=1
+    )
+    builtin_functions['require_once'] = function(
+        lambda path: require.require_once(base_path, path),
+        arity=1
+    )
+
+    return builtin_functions
+
+def get_base_path(script_path):
+    base_path = ''
+    if script_path:
+        base_path = dirname(script_path)
+
+    return base_path
+
+def get_args(base_path, args):
+    args.append(base_path)
+    return convert_args(args)
+
+def convert_args(args):
+    return [str_to_list(arg) for arg in args]
 
 def neg(a):
     if not isinstance(a, Number):
@@ -44,12 +79,7 @@ def mul(a, b):
     return a * b
 
 def modulo(a, b):
-    if (
-        not isinstance(a, Number)
-        or not float(a).is_integer()
-        or not isinstance(b, Number)
-        or not float(b).is_integer()
-    ):
+    if not isinstance(a, int) or not isinstance(b, int):
         raise TypeError(
             "unsupported operand type(s) for %: '{:s}' and '{:s}'".format(
                 type(a).__name__,
@@ -60,8 +90,10 @@ def modulo(a, b):
     return a % b
 
 def set_function(list, index, value):
-    list[index] = value
-    return value
+    list_copy = copy(list)
+    list_copy[index] = value
+
+    return list_copy
 
 def print_function(str):
     if not isinstance(str, list):
@@ -141,7 +173,18 @@ def exit_function(code):
             )
         )
 
-    return exit(code)
+    exit(code)
+    return nil_instance
+
+def arity_function(value):
+    if not isinstance(value, function):
+        raise TypeError(
+            "unsupported operand type(s) for arity: '{:s}'".format(
+                type(value).__name__
+            )
+        )
+
+    return value.arity
 
 builtin_functions = {
     'nil': function(lambda: nil_instance, arity=0),
@@ -200,8 +243,7 @@ builtin_functions = {
     'to_num': function(to_number, arity=1),
     'while': function(while_function, arity=2),
     'eval': function(eval_function, arity=1),
-    'require': function(require.require, arity=1),
-    'require_once': function(require.require_once, arity=1),
     'type': function(type_function, arity=1),
-    'exit': function(exit_function, arity=1)
+    'exit': function(exit_function, arity=1),
+    'arity': function(arity_function, arity=1)
 }
