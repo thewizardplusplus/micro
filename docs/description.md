@@ -284,6 +284,8 @@ Micro &mdash; интерпретируемый высокоуровневый я
 	* `list set(list array, int index, any value)`;
 	* `int len(list array)`;
 * модуль `sys`:
+	* `list args()` &mdash; содержит список аргументов командной строки,
+	переданый скрипту; первый элемент списка содержит путь к файлу скрипта;
 	* `nil exit(int code)`;
 	* модуль `sys.io`:
 		* `int read()` &mdash; читает 1 символ из `stdin`;
