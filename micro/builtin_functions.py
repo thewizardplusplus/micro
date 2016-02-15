@@ -1,6 +1,7 @@
+from functions import add_value
+from list import str_to_list, list_to_str
 from numbers import Number
 from copy import copy
-from list import list_to_str, str_to_list
 from sys import stdout
 from function import function
 from nil import nil, nil_instance
@@ -11,6 +12,16 @@ from boolean import boolean
 from random import random
 import require
 from sys import stdin
+
+def get_builtin_functions(args):
+    name = str_to_list('args')
+    value = convert_args(args)
+    add_value(builtin_functions, name, value)
+
+    return builtin_functions
+
+def convert_args(args):
+    return [str_to_list(arg) for arg in args]
 
 def neg(a):
     if not isinstance(a, Number):

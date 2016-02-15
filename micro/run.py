@@ -1,7 +1,7 @@
 from __future__ import print_function
 from lexer import read_stdin, read_file, remove_comments, tokenize
 from options import parse_options
-from builtin_functions import builtin_functions
+from builtin_functions import get_builtin_functions
 from evaluate_list import evaluate_list
 
 def run():
@@ -13,6 +13,7 @@ def run():
         print(tokens)
         exit(0)
 
+    builtin_functions = get_builtin_functions(options.args)
     result, _ = evaluate_list(tokens, builtin_functions)
     if getattr(options, 'print'):
         print(result)
