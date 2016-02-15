@@ -281,7 +281,7 @@ Micro &mdash; интерпретируемый высокоуровневый я
 	* `list append(list array, any value)`;
 	* `list concat(list array_1, list array_2)`;
 	* `any get(list array, int index)`;
-	* `any set(list array, int index, any value)`;
+	* `list set(list array, int index, any value)`;
 	* `int len(list array)`;
 * модуль `sys`:
 	* `nil exit(int code)`;

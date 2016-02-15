@@ -1,4 +1,5 @@
 from numbers import Number
+from copy import copy
 from list import list_to_str, str_to_list
 from sys import stdout
 from function import function
@@ -55,8 +56,10 @@ def modulo(a, b):
     return a % b
 
 def set_function(list, index, value):
-    list[index] = value
-    return value
+    list_copy = copy(list)
+    list_copy[index] = value
+
+    return list_copy
 
 def print_function(str):
     if not isinstance(str, list):

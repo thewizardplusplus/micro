@@ -21,10 +21,10 @@ fn process_field(size ceils handle)
 
 fn rand_field(size)
 	= "ceils" empty_field size
-	process_field size ceils fn(size ceils x y)
+	process_field size nil fn(size _ x y)
 		= "index" get_index size x y
 		= "ceil" > rand 0.5
-		set ceils index ceil
+		:= "ceils" set ceils index ceil
 	;'
 
 	ceils
@@ -67,7 +67,7 @@ fn calculate_neighbors(size ceils)
 		;'
 
 		= "index" get_index size x y
-		set neighbors index number
+		:= "neighbors" set neighbors index number
 	;'
 
 	neighbors
@@ -82,7 +82,7 @@ fn next_generation(size ceils neighbors)
 		= "new_ceil"
 			|| && !ceil == number 3
 			&& ceil || == number 2 == number 3
-		set next index new_ceil
+		:= "next" set next index new_ceil
 	;'
 
 	next
@@ -92,8 +92,7 @@ fn next_generation(size ceils neighbors)
 = "ceils" rand_field size
 while fn(_) true;' fn(_)
 	= "neighbors" calculate_neighbors size ceils
-	= "next" next_generation size ceils neighbors
-	:= "ceils" next
+	:= "ceils" next_generation size ceils neighbors
 
 	print_field size ceils
 ;'
