@@ -9,10 +9,3 @@ def quote(string):
             escaped_string += character
 
     return '"' + escaped_string + '"'
-
-def find_column(code, offset):
-    last_line_break = code.rfind('\n', 0, offset)
-    if last_line_break != -1:
-        return offset - last_line_break
-    else:
-        return offset + 1

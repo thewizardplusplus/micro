@@ -3,8 +3,8 @@ import json
 
 class AstToken:
     def __init__(self, lex_token):
-        self.type = lex_token.type
-        if lex_token.value != self.type:
+        self.name = lex_token.type
+        if lex_token.value != self.name:
             self.value = lex_token.value
 
     def __str__(self):
