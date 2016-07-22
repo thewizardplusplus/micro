@@ -46,6 +46,9 @@ class Parser:
 
         if len(arguments) == 0:
             if first_entity.name == 'function':
+                result_type = function_type.make_type(first_entity.children[0].children[2].children[0])
+                first_entity.children[0].children[2].children[0] = result_type.to_ast()
+
                 first_entity.children[1].children = self._make_calls(first_entity.children[1].children, functions)
 
             return first_entity, rest_entities

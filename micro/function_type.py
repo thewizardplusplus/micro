@@ -33,7 +33,7 @@ def _simplify_type(arities):
     return arities[:first_nonzero]
 
 def _make_type_from_ast(type_node):
-    arities = [arity_node.value for arity_node in type_node.children]
+    arities = [int(arity_node.value) for arity_node in type_node.children]
     return _make_type_from_array(arities)
 
 def _make_type_from_array(arities):
