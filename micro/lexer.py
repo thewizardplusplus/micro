@@ -52,7 +52,7 @@ class Lexer:
         return token
 
     def t_error(self, token):
-        self._errors.append(error.Error('illegal character {}'.format(utilities.quote(token.value[0])), token.lexpos))
+        self._errors.append(error.Error('the illegal character {}'.format(utilities.quote(token.value[0])), token.lexpos))
         self._lexer.skip(1)
 
 if __name__ == '__main__':

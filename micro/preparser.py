@@ -99,10 +99,10 @@ class Preparser:
 
     def p_error(self, token):
         if token is not None:
-            self._errors.append(error.Error('unexpected token {}'.format(ast_token.AstToken(token)), token.lexpos))
+            self._errors.append(error.Error('the unexpected token {}'.format(ast_token.AstToken(token)), token.lexpos))
             self._preparser.errok()
         else:
-            self._errors.append(error.Error('unexpected token EOF', len(self._code)))            
+            self._errors.append(error.Error('the unexpected token EOF', len(self._code)))            
 
 def _process_list(name, node):
     items = []

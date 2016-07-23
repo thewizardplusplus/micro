@@ -1,6 +1,6 @@
-import ast_node
-import utilities
 import error
+import utilities
+import ast_node
 
 class Parser:
     _errors = []
@@ -18,7 +18,7 @@ class Parser:
     def _make_calls(self, entities, functions):
         calls = []
         while len(entities) > 0:
-            call, entities = self._make_call(entities[0], entities[1:], functions)
+            call, entities, functions = self._make_call(entities[0], entities[1:], functions)
             if call is None:
                 continue
 
@@ -28,30 +28,27 @@ class Parser:
 
     def _make_call(self, first_entity, rest_entities, functions):
         entity_type = self._get_type(first_entity, functions)
-        if entity_type.arity is None:
-            return None, rest_entities
+        if entity_type is None:
+            return None, rest_entities, functions
 
         arguments = []
         arity = entity_type.arity
         while arity > 0 and len(rest_entities) > 0:
-            call, rest_entities = self._make_call(rest_entities[0], rest_entities[1:], functions)
+            call, rest_entities, functions = self._make_call(rest_entities[0], rest_entities[1:], functions)
             if call is None:
                 continue
 
             arguments.append(call)
             arity -= 1
         if arity > 0:
-            self._errors.append(error.Error('{}'.format(utilities.quote('dummy')), 0))
-            return None, rest_entities
+            self._errors.append(error.Error('not enough arguments for the call {}'.format(first_entity), first_entity.offset))
+            return None, rest_entities, functions
 
         if len(arguments) == 0:
             if first_entity.name == 'function':
-                result_type = function_type.make_type(first_entity.children[0].children[2].children[0])
-                first_entity.children[0].children[2].children[0] = result_type.to_ast()
+                functions = self._transform_function(first_entity, functions)
 
-                first_entity.children[1].children = self._make_calls(first_entity.children[1].children, functions)
-
-            return first_entity, rest_entities
+            return first_entity, rest_entities, functions
         else:
             call = self._make_call_node(first_entity, entity_type, arguments)
             return self._make_call(call, rest_entities, functions)
@@ -59,7 +56,7 @@ class Parser:
     def _get_type(self, entity, functions):
         entity_type = function_type.make_type([])
         if entity.name == 'IDENTIFIER':
-            if entity.value in self._functions:
+            if entity.value in functions:
                 entity_type = functions[entity.value]
             else:
                 self._errors.append(error.Error('unknown function {}'.format(utilities.quote(entity.value)), entity.offset))
@@ -69,13 +66,31 @@ class Parser:
 
         return entity_type
 
+    def _transform_function(self, entity, functions):
+        name = entity.children[0].children[0].value
+        arity = len(entity.children[0].children[1].children)
+        result_type = function_type.make_type(entity.children[0].children[2].children[0])
+        if name != '':
+            functions[name] = function_type.FunctionType(arity, result_type)
+        entity.children[0].children[2].children[0] = result_type.to_ast()
+
+        new_functions = functions.copy()
+        for argument in entity.children[0].children[1].children:
+            new_functions[argument.children[0].value] = function_type.make_type(argument.children[1])
+        entity.children[1].children = self._make_calls(entity.children[1].children, new_functions)
+
+        return functions
+
     def _make_call_node(self, entity, entity_type, arguments):
         inner_call_node = ast_node.AstNode('inner_call', children=[entity])
         type_node = entity_type.get_result().to_ast()
         result_node = ast_node.AstNode('result', children=[type_node])
         inner_function_node = ast_node.AstNode('inner_function', children=[inner_call_node, result_node])
         arguments_node = ast_node.AstNode('argument_list', children=arguments)
-        return ast_node.AstNode('call', children=[inner_function_node, arguments_node])
+        call_node = ast_node.AstNode('call', children=[inner_function_node, arguments_node])
+        call_node.set_offset(entity.offset)
+
+        return call_node
 
 if __name__ == '__main__':
     import function_type
