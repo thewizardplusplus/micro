@@ -18,7 +18,7 @@ class Parser:
     def _make_calls(self, entities, functions):
         calls = []
         while len(entities) > 0:
-            call, entities, functions = self._make_call(entities[0], entities[1:], functions)
+            call, entities = self._make_call(entities[0], entities[1:], functions)
             if call is None:
                 continue
 
@@ -29,28 +29,28 @@ class Parser:
     def _make_call(self, first_entity, rest_entities, functions):
         entity_type = self._get_type(first_entity, functions)
         if entity_type is None:
-            return None, rest_entities, functions
+            return None, rest_entities
 
-        arguments = []
+        parameters = []
         arity = entity_type.arity
         while arity > 0 and len(rest_entities) > 0:
-            call, rest_entities, functions = self._make_call(rest_entities[0], rest_entities[1:], functions)
+            call, rest_entities = self._make_call(rest_entities[0], rest_entities[1:], functions)
             if call is None:
                 continue
 
-            arguments.append(call)
+            parameters.append(call)
             arity -= 1
         if arity > 0:
             self._errors.append(error.Error('not enough arguments for the call {}'.format(first_entity), first_entity.offset))
-            return None, rest_entities, functions
+            return None, rest_entities
 
-        if len(arguments) == 0:
+        if not entity_type.is_callable():
             if first_entity.name == 'function':
-                functions = self._transform_function(first_entity, functions)
+                self._transform_function(first_entity, functions)
 
-            return first_entity, rest_entities, functions
+            return first_entity, rest_entities
         else:
-            call = self._make_call_node(first_entity, entity_type, arguments)
+            call = self._make_call_node(first_entity, entity_type, parameters)
             return self._make_call(call, rest_entities, functions)
 
     def _get_type(self, entity, functions):
@@ -72,22 +72,19 @@ class Parser:
         result_type = function_type.make_type(entity.children[0].children[2].children[0])
         if name != '':
             functions[name] = function_type.FunctionType(arity, result_type)
-        entity.children[0].children[2].children[0] = result_type.to_ast()
 
         new_functions = functions.copy()
         for argument in entity.children[0].children[1].children:
             new_functions[argument.children[0].value] = function_type.make_type(argument.children[1])
         entity.children[1].children = self._make_calls(entity.children[1].children, new_functions)
 
-        return functions
-
-    def _make_call_node(self, entity, entity_type, arguments):
+    def _make_call_node(self, entity, entity_type, parameters):
         inner_call_node = ast_node.AstNode('inner_call', children=[entity])
         type_node = entity_type.get_result().to_ast()
         result_node = ast_node.AstNode('result', children=[type_node])
         inner_function_node = ast_node.AstNode('inner_function', children=[inner_call_node, result_node])
-        arguments_node = ast_node.AstNode('argument_list', children=arguments)
-        call_node = ast_node.AstNode('call', children=[inner_function_node, arguments_node])
+        parameters_node = ast_node.AstNode('parameter_list', children=parameters)
+        call_node = ast_node.AstNode('call', children=[inner_function_node, parameters_node])
         call_node.set_offset(entity.offset)
 
         return call_node
@@ -102,7 +99,8 @@ if __name__ == '__main__':
         '@': function_type.make_type([]),
         '~': function_type.make_type([1]),
         '+': function_type.make_type([2]),
-        'rand': function_type.make_type([1, 1, 1])
+        'rand': function_type.make_type([1, 1, 1]),
+        'range': function_type.make_type([0, 2])
     }
 
     code = read_code.read_code()

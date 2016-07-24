@@ -5,6 +5,9 @@ class FunctionType:
         self.arity = arity
         self.result = result
 
+    def is_callable(self):
+        return self.arity != 0 or ((self.result is not None) and self.result.is_callable())
+
     def get_result(self):
         return self.result if self.result is not None else FunctionType(0)
 
