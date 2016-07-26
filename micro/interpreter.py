@@ -21,7 +21,7 @@ class Interpreter:
         elif entity.name == 'STRING':
             return self._remove_quotes(entity.value)
         elif entity.name == 'IDENTIFIER':
-            raise Exception("not yet implement")
+            return functions[entity.value]()
         elif entity.name == 'function':
             raise Exception("not yet implement")
         elif entity.name == 'call':
@@ -41,13 +41,16 @@ if __name__ == '__main__':
     import parser
 
     FUNCTIONS_FOR_PARSER = {
-        '@': function_type.make_type([]),
+        'ans': function_type.make_type([]),
         '~': function_type.make_type([1]),
         '+': function_type.make_type([2]),
-        'rand': function_type.make_type([1, 1, 1]),
-        'range': function_type.make_type([0, 2])
+        '-': function_type.make_type([2]),
+        '*': function_type.make_type([2]),
+        '/': function_type.make_type([2]),
+        '%': function_type.make_type([2])
     }
     FUNCTIONS_FOR_INTERPRETER = {
+        'ans': lambda: 42,
         '~': lambda x: -x,
         '+': lambda x, y: x + y,
         '-': lambda x, y: x - y,
