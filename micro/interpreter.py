@@ -1,20 +1,17 @@
 class Interpreter:
     _errors = []
 
-    def __init__(self, functions={}):
-        self._functions = functions
-
-    def evaluate(self, ast):
+    def evaluate(self, ast, functions={}):
         result = None
         for entity in ast.children:
-            result = self._evaluate_entity(entity)
+            result = self._evaluate_entity(entity, functions)
 
         return result
 
     def get_errors(self):
         return self._errors
 
-    def _evaluate_entity(self, entity):
+    def _evaluate_entity(self, entity, functions):
         if entity.name == 'INTEGRAL_NUMBER':
             return int(entity.value)
         elif entity.name == 'REAL_NUMBER':
@@ -63,10 +60,10 @@ if __name__ == '__main__':
     specific_lexer = lexer.Lexer()
     specific_preparser = preparser.Preparser(specific_lexer)
     preast = specific_preparser.preparse(code)
-    specific_parser = parser.Parser(FUNCTIONS_FOR_PARSER)
-    ast = specific_parser.parse(preast)
-    interpreter = Interpreter(FUNCTIONS_FOR_INTERPRETER)
-    result = interpreter.evaluate(ast)
+    specific_parser = parser.Parser()
+    ast = specific_parser.parse(preast, FUNCTIONS_FOR_PARSER)
+    interpreter = Interpreter()
+    result = interpreter.evaluate(ast, FUNCTIONS_FOR_INTERPRETER)
     print(result)
 
     for some_error in specific_lexer.get_errors() + specific_preparser.get_errors() + specific_parser.get_errors() + interpreter.get_errors():

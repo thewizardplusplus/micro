@@ -6,11 +6,8 @@ import ast_node
 class Parser:
     _errors = []
 
-    def __init__(self, functions={}):
-        self._functions = functions
-
-    def parse(self, preast):
-        preast.children = self._make_calls(preast.children, self._functions)
+    def parse(self, preast, functions={}):
+        preast.children = self._make_calls(preast.children, functions)
         return preast
 
     def get_errors(self):
@@ -108,8 +105,8 @@ if __name__ == '__main__':
     specific_lexer = lexer.Lexer()
     specific_preparser = preparser.Preparser(specific_lexer)
     preast = specific_preparser.preparse(code)
-    parser = Parser(FUNCTIONS)
-    ast = parser.parse(preast)
+    parser = Parser()
+    ast = parser.parse(preast, FUNCTIONS)
     print(ast)
 
     for some_error in specific_lexer.get_errors() + specific_preparser.get_errors() + parser.get_errors():
