@@ -6,13 +6,32 @@ class Interpreter:
 
     def evaluate(self, ast):
         result = None
-        for call in ast.children:
-            result = self._evaluate_call(call)
+        for entity in ast.children:
+            result = self._evaluate_entity(entity)
 
         return result
 
     def get_errors(self):
         return self._errors
+
+    def _evaluate_entity(self, entity):
+        if entity.name == 'INTEGRAL_NUMBER':
+            return int(entity.value)
+        elif entity.name == 'REAL_NUMBER':
+            return float(entity.value)
+        elif entity.name == 'CHARACTER':
+            return ord(self._remove_quotes(entity.value))
+        elif entity.name == 'STRING':
+            return self._remove_quotes(entity.value)
+        elif entity.name == 'IDENTIFIER':
+            raise Exception("not yet implement")
+        elif entity.name == 'function':
+            raise Exception("not yet implement")
+        elif entity.name == 'call':
+            raise Exception("not yet implement")
+
+    def _remove_quotes(self, string):
+        return string[1:-1]
 
     def _evaluate_call(self, call):
         return 12
