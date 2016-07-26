@@ -1,4 +1,5 @@
 import error
+import function_type
 import utilities
 import ast_node
 
