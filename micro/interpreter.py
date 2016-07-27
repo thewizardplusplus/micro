@@ -21,17 +21,23 @@ class Interpreter:
         elif entity.name == 'STRING':
             return self._remove_quotes(entity.value)
         elif entity.name == 'IDENTIFIER':
-            return functions[entity.value]()
+            function = functions[entity.value]
+            if function.arity > 0:
+                return function
+            else:
+                return function()
         elif entity.name == 'function':
             raise Exception("not yet implement")
         elif entity.name == 'call':
-            raise Exception("not yet implement")
+            return self._evaluate_call(entity, functions)
 
     def _remove_quotes(self, string):
         return string[1:-1]
 
-    def _evaluate_call(self, call):
-        return 12
+    def _evaluate_call(self, call, functions):
+        inner_function = self._evaluate_entity(call.children[0].children[0].children[0], functions)
+        parameters = [self._evaluate_entity(parameter, functions) for parameter in call.children[1].children]
+        return inner_function(*parameters)
 
 if __name__ == '__main__':
     import function_type
