@@ -17,9 +17,9 @@ class Interpreter:
         elif entity.name == 'REAL_NUMBER':
             return float(entity.value)
         elif entity.name == 'CHARACTER':
-            return ord(self._remove_quotes(entity.value))
+            return ord(_remove_quotes(entity.value))
         elif entity.name == 'STRING':
-            return self._remove_quotes(entity.value)
+            return _remove_quotes(entity.value)
         elif entity.name == 'IDENTIFIER':
             function = functions[entity.value]
             if function.arity > 0:
@@ -31,13 +31,13 @@ class Interpreter:
         elif entity.name == 'call':
             return self._evaluate_call(entity, functions)
 
-    def _remove_quotes(self, string):
-        return string[1:-1]
-
     def _evaluate_call(self, call, functions):
         inner_function = self._evaluate_entity(call.children[0].children[0].children[0], functions)
         parameters = [self._evaluate_entity(parameter, functions) for parameter in call.children[1].children]
         return inner_function(*parameters)
+
+def _remove_quotes(string):
+    return string[1:-1]
 
 if __name__ == '__main__':
     import function_type
