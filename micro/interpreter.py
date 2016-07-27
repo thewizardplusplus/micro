@@ -40,23 +40,14 @@ if __name__ == '__main__':
     import preparser
     import parser
 
-    FUNCTIONS_FOR_PARSER = {
-        'ans': function_type.make_type([]),
-        '~': function_type.make_type([1]),
-        '+': function_type.make_type([2]),
-        '-': function_type.make_type([2]),
-        '*': function_type.make_type([2]),
-        '/': function_type.make_type([2]),
-        '%': function_type.make_type([2])
-    }
-    FUNCTIONS_FOR_INTERPRETER = {
-        'ans': lambda: 42,
-        '~': lambda x: -x,
-        '+': lambda x, y: x + y,
-        '-': lambda x, y: x - y,
-        '*': lambda x, y: x * y,
-        '/': lambda x, y: x / y,
-        '%': lambda x, y: x % y
+    FUNCTIONS = {
+        'ans': function_type.make_type([], handler=lambda: 42),
+        '~': function_type.make_type([1], handler=lambda x: -x),
+        '+': function_type.make_type([2], handler=lambda x, y: x + y),
+        '-': function_type.make_type([2], handler=lambda x, y: x - y),
+        '*': function_type.make_type([2], handler=lambda x, y: x * y),
+        '/': function_type.make_type([2], handler=lambda x, y: x / y),
+        '%': function_type.make_type([2], handler=lambda x, y: x % y)
     }
 
     code = read_code.read_code()
@@ -64,9 +55,10 @@ if __name__ == '__main__':
     specific_preparser = preparser.Preparser(specific_lexer)
     preast = specific_preparser.preparse(code)
     specific_parser = parser.Parser()
-    ast = specific_parser.parse(preast, FUNCTIONS_FOR_PARSER)
+    ast = specific_parser.parse(preast, FUNCTIONS)
+    print(ast)
     interpreter = Interpreter()
-    result = interpreter.evaluate(ast, FUNCTIONS_FOR_INTERPRETER)
+    result = interpreter.evaluate(ast, FUNCTIONS)
     print(result)
 
     for some_error in specific_lexer.get_errors() + specific_preparser.get_errors() + specific_parser.get_errors() + interpreter.get_errors():
