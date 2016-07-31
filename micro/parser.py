@@ -65,11 +65,9 @@ class Parser:
         return entity_type
 
     def _transform_function(self, entity, functions):
-        name = entity.children[0].children[0].value
-        arity = len(entity.children[0].children[1].children)
-        result_type = function_type.make_type(entity.children[0].children[2].children[0])
+        name, entity_type = utilities.extract_function(entity)
         if name != '':
-            functions[name] = function_type.FunctionType(arity, result_type)
+            functions[name] = entity_type
 
         new_functions = functions.copy()
         for argument in entity.children[0].children[1].children:
@@ -88,7 +86,6 @@ def _make_call_node(entity, entity_type, parameters):
     return call_node
 
 if __name__ == '__main__':
-    import function_type
     import read_code
     import lexer
     import preparser

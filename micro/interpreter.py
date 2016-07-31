@@ -1,3 +1,6 @@
+import utilities
+import function_type
+
 class Interpreter:
     _errors = []
 
@@ -27,9 +30,39 @@ class Interpreter:
             else:
                 return function()
         elif entity.name == 'function':
-            raise Exception("not yet implement")
+            return self._evaluate_function(entity, functions)
         elif entity.name == 'call':
             return self._evaluate_call(entity, functions)
+
+    def _evaluate_function(self, entity, functions):
+        name, entity_type = utilities.extract_function(entity)
+        if name != '':
+            functions[name] = entity_type
+
+        handler = self._make_handler(entity, functions.copy())
+        entity_type.set_handler(handler)
+
+        return handler
+
+    def _make_handler(self, function_node, functions):
+        def _function_handler(*args):
+            parameters = args
+            for index, argument in enumerate(function_node.children[0].children[1].children):
+                entity_type = function_type.make_type(argument.children[1])
+                functions[argument.children[0].value] = entity_type
+
+                parameter = parameters[index]
+                def _argument_handler(*args, arity=entity_type.arity, parameter=parameter):
+                    if arity > 0:
+                        return parameter(*args)
+                    else:
+                        return parameter
+
+                entity_type.set_handler(_argument_handler)
+
+            return self.evaluate(function_node.children[1], functions)
+
+        return _function_handler
 
     def _evaluate_call(self, call, functions):
         inner_function = self._evaluate_entity(call.children[0].children[0].children[0], functions)
@@ -40,7 +73,6 @@ def _remove_quotes(string):
     return string[1:-1]
 
 if __name__ == '__main__':
-    import function_type
     import read_code
     import lexer
     import preparser

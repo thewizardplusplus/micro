@@ -18,6 +18,9 @@ class FunctionType:
     def get_result(self):
         return self.result if self.result is not None else FunctionType(0)
 
+    def set_handler(self, handler):
+        self._handler = handler
+
     def to_ast(self):
         arities = self.to_array()
         arities_nodes = [ast_node.AstNode('arity', value=arity) for arity in arities]
