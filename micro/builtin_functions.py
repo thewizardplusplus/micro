@@ -1,6 +1,7 @@
 import function_type
 import math
 import random
+import string_utilities
 
 def _trampoline(value):
     while hasattr(value, '__call__'):
@@ -33,7 +34,8 @@ BUILTIN_FUNCTIONS = {
     'tail': function_type.make_type([1], handler=lambda x: x[1]),
     'if': function_type.make_type([3], handler=lambda condition, true, false: true if condition else false),
     '@': function_type.make_type([1], handler=_trampoline),
-    'out': function_type.make_type([1], handler=lambda x: print(x) or x)
+    'out': function_type.make_type([1], handler=lambda x: print(x) or x),
+    'out_str': function_type.make_type([1], handler=lambda x: print(string_utilities.string_from_list(x)) or x)
 }
 
 if __name__ == '__main__':

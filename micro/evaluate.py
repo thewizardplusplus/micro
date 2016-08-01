@@ -1,3 +1,4 @@
+import string_utilities
 import utilities
 import function_type
 
@@ -16,7 +17,7 @@ def _evaluate_entity(entity, functions):
     elif entity.name == 'CHARACTER':
         return ord(_remove_quotes(entity.value))
     elif entity.name == 'STRING':
-        return _remove_quotes(entity.value)
+        return string_utilities.string_to_list(_remove_quotes(entity.value))
     elif entity.name == 'IDENTIFIER':
         function = functions[entity.value]
         if function.arity > 0:
