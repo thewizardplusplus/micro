@@ -1,8 +1,8 @@
+import utilities
 import string
 import ply.lex
 import ast_token
 import re
-import utilities
 import error
 
 class Lexer:
@@ -11,8 +11,8 @@ class Lexer:
     tokens = ['INTEGRAL_NUMBER', 'REAL_NUMBER', 'CHARACTER', 'STRING', 'IDENTIFIER'] + list(_keywords.values())
     t_INTEGRAL_NUMBER = r'\d+'
     t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
-    t_CHARACTER = r"'(\\.|[^'])'"
-    t_STRING = r'"(\\.|[^"])*"'
+    t_CHARACTER = r"'(\\['\\tn]|[^'\n])'"
+    t_STRING = '"({})*"'.format(utilities.STRING_CHARACTER_PATTERN)
     t_ignore = ' \t\n'
     literals = '():;'
 
