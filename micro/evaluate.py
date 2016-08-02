@@ -1,5 +1,5 @@
-import string_utilities
 import utilities
+import string_utilities
 import function_type
 
 def evaluate(ast, functions={}):
@@ -15,9 +15,9 @@ def _evaluate_entity(entity, functions):
     elif entity.name == 'REAL_NUMBER':
         return float(entity.value)
     elif entity.name == 'CHARACTER':
-        return ord(_remove_quotes(entity.value))
+        return ord(utilities.unquote(entity.value))
     elif entity.name == 'STRING':
-        return string_utilities.string_to_list(_remove_quotes(entity.value))
+        return string_utilities.string_to_list(utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
         function = functions[entity.value]
         if function.arity > 0:
@@ -28,9 +28,6 @@ def _evaluate_entity(entity, functions):
         return _evaluate_function(entity, functions)
     elif entity.name == 'call':
         return _evaluate_call(entity, functions)
-
-def _remove_quotes(string):
-    return string[1:-1]
 
 def _evaluate_function(entity, functions):
     name, entity_type = utilities.extract_function(entity)

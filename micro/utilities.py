@@ -1,16 +1,15 @@
+import re
 import function_type
 
 ESCAPING_MAP = {'"': r'\"', '\\': r'\\', '\t': r'\t', '\n': r'\n'}
+UNESCAPING_MAP = {value: key for key, value in ESCAPING_MAP.items()}
+UNESCAPING_PATTERN = re.compile(r'\\["\\tn]|(?!\\)[^"\n]')
 
 def quote(string):
-    escaped_string = ''
-    for character in string:
-        if character in ESCAPING_MAP:
-            escaped_string += ESCAPING_MAP[character]
-        else:
-            escaped_string += character
+    return '"' + ''.join([ESCAPING_MAP.get(character, character) for character in string]) + '"'
 
-    return '"' + escaped_string + '"'
+def unquote(string):
+    return UNESCAPING_PATTERN.sub(lambda matches: UNESCAPING_MAP.get(matches.group(), matches.group()), string[1:-1])
 
 def extract_function(function_node):
     name = function_node.children[0].children[0].value
