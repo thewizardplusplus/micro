@@ -22,12 +22,20 @@ def _evaluate_entity(entity, functions):
         function = functions[entity.value]
         if function.arity > 0:
             return function
-        else:
+        elif function.is_callable():
             return function()
+        else:
+            return _trampoline(function)
     elif entity.name == 'function':
         return _evaluate_function(entity, functions)
     elif entity.name == 'call':
         return _evaluate_call(entity, functions)
+
+def _trampoline(value):
+    while hasattr(value, '__call__'):
+        value = value()
+
+    return value
 
 def _evaluate_function(entity, functions):
     name, entity_type = utilities.extract_function(entity)

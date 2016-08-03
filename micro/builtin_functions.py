@@ -3,12 +3,6 @@ import math
 import random
 import string_utilities
 
-def _trampoline(value):
-    while hasattr(value, '__call__'):
-        value = value()
-
-    return value
-
 BUILTIN_FUNCTIONS = {
     '!': function_type.make_type([1], handler=lambda x: not x),
     '&&': function_type.make_type([2], handler=lambda x, y: x and y),
@@ -33,7 +27,6 @@ BUILTIN_FUNCTIONS = {
     'head': function_type.make_type([1], handler=lambda x: x[0]),
     'tail': function_type.make_type([1], handler=lambda x: x[1]),
     'if': function_type.make_type([3], handler=lambda condition, true, false: true if condition else false),
-    '@': function_type.make_type([1], handler=_trampoline),
     'out': function_type.make_type([1], handler=lambda x: print(x) or x),
     'out_str': function_type.make_type([1], handler=lambda x: print(string_utilities.string_from_list(x)) or x)
 }
