@@ -19,15 +19,17 @@ def _evaluate_entity(entity, functions):
     elif entity.name == 'STRING':
         return string_utilities.string_to_list(utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
-        function = functions[entity.value]
-        if function.is_callable():
-            return function
-        else:
-            return _trampoline(function)
+        return _unpack(functions[entity.value])
     elif entity.name == 'function':
         return _evaluate_function(entity, functions)
     elif entity.name == 'call':
         return _evaluate_call(entity, functions)
+
+def _unpack(value):
+    if isinstance(value, function_type.FunctionType) and value.is_callable():
+        return value
+    else:
+        return _trampoline(value)
 
 def _trampoline(value):
     while hasattr(value, '__call__'):
@@ -60,7 +62,7 @@ def _make_function_handler(function_node, functions):
 def _evaluate_call(call, functions):
     inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)
     parameters = [_evaluate_entity(parameter, functions) for parameter in call.children[1].children]
-    return inner_function(*parameters)
+    return _unpack(inner_function(*parameters))
 
 if __name__ == '__main__':
     import read_code
