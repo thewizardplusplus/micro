@@ -42,30 +42,22 @@ def _evaluate_function(entity, functions):
     if name != '':
         functions[name] = entity_type
 
-    handler = _make_handler(entity, functions.copy())
+    handler = _make_function_handler(entity, functions.copy())
     entity_type.set_handler(handler)
 
     return handler
 
-def _make_handler(function_node, functions):
-    def _function_handler(*args):
-        parameters = args
-        for index, argument in enumerate(function_node.children[0].children[1].children):
+def _make_function_handler(function_node, functions):
+    def handler(*args):
+        for i, argument in enumerate(function_node.children[0].children[1].children):
             entity_type = function_type.make_type(argument.children[1])
+            entity_type.set_handler(args[i] if entity_type.arity > 0 else lambda value=args[i]: value)
+
             functions[argument.children[0].value] = entity_type
-
-            parameter = parameters[index]
-            def _argument_handler(*args, arity=entity_type.arity, parameter=parameter):
-                if arity > 0:
-                    return parameter(*args)
-                else:
-                    return parameter
-
-            entity_type.set_handler(_argument_handler)
 
         return evaluate(function_node.children[1], functions)
 
-    return _function_handler
+    return handler
 
 def _evaluate_call(call, functions):
     inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)
