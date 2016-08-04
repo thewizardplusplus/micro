@@ -27,8 +27,8 @@ BUILTIN_FUNCTIONS = {
     'head': function_type.make_type([1], handler=lambda x: x[0]),
     'tail': function_type.make_type([1], handler=lambda x: x[1]),
     'if': function_type.make_type([3], handler=lambda condition, true, false: true if condition else false),
-    'out': function_type.make_type([1], handler=lambda x: print(x) or x),
-    'out_str': function_type.make_type([1], handler=lambda x: print(string_utilities.string_from_list(x)) or x)
+    'str': function_type.make_type([1], handler=lambda x: string_utilities.string_to_list(str(x))),
+    'out': function_type.make_type([1], handler=lambda x: print(string_utilities.string_from_list(x)))
 }
 
 if __name__ == '__main__':
