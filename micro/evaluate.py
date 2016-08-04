@@ -20,10 +20,8 @@ def _evaluate_entity(entity, functions):
         return string_utilities.string_to_list(utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
         function = functions[entity.value]
-        if function.arity > 0:
+        if function.is_callable():
             return function
-        elif function.is_callable():
-            return function()
         else:
             return _trampoline(function)
     elif entity.name == 'function':
