@@ -29,7 +29,7 @@ BUILTIN_FUNCTIONS = {
     'tail': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: x[1])),
     'if': function_type.make_type([3], handler=evaluate.make_unpacking_wrapper(lambda condition, true, false: true if condition else false)),
     'str': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: string_utilities.string_to_list(str(x)))),
-    'out': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: print(string_utilities.string_from_list(x))))
+    'out': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: print(string_utilities.string_from_list(x), end='')))
 }
 
 if __name__ == '__main__':
