@@ -1,6 +1,6 @@
+import function_type
 import utilities
 import string_utilities
-import function_type
 
 def evaluate(ast, functions={}, required_unpacking=True):
     result = None
@@ -9,8 +9,14 @@ def evaluate(ast, functions={}, required_unpacking=True):
 
     return result
 
+def unpack(value, required_unpacking=True):
+    if not required_unpacking or (isinstance(value, function_type.FunctionType) and value.is_callable()):
+        return value
+    else:
+        return _trampoline(value)
+
 def make_unpacking_wrapper(handler):
-    return lambda *args: handler(*[_unpack(arg, True) for arg in args])
+    return lambda *args: handler(*[unpack(arg) for arg in args])
 
 def _evaluate_entity(entity, functions, required_unpacking):
     if entity.name == 'INTEGRAL_NUMBER':
@@ -22,23 +28,11 @@ def _evaluate_entity(entity, functions, required_unpacking):
     elif entity.name == 'STRING':
         return string_utilities.string_to_list(utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
-        return _unpack(functions[entity.value], required_unpacking)
+        return unpack(functions[entity.value], required_unpacking)
     elif entity.name == 'function':
         return _evaluate_function(entity, functions)
     elif entity.name == 'call':
         return _evaluate_call(entity, functions, required_unpacking)
-
-def _unpack(value, required_unpacking):
-    if not required_unpacking or (isinstance(value, function_type.FunctionType) and value.is_callable()):
-        return value
-    else:
-        return _trampoline(value)
-
-def _trampoline(value):
-    while hasattr(value, '__call__'):
-        value = value()
-
-    return value
 
 def _evaluate_function(entity, functions):
     name, entity_type = utilities.extract_function(entity)
@@ -65,7 +59,13 @@ def _make_function_handler(function_node, functions):
 def _evaluate_call(call, functions, required_unpacking):
     inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions, False)
     parameters = [_evaluate_entity(parameter, functions, False) for parameter in call.children[1].children]
-    return _unpack(inner_function(*parameters), required_unpacking)
+    return unpack(inner_function(*parameters), required_unpacking)
+
+def _trampoline(value):
+    while hasattr(value, '__call__'):
+        value = value()
+
+    return value
 
 if __name__ == '__main__':
     import read_code
