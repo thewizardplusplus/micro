@@ -45,7 +45,7 @@ def _evaluate_function(entity, functions):
     handler = _make_function_handler(entity, functions.copy())
     entity_type.set_handler(handler)
 
-    return handler
+    return entity_type
 
 def _make_function_handler(function_node, functions):
     def handler(*args):
