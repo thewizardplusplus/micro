@@ -24,7 +24,7 @@ def _map_list(pair, handler):
 def _is_list(value):
     return (isinstance(value, tuple)
         # it's used to distinguish the list ​​from the pack
-        and len(value) == 2)
+        and (len(value) == 0 or len(value) == 2))
 
 def _get_list_representation(pair):
     items = _map_list(pair, get_representation)
