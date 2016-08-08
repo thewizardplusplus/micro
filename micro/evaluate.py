@@ -26,7 +26,7 @@ def _evaluate_entity(entity, functions, required_unpacking):
     elif entity.name == 'CHARACTER':
         return ord(utilities.unquote(entity.value))
     elif entity.name == 'STRING':
-        return string_utilities.string_to_list(utilities.unquote(entity.value))
+        return string_utilities.make_list_from_string(utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
         return unpack(functions[entity.value], required_unpacking)
     elif entity.name == 'function':

@@ -30,8 +30,8 @@ BUILTIN_FUNCTIONS = {
     'if': function_type.make_type([3], handler=lambda condition, true, false: true if evaluate.unpack(condition) else false),
     '|>': function_type.make_type([1], handler=lambda value: (value,)),
     '<|': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda value: value[0])),
-    'str': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: string_utilities.string_to_list(str(x)))),
-    'out': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: print(string_utilities.string_from_list(x), end='')))
+    'str': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: string_utilities.make_list_from_string(string_utilities.get_representation(x)))),
+    'out': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: print(string_utilities.make_string_from_list(x), end='')))
 }
 
 if __name__ == '__main__':
