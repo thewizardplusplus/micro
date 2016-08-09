@@ -4,6 +4,18 @@ import math
 import random
 import string_utilities
 
+def _is_pack(value):
+    return (isinstance(value, tuple)
+        # it's used to distinguish the pack ​​from the list
+        and len(value) == 1)
+
+@evaluate.make_unpacking_wrapper
+def _unpack(value):
+    while _is_pack(value):
+        value = evaluate.unpack(value[0])
+
+    return value
+
 BUILTIN_FUNCTIONS = {
     '!': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: not x)),
     '&&': function_type.make_type([2], handler=evaluate.make_unpacking_wrapper(lambda x, y: x and y)),
@@ -30,6 +42,7 @@ BUILTIN_FUNCTIONS = {
     'if': function_type.make_type([3], handler=lambda condition, true, false: true if evaluate.unpack(condition) else false),
     '|>': function_type.make_type([1], handler=lambda value: (value,)),
     '<|': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda value: value[0])),
+    '@': function_type.make_type([1], handler=_unpack),
     'str': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: string_utilities.make_list_from_string(string_utilities.get_representation(x)))),
     'out': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: print(string_utilities.make_string_from_list(x), end='')))
 }
