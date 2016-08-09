@@ -2,15 +2,15 @@ import function_type
 import utilities
 import string_utilities
 
-def evaluate(ast, functions={}, required_unpacking=True):
+def evaluate(ast, functions={}):
     result = None
     for entity in ast.children:
-        result = _evaluate_entity(entity, functions, required_unpacking)
+        result = _evaluate_entity(entity, functions)
 
     return result
 
-def unpack(value, required_unpacking=True):
-    if not required_unpacking or (isinstance(value, function_type.FunctionType) and value.is_callable()):
+def unpack(value):
+    if isinstance(value, function_type.FunctionType) and value.is_callable():
         return value
     else:
         return _trampoline(value)
@@ -18,7 +18,7 @@ def unpack(value, required_unpacking=True):
 def make_unpacking_wrapper(handler):
     return lambda *args: handler(*[unpack(arg) for arg in args])
 
-def _evaluate_entity(entity, functions, required_unpacking):
+def _evaluate_entity(entity, functions):
     if entity.name == 'INTEGRAL_NUMBER':
         return int(entity.value)
     elif entity.name == 'REAL_NUMBER':
@@ -28,11 +28,11 @@ def _evaluate_entity(entity, functions, required_unpacking):
     elif entity.name == 'STRING':
         return string_utilities.make_list_from_string(utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
-        return unpack(functions[entity.value], required_unpacking)
+        return unpack(functions[entity.value])
     elif entity.name == 'function':
         return _evaluate_function(entity, functions)
     elif entity.name == 'call':
-        return _evaluate_call(entity, functions, required_unpacking)
+        return _evaluate_call(entity, functions)
 
 def _evaluate_function(entity, functions):
     name, entity_type = utilities.extract_function(entity)
@@ -52,14 +52,14 @@ def _make_function_handler(function_node, functions):
 
             functions[argument.children[0].value] = entity_type
 
-        return evaluate(function_node.children[1], functions, False)
+        return evaluate(function_node.children[1], functions)
 
     return handler
 
-def _evaluate_call(call, functions, required_unpacking):
-    inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions, False)
-    parameters = [_evaluate_entity(parameter, functions, False) for parameter in call.children[1].children]
-    return unpack(inner_function(*parameters), required_unpacking)
+def _evaluate_call(call, functions):
+    inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)
+    parameters = [_evaluate_entity(parameter, functions) for parameter in call.children[1].children]
+    return unpack(inner_function(*parameters))
 
 def _trampoline(value):
     while hasattr(value, '__call__'):
