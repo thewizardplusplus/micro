@@ -1,5 +1,6 @@
 import error
 import function_type
+import string_utilities
 import utilities
 import ast_node
 
@@ -57,7 +58,7 @@ class Parser:
             if entity.value in functions:
                 entity_type = functions[entity.value]
             else:
-                self._errors.append(error.Error('unknown function {}'.format(utilities.quote(entity.value)), entity.offset))
+                self._errors.append(error.Error('unknown function {}'.format(string_utilities.quote(entity.value)), entity.offset))
                 entity_type = None
         elif entity.name == 'call':
             entity_type = function_type.make_type(entity.children[0].children[1].children[0])

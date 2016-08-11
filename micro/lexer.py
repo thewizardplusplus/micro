@@ -1,4 +1,4 @@
-import utilities
+import string_utilities
 import string
 import ply.lex
 import ast_token
@@ -12,7 +12,7 @@ class Lexer:
     t_INTEGRAL_NUMBER = r'\d+'
     t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
     t_CHARACTER = r"'(\\['\\tn]|[^'\n])'"
-    t_STRING = '"({})*"'.format(utilities.STRING_CHARACTER_PATTERN)
+    t_STRING = '"({})*"'.format(string_utilities.STRING_CHARACTER_PATTERN)
     t_ignore = ' \t\n'
     literals = '():;'
 
@@ -52,7 +52,7 @@ class Lexer:
         return token
 
     def t_error(self, token):
-        self._errors.append(error.Error('the illegal character {}'.format(utilities.quote(token.value[0])), token.lexpos))
+        self._errors.append(error.Error('the illegal character {}'.format(string_utilities.quote(token.value[0])), token.lexpos))
         self._lexer.skip(1)
 
 if __name__ == '__main__':

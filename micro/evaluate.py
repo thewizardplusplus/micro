@@ -1,6 +1,7 @@
 import function_type
-import utilities
 import string_utilities
+import utilities
+import trampoline
 
 def evaluate(ast, functions={}):
     result = None
@@ -9,26 +10,17 @@ def evaluate(ast, functions={}):
 
     return result
 
-def unpack(value):
-    if isinstance(value, function_type.FunctionType) and value.is_callable():
-        return value
-    else:
-        return _trampoline(value)
-
-def make_unpacking_wrapper(handler):
-    return lambda *args: handler(*[unpack(arg) for arg in args])
-
 def _evaluate_entity(entity, functions):
     if entity.name == 'INTEGRAL_NUMBER':
         return int(entity.value)
     elif entity.name == 'REAL_NUMBER':
         return float(entity.value)
     elif entity.name == 'CHARACTER':
-        return ord(utilities.unquote(entity.value))
+        return ord(string_utilities.unquote(entity.value))
     elif entity.name == 'STRING':
-        return string_utilities.make_list_from_string(utilities.unquote(entity.value))
+        return string_utilities.make_list_from_string(string_utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
-        return unpack(functions[entity.value])
+        return trampoline.closure_trampoline(functions[entity.value])
     elif entity.name == 'function':
         return _evaluate_function(entity, functions)
     elif entity.name == 'call':
@@ -59,13 +51,7 @@ def _make_function_handler(function_node, functions):
 def _evaluate_call(call, functions):
     inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)
     parameters = [_evaluate_entity(parameter, functions) for parameter in call.children[1].children]
-    return unpack(inner_function(*parameters))
-
-def _trampoline(value):
-    while hasattr(value, '__call__'):
-        value = value()
-
-    return value
+    return trampoline.closure_trampoline(inner_function(*parameters))
 
 if __name__ == '__main__':
     import read_code
@@ -75,12 +61,12 @@ if __name__ == '__main__':
 
     FUNCTIONS = {
         'ans': function_type.make_type([], handler=lambda: 42),
-        '~': function_type.make_type([1], handler=make_unpacking_wrapper(lambda x: -x)),
-        '+': function_type.make_type([2], handler=make_unpacking_wrapper(lambda x, y: x + y)),
-        '-': function_type.make_type([2], handler=make_unpacking_wrapper(lambda x, y: x - y)),
-        '*': function_type.make_type([2], handler=make_unpacking_wrapper(lambda x, y: x * y)),
-        '/': function_type.make_type([2], handler=make_unpacking_wrapper(lambda x, y: x / y)),
-        '%': function_type.make_type([2], handler=make_unpacking_wrapper(lambda x, y: x % y))
+        '~': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: -x)),
+        '+': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x + y)),
+        '-': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x - y)),
+        '*': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x * y)),
+        '/': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x / y)),
+        '%': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x % y))
     }
 
     code = read_code.read_code()
