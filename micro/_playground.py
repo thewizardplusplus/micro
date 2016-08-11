@@ -28,12 +28,12 @@ fn loop(limit)
                 out "\r"
                 out str counter
 
-                |>fn() _loop + 1 counter limit;
+                >@fn() _loop + 1 counter limit;
             ;
             fn();
     ;
 
-    @_loop 0 limit
+    <<@_loop 0 limit
     out "\n"
 ;
 loop 2000

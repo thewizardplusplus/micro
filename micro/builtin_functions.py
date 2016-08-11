@@ -40,9 +40,9 @@ BUILTIN_FUNCTIONS = {
     'head': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: x[0])),
     'tail': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: x[1])),
     'if': function_type.make_type([3], handler=lambda condition, true, false: true if evaluate.unpack(condition) else false),
-    '|>': function_type.make_type([1], handler=lambda value: (value,)),
-    '<|': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda value: value[0])),
-    '@': function_type.make_type([1], handler=_unpack),
+    '>@': function_type.make_type([1], handler=lambda value: (value,)),
+    '<@': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda value: value[0])),
+    '<<@': function_type.make_type([1], handler=_unpack),
     'str': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: string_utilities.make_list_from_string(string_utilities.get_representation(x)))),
     'out': function_type.make_type([1], handler=evaluate.make_unpacking_wrapper(lambda x: print(string_utilities.make_string_from_list(x), end='')))
 }
