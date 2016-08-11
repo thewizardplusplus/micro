@@ -17,7 +17,7 @@ class Lexer:
     literals = '():;'
 
     _letter = '[A-Za-z_]'
-    _punctuation = string.punctuation.translate({ord(character): None for character in '\'"' + literals})
+    _punctuation = string.punctuation.translate({ord(character): None for character in '\'"_' + literals})
     _errors = []
 
     def __init__(self):

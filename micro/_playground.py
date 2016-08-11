@@ -33,7 +33,7 @@ fn loop(limit)
             fn();
     ;
 
-    @ _loop 0 limit
+    @_loop 0 limit
     out "\n"
 ;
 loop 2000
