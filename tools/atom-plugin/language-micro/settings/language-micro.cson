@@ -2,10 +2,12 @@
 	'editor':
 		'commentStart': 'nb ',
 		'increaseIndentPattern': '(?x)
-				\\bfn\\b.*$ |
-				\\(\\s*$
-			'
+			\\bfn\\b[^(]*\\([^)]*\\)[^;]*$
+			| \\(\\s*$
+			| ^\\s*\\)
+			| \\bif\\b.*$
+		'
 		'decreaseIndentPattern': '(?x)
-				^\\s*; |
-				^\\s*\\)
-			'
+			^\\s*;
+			| ^\\s*\\)
+		'
