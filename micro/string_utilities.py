@@ -1,6 +1,6 @@
 import re
 import type_utilities
-import functools
+import utilities
 
 STRING_CHARACTER_PATTERN = r'\\["\\tn]|(?!\\)[^"]'
 
@@ -18,7 +18,7 @@ def get_representation(value):
     return str(value) if not type_utilities.is_list(value) else _get_list_representation(value)
 
 def make_list_from_string(string):
-    return functools.reduce(lambda pair, character: (character, pair), map(ord, reversed(string)), ())
+    return utilities.reduce_list(string, ord)
 
 def make_string_from_list(pair):
     items = _map_list(pair, chr)

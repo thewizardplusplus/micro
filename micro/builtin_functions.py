@@ -2,7 +2,7 @@ import trampoline
 import type_utilities
 import function_type
 import string_utilities
-import functools
+import utilities
 import math
 import random
 import sys
@@ -30,7 +30,7 @@ def _get_type_name(value):
 
 @trampoline.make_closure_trampoline_wrapper
 def _get_closure_arity(value):
-    return functools.reduce(lambda pair, arity: (arity, pair), reversed(value.to_array()), ())
+    return utilities.reduce_list(value.to_array())
 
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
@@ -94,7 +94,7 @@ def add_args_function(functions, options):
 
 def _make_script_argument_list(options):
     arguments = _get_script_arguments(options)
-    return functools.reduce(lambda pair, argument: (argument, pair), map(string_utilities.make_list_from_string, reversed(arguments)), ())
+    return utilities.reduce_list(arguments, string_utilities.make_list_from_string)
 
 def _get_script_arguments(options):
     script = options.script if options.script != '-' else 'stdin'
