@@ -84,6 +84,22 @@ BUILTIN_FUNCTIONS = {
     'exit': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.exit(x)))
 }
 
+def add_args_function(functions, options):
+    arguments = _make_script_argument_list(options)
+
+    extended_functions = functions.copy()
+    extended_functions['args'] = function_type.make_type([], handler=lambda: arguments)
+
+    return extended_functions
+
+def _make_script_argument_list(options):
+    arguments = _get_script_arguments(options)
+    return functools.reduce(lambda pair, argument: (argument, pair), map(string_utilities.make_list_from_string, reversed(arguments)), ())
+
+def _get_script_arguments(options):
+    script = options.script if options.script != '-' else 'stdin'
+    return [script] + options.args
+
 if __name__ == '__main__':
     import read_code
     import lexer

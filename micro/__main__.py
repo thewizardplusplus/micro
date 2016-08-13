@@ -34,7 +34,8 @@ if options.target == 'preast':
     sys.exit(1 if errors else 0)
 
 specific_parser = parser.Parser()
-ast = specific_parser.parse(preast, builtin_functions.BUILTIN_FUNCTIONS)
+functions = builtin_functions.add_args_function(builtin_functions.BUILTIN_FUNCTIONS, options)
+ast = specific_parser.parse(preast, functions)
 errors += specific_parser.get_errors()
 if options.target == 'ast':
     _process_errors(errors, code)
@@ -46,4 +47,4 @@ _process_errors(errors, code)
 if errors:
     sys.exit(1)
 
-evaluate.evaluate(ast, builtin_functions.BUILTIN_FUNCTIONS)
+evaluate.evaluate(ast, functions)
