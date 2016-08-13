@@ -1,76 +1,59 @@
 ### Рантайм
 
-* модуль `lang`:
-	* `bool ==(any a, any b)`;
-	* `bool !=(any a, any b)`;
-	* модуль `lang.types`:
-		* `nil nil()`;
-		* `str type(any value)` &mdash; возвращает название типа значения
-		`value`;
-		* `int arity(function closure)` &mdash; возвращает арность функции;
-		* `str to_str(any value)`;
-		* `num to_num(str text)`;
-	* модуль `lang.ops`:
-		* `any if(bool condition, any true_value, any false_value)`;
-		* `any while(function condition_closure, function body_closure)`;
-		* `any eval(str code)`;
-		* `any require(str path)`;
-		* `any require_once(str path)`;
-* модуль `nums`:
-	* `int|num #(int|num)` &mdash; унарный минус;
-	* `int|num +(int|num x, int|num y)`;
-	* `int|num -(int|num x, int|num y)`;
-	* `int|num *(int|num x, int|num y)`;
-	* `int|num /(int|num x, int|num y)`;
-	* `int %(int x, int y)`;
-	* `bool <(int|num int|num)`;
-	* `bool <=(int|num int|num)`;
-	* `bool >(int|num int|num)`;
-	* `bool >=(int|num int|num)`;
-	* модуль `nums.maths`:
-		* `num floor(int|num number)`;
-		* `num ceil(int|num number)`;
-		* `int trunc(int|num number)`;
-		* `num sin(int|num number)`;
-		* `num cos(int|num number)`;
-		* `num tn(int|num number)`;
-		* `num arcsin(int|num number)`;
-		* `num arccos(int|num number)`;
-		* `num arctn(int|num number)`;
-		* `num arctn2(int|num y, int|num x)`;
-		* `num sh(int|num number)`;
-		* `num ch(int|num number)`;
-		* `num th(int|num number)`;
-		* `num sqrt(int|num number)`;
-		* `num pow(int|num base, int|num exponent)`;
-		* `num exp(int|num number)`;
-		* `num ln(int|num number)`;
-		* `num lg(int|num number)`;
-		* `num abs(int|num number)`;
-		* `num rand()` &mdash; возвращает случайное число в диапазоне [0; 1);
-* модуль `bools`:
-	* `bool true()`;
-	* `bool false()`;
-	* `any &&(any a, any b)` &mdash; если `a` соответствует `false`, возвращает
-	`a`, иначе `b`;
-	* `any ||(any a, any b)` &mdash; если `a` соответствует `true`, возвращает
-	`a`, иначе `b`;
-	* `bool !(any a)`;
-* модуль `lists`:
-	* `list $()` &mdash; создаёт пустой массив;
-	* `list :(any value, list array)` &mdash; создаёт массив из головы `value` и
-	хвоста `array`;
-	* `list list(int number, any value)` &mdash; создаёт массив длиной `number`
-	и заполняет его значением `value`;
-	* `list append(list array, any value)`;
-	* `list concat(list array_1, list array_2)`;
-	* `any get(list array, int index)`;
-	* `list set(list array, int index, any value)`;
-	* `int len(list array)`;
-* модуль `sys`:
-	* `list args()` &mdash; содержит список аргументов командной строки,
-	переданый скрипту; первый элемент списка содержит путь к файлу скрипта;
-	* `nil exit(int code)`;
-	* модуль `sys.io`:
-		* `int read()` &mdash; читает 1 символ из `stdin`;
-		* `str print(str text)`.
+* общие функции:
+	* `==(x: any, y: any): bool` &mdash; равенство;
+	* `!=(x: any, y: any): bool` &mdash; неравенство;
+	* `!(x: any): bool` &mdash; логическое отрицание;
+	* `&&(x: any, y: any): bool` &mdash; конъюнкция;
+	* `||(x: any, y: any): bool` &mdash; дизъюнкция;
+	* `if(condition: bool, true_value: any, false_value: any): bool` &mdash; выбор:  если `condition` истинно, возвращает `true_value`, иначе &mdash; `false_value`;
+	* функции для работы с типами:
+		* `nil(): nil` &mdash; возвращает значение нулевого типа;
+		* `num(x: str): num` &mdash; парсит вещественное число из строки;
+		* `type(x: any): str` &mdash; возвращает имя типа переданного значения;
+		* `arity(x: closure): list<int>` &mdash; возвращает список арностей переданного замыкания (голова списка &mdash; арность самого замыкания, хвост &mdash; аналогичный список для результата замыкания);
+		* `str(x: any): str` &mdash; преобразует переданное значение в строку;
+* числовые функции:
+	* `<(x: int|num, y: int|num): bool` &mdash; меньше;
+	* `<=(x: int|num, y: int|num): bool` &mdash; меньше или равно;
+	* `>(x: int|num, y: int|num): bool` &mdash; больше;
+	* `>=(x: int|num, y: int|num): bool` &mdash; больше или равно;
+	* `~(x: int|num): int|num` &mdash; унарный минус;
+	* `+(x: int|num, y: int|num): int|num` &mdash; сложение;
+	* `-(x: int|num, y: int|num): int|num` &mdash; вычитание;
+	* `*(x: int|num, y: int|num): int|num` &mdash; умножение;
+	* `/(x: int|num, y: int|num): int|num` &mdash; деление (для целых чисел &mdash; целочисленное деление, для вещественных &mdash; вещественное);
+	* `%(x: int|num, y: int|num): int|num` &mdash; остаток от деления (для вещественных чисел &mdash; вещественный остаток);
+	* математические функции:
+		* `floor(x: num): num`;
+		* `ceil(x: num): num`;
+		* `trunc(x: num): int`;
+		* `sin(x: num): num`;
+		* `cos(x: num): num`;
+		* `tn(x: num): num`;
+		* `arcsin(x: num): num`;
+		* `arccos(x: num): num`;
+		* `arctn(x: num): num`;
+		* `arctn2(y: num, x: num): num`;
+		* `pow(base: num, exponent: num): num`;
+		* `sqrt(x: num): num`;
+		* `exp(x: num): num`;
+		* `ln(x: num): num`;
+		* `lg(x: num): num`;
+		* `abs(x: num): num`;
+		* `random(): num` &mdash; возвращает случайное вещественное число в диапазоне [0; 1);
+* функции для работы со списками:
+	* `$(): list<any>` &mdash; возвращает пустой список;
+	* `,(head: any, tail: list<any>): list<any>` &mdash; конструирует новый список из переданных головы и хвоста;
+	* `head(list: list<any>): any` &mdash; возвращает голову списка;
+	* `tail(list: list<any>): list<any>` &mdash; возвращает хвост списка;
+* функции для упаковки:
+	* `>@(x: any): pack<any>` &mdash; упаковывает переданное значение без его предварительного вычисления;
+	* `<@(x: pack<any>): any` &mdash; распаковывает переданное значение;
+	* `<<@(x: pack<any>): any` &mdash; распаковывает переданное значение в цикле до тех пор, пока результат является упакованным значением;
+* системные функции:
+	* `exit(code: int): nil` &mdash; завершает программу с переданным кодом возврата;
+	* функции для ввода/вывода:
+		* `in(): int` &mdash; считывает один символ из stdin и возвращает его код;
+		* `out(string: str): nil` &mdash; выводит переданную строку в stdout;
+		* `err(string: str): nil` &mdash; выводит переданную строку в stderr.
