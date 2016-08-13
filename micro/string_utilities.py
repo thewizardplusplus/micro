@@ -1,5 +1,6 @@
 import re
 import type_utilities
+import function_type
 import utilities
 
 STRING_CHARACTER_PATTERN = r'\\["\\tn]|(?!\\)[^"]'
@@ -15,7 +16,22 @@ def unquote(string):
     return _STRING_CHARACTER_COMPILED_PATTERN.sub(lambda matches: _UNESCAPING_MAP.get(matches.group(), matches.group()), string[1:-1])
 
 def get_representation(value):
-    return str(value) if not type_utilities.is_list(value) else _get_list_representation(value)
+    representation = ''
+    if value is None:
+        representation = 'nil'
+    elif isinstance(value, bool):
+        representation = _get_boolean_representation(value)
+    elif type_utilities.is_list(value):
+        representation = _get_list_representation(value)
+    elif type_utilities.is_pack(value):
+        representation = _get_pack_representation(value)
+    # you can't use the function type_utilities.is_closure(), because it's true only for 0-ary functions
+    elif isinstance(value, function_type.FunctionType):
+        representation = _get_closure_representation(value)
+    else:
+        representation = str(value)
+
+    return representation
 
 def make_list_from_string(string):
     return utilities.reduce_list(string, ord)
@@ -24,9 +40,18 @@ def make_string_from_list(pair):
     items = _map_list(pair, chr)
     return ''.join(items)
 
+def _get_boolean_representation(boolean):
+    return str(int(boolean))
+
 def _get_list_representation(pair):
     items = _map_list(pair, get_representation)
     return '[' + ', '.join(items) + ']'
+
+def _get_pack_representation(pack):
+    return '(' + get_representation(pack[0]) + ')'
+
+def _get_closure_representation(function):
+    return '<closure {:#x}>'.format(id(function))
 
 def _map_list(pair, handler):
     items = []
