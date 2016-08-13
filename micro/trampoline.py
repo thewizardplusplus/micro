@@ -1,7 +1,7 @@
 import type_utilities
 
 def closure_trampoline(value):
-    while type_utilities.is_closure(value):
+    while type_utilities.is_nullary_closure(value):
         value = value()
 
     return value

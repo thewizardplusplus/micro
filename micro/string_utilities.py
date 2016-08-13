@@ -1,6 +1,5 @@
 import re
 import type_utilities
-import function_type
 import utilities
 
 STRING_CHARACTER_PATTERN = r'\\["\\tn]|(?!\\)[^"]'
@@ -25,8 +24,7 @@ def get_representation(value):
         representation = _get_list_representation(value)
     elif type_utilities.is_pack(value):
         representation = _get_pack_representation(value)
-    # you can't use the function type_utilities.is_closure(), because it's true only for 0-ary functions
-    elif isinstance(value, function_type.FunctionType):
+    elif type_utilities.is_closure(value):
         representation = _get_closure_representation(value)
     else:
         representation = str(value)

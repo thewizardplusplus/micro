@@ -1,9 +1,9 @@
 import trampoline
 import type_utilities
-import function_type
 import string_utilities
 import utilities
 import math
+import function_type
 import random
 import sys
 
@@ -20,8 +20,7 @@ def _get_type_name(value):
         name = 'list'
     elif type_utilities.is_pack(value):
         name = 'pack'
-    # you can't use the function type_utilities.is_closure(), because it's true only for 0-ary functions
-    elif isinstance(value, function_type.FunctionType):
+    elif type_utilities.is_closure(value):
         name = 'closure'
     else:
         raise Exception("the unknown type " + value.__class__.__name__)

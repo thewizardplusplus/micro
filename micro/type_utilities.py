@@ -1,7 +1,10 @@
 import function_type
 
 def is_closure(value):
-    return hasattr(value, '__call__') and (not isinstance(value, function_type.FunctionType) or not value.is_callable())
+    return isinstance(value, function_type.FunctionType)
+
+def is_nullary_closure(value):
+    return is_closure(value) and not value.is_callable()
 
 # it shouldn't be recursive
 def is_list(value):
