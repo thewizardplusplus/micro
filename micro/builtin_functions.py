@@ -32,6 +32,11 @@ def _get_type_name(value):
 def _get_closure_arity(value):
     return utilities.reduce_list(value.to_array())
 
+@trampoline.make_closure_trampoline_wrapper
+def _division(x, y):
+    quotient = x / y
+    return math.trunc(quotient) if isinstance(x, int) and isinstance(y, int) else quotient
+
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
     'num': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(string_utilities.make_string_from_list(x)))),
@@ -50,7 +55,7 @@ BUILTIN_FUNCTIONS = {
     '+': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x + y)),
     '-': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x - y)),
     '*': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x * y)),
-    '/': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x / y)),
+    '/': function_type.make_type([2], handler=_division),
     '%': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x % y)),
     'floor': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.floor)),
     'ceil': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.ceil)),
