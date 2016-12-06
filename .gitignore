@@ -1,1 +1,3 @@
 *.pyc
+/micro/.last_tmp.py
+/micro/parsetab.py

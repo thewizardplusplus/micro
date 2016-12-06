@@ -1,38 +1,70 @@
-from sys import stdin
-from re import DOTALL, sub, escape, IGNORECASE, findall
-from string import punctuation
+import string_utilities
+import string
+import ply.lex
+import ast_token
+import re
+import error
 
-def read_stdin():
-    return stdin.read()
+class Lexer:
+    _keywords = {'fn' : 'FUNCTION'}
 
-def read_file(path):
-    code = ''
-    with open(path, 'r') as file:
-        code = file.read()
+    tokens = ['INTEGRAL_NUMBER', 'REAL_NUMBER', 'CHARACTER', 'STRING', 'IDENTIFIER'] + list(_keywords.values())
+    t_INTEGRAL_NUMBER = r'\d+'
+    t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
+    t_CHARACTER = r"'(\\['\\tn]|[^'\n])'"
+    t_STRING = '"({})*"'.format(string_utilities.STRING_CHARACTER_PATTERN)
+    t_ignore = ' \t\n'
+    literals = '():;'
 
-    return code
+    _letter = '[A-Za-z_]'
+    _punctuation = string.punctuation.translate({ord(character): None for character in '\'"_' + literals})
+    _errors = []
 
-def remove_comments(code):
-    code = sub(r'\bnb:.*\bnb;', '', code, flags=DOTALL)
-    code = sub(r'\bnb\b.*\n', '', code)
-    return code
+    def __init__(self):
+        self._lexer = ply.lex.lex(module=self)
 
-def tokenize(code):
-    allowed_punctuation = punctuation.translate(None, '_.();\'`"')
-    allowed_punctuation = escape(allowed_punctuation)
+    def input(self, code):
+        self._lexer.input(code)
 
-    grammar = (
-        '[a-z_]+'
-        + r'|(?:\d+(?:\.\d+)?)'
-        + r'|\('
-        + r'|\)'
-        + '|;'
-        + "|'"
-        + r'|(?:`(?:\\.|[^`])*`?)'
-        + r'|(?:"(?:\\.|[^"])*"?)'
-        + '|[{:s}]+'
-    )
-    grammar = grammar.format(allowed_punctuation)
+    def token(self):
+        return self._lexer.token()
 
-    tokens = findall(grammar, code, IGNORECASE)
-    return filter(lambda token: token.strip(), tokens)
+    def tokenize(self, code):
+        self.input(code)
+        return [ast_token.AstToken(lex_token) for lex_token in self._lexer]
+
+    def get_errors(self):
+        return self._errors
+
+    @ply.lex.TOKEN(r'(?<!{0})nb:(.|\n)*?(?<!{0})nb;'.format(_letter))
+    def t_MULTILINE_COMMENT(self, token):
+        pass
+
+    @ply.lex.TOKEN('(?<!{0})nb(?!{0}).*'.format(_letter))
+    def t_SINGLE_LINE_COMMENT(self, token):
+        pass
+
+    @ply.lex.TOKEN(r'{}+|[{}]+'.format(_letter, re.escape(_punctuation)))
+    def t_IDENTIFIER(self, token):
+        if token.value in self._keywords:
+            token.type = self._keywords[token.value]
+
+        return token
+
+    def t_error(self, token):
+        self._errors.append(error.Error('the illegal character {}'.format(string_utilities.quote(token.value[0])), token.lexpos))
+        self._lexer.skip(1)
+
+if __name__ == '__main__':
+    import read_code
+    import ast_token_encoder
+    import json
+
+    code = read_code.read_code()
+    lexer = Lexer()
+    tokens = lexer.tokenize(code)
+    print(json.dumps(tokens, cls=ast_token_encoder.AstTokenEncoder))
+
+    for some_error in lexer.get_errors():
+        some_error.detect_position(code)
+        print(some_error)

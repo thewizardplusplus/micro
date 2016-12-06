@@ -1,249 +1,125 @@
-from list import str_to_list, list_to_str
-from functions import add_value
-import require
-from os.path import dirname
-from numbers import Number
-from copy import copy
-from sys import stdout
-from function import function
-from nil import nil, nil_instance
-import evaluate_list
+import trampoline
+import type_utilities
+import string_utilities
+import utilities
 import math
-from operator import sub, div
-from boolean import boolean
-from random import random
-from sys import stdin
+import function_type
+import random
+import sys
 
-def get_builtin_functions(script_path, args):
-    base_path = get_base_path(script_path)
-    value = get_args(base_path, args)
-
-    name = str_to_list('args')
-    add_value(builtin_functions, name, value)
-
-    builtin_functions['require'] = function(
-        lambda path: require.require(base_path, path),
-        arity=1
-    )
-    builtin_functions['require_once'] = function(
-        lambda path: require.require_once(base_path, path),
-        arity=1
-    )
-
-    return builtin_functions
-
-def get_base_path(script_path):
-    base_path = ''
-    if script_path:
-        base_path = dirname(script_path)
-
-    return base_path
-
-def get_args(base_path, args):
-    args.append(base_path)
-    return convert_args(args)
-
-def convert_args(args):
-    return [str_to_list(arg) for arg in args]
-
-def neg(a):
-    if not isinstance(a, Number):
-        raise TypeError(
-            "unsupported operand type(s) for #: '{:s}'".format(
-                type(a).__name__
-            )
-        )
-
-    return -a
-
-def add(a, b):
-    if not isinstance(a, Number) or not isinstance(b, Number):
-        raise TypeError(
-            "unsupported operand type(s) for +: '{:s}' and '{:s}'".format(
-                type(a).__name__,
-                type(b).__name__
-            )
-        )
-
-    return a + b
-
-def mul(a, b):
-    if not isinstance(a, Number) or not isinstance(b, Number):
-        raise TypeError(
-            "unsupported operand type(s) for *: '{:s}' and '{:s}'".format(
-                type(a).__name__,
-                type(b).__name__
-            )
-        )
-
-    return a * b
-
-def modulo(a, b):
-    if not isinstance(a, int) or not isinstance(b, int):
-        raise TypeError(
-            "unsupported operand type(s) for %: '{:s}' and '{:s}'".format(
-                type(a).__name__,
-                type(b).__name__
-            )
-        )
-
-    return a % b
-
-def set_function(list, index, value):
-    list_copy = copy(list)
-    list_copy[index] = value
-
-    return list_copy
-
-def print_function(str):
-    if not isinstance(str, list):
-        raise TypeError(
-            "unsupported operand type(s) for print: '{:s}'".format(
-                type(str).__name__
-            )
-        )
-
-    new_str = list_to_str(str)
-    stdout.write(new_str)
-
-    return str
-
-def to_string(value):
-    return str_to_list(str(value))
-
-def to_number(value):
-    if not isinstance(value, list):
-        raise TypeError(
-            "unsupported operand type(s) for to_num: '{:s}'".format(
-                type(value).__name__
-            )
-        )
-
-    new_value = list_to_str(value)
-    return float(new_value)
-
-def while_function(condition, body):
-    if not isinstance(condition, function) or not isinstance(body, function):
-        raise TypeError(
-            "unsupported operand type(s) for while: '{:s}' and '{:s}'".format(
-                type(condition).__name__,
-                type(body).__name__
-            )
-        )
-
-    result = nil_instance
-    while condition.handle(nil_instance):
-        result = body.handle(nil_instance)
-
-    return result
-
-def eval_function(str):
-    str = list_to_str(str)
-    return evaluate_list.evaluate_string(str)
-
-def type_function(value):
-    type_name = ''
-    if isinstance(value, nil):
-        type_name = 'nil'
-    elif isinstance(value, boolean):
-        type_name = 'bool'
+@trampoline.make_closure_trampoline_wrapper
+def _get_type_name(value):
+    name = ''
+    if value is None:
+        name = 'nil'
     elif isinstance(value, int):
-        type_name = 'int'
+        name = 'int'
     elif isinstance(value, float):
-        type_name = 'num'
-    elif isinstance(value, list):
-        type_name = 'list'
-    elif isinstance(value, function):
-        type_name = 'function'
+        name = 'num'
+    elif type_utilities.is_list(value):
+        name = 'list'
+    elif type_utilities.is_pack(value):
+        name = 'pack'
+    elif type_utilities.is_closure(value):
+        name = 'closure'
     else:
-        raise Exception(
-            "value {!s} has unknown type '{:s}'".format(
-                value,
-                type(value).__name__
-            )
-        )
+        raise Exception("the unknown type " + value.__class__.__name__)
 
-    return str_to_list(type_name)
+    return string_utilities.make_list_from_string(name)
 
-def exit_function(code):
-    if not isinstance(code, int):
-        raise TypeError(
-            "unsupported operand type(s) for exit: '{:s}'".format(
-                type(code).__name__
-            )
-        )
+@trampoline.make_closure_trampoline_wrapper
+def _get_closure_arity(value):
+    return utilities.reduce_list(value.to_array())
 
-    exit(code)
-    return nil_instance
+@trampoline.make_closure_trampoline_wrapper
+def _division(x, y):
+    quotient = x / y
+    return math.trunc(quotient) if isinstance(x, int) and isinstance(y, int) else quotient
 
-def arity_function(value):
-    if not isinstance(value, function):
-        raise TypeError(
-            "unsupported operand type(s) for arity: '{:s}'".format(
-                type(value).__name__
-            )
-        )
-
-    return value.arity
-
-builtin_functions = {
-    'nil': function(lambda: nil_instance, arity=0),
-    'floor': function(math.floor, arity=1),
-    'ceil': function(math.ceil, arity=1),
-    'trunc': function(math.trunc, arity=1),
-    '#': function(neg, arity=1),
-    '+': function(add, arity=2),
-    '-': function(sub, arity=2),
-    '*': function(mul, arity=2),
-    '/': function(div, arity=2),
-    '%': function(modulo, arity=2),
-    '==': function(lambda a, b: boolean(a == b), arity=2),
-    '!=': function(lambda a, b: boolean(a != b), arity=2),
-    '<': function(lambda a, b: boolean(float(a) < float(b)), arity=2),
-    '<=': function(lambda a, b: boolean(float(a) <= float(b)), arity=2),
-    '>': function(lambda a, b: boolean(float(a) > float(b)), arity=2),
-    '>=': function(lambda a, b: boolean(float(a) >= float(b)), arity=2),
-    'sin': function(lambda a: math.sin(float(a)), arity=1),
-    'cos': function(lambda a: math.cos(float(a)), arity=1),
-    'tn': function(lambda a: math.tan(float(a)), arity=1),
-    'arcsin': function(lambda a: math.asin(float(a)), arity=1),
-    'arccos': function(lambda a: math.acos(float(a)), arity=1),
-    'arctn': function(lambda a: math.atan(float(a)), arity=1),
-    'arctn2': function(lambda a, b: math.atan2(float(a), float(b)), arity=2),
-    'sh': function(lambda a: math.sinh(float(a)), arity=1),
-    'ch': function(lambda a: math.cosh(float(a)), arity=1),
-    'th': function(lambda a: math.tanh(float(a)), arity=1),
-    'sqrt': function(lambda a: math.sqrt(float(a)), arity=1),
-    'pow': function(lambda a, b: math.pow(float(a), float(b)), arity=2),
-    'exp': function(lambda a: math.exp(float(a)), arity=1),
-    'ln': function(lambda a: math.log(float(a)), arity=1),
-    'lg': function(lambda a: math.log10(float(a)), arity=1),
-    'abs': function(lambda a: math.fabs(float(a)), arity=1),
-    'rand': function(lambda: random(), arity=0),
-    'true': function(lambda: boolean(True), arity=0),
-    'false': function(lambda: boolean(False), arity=0),
-    '&&': function(lambda a, b: a and b, arity=2),
-    '||': function(lambda a, b: a or b, arity=2),
-    '!': function(lambda a: boolean(not a), arity=1),
-    'if': function(lambda condition, a, b: a if condition else b, arity=3),
-    '$': function(lambda: [], arity=0),
-    ':': function(lambda value, list: [value] + list, arity=2),
-    'list': function(
-        lambda number, value: [value for _ in xrange(number)],
-        arity=2
-    ),
-    'append': function(lambda list, item: list + [item], arity=2),
-    'concat': function(lambda list_1, list_2: list_1 + list_2, arity=2),
-    'get': function(lambda list, index: list[index], arity=2),
-    'set': function(set_function, arity=3),
-    'len': function(lambda list: len(list), arity=1),
-    'read': function(lambda: ord(stdin.read(1)), arity=0),
-    'print': function(print_function, arity=1),
-    'to_str': function(to_string, arity=1),
-    'to_num': function(to_number, arity=1),
-    'while': function(while_function, arity=2),
-    'eval': function(eval_function, arity=1),
-    'type': function(type_function, arity=1),
-    'exit': function(exit_function, arity=1),
-    'arity': function(arity_function, arity=1)
+BUILTIN_FUNCTIONS = {
+    'nil': function_type.make_type([], handler=lambda: None),
+    'num': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(string_utilities.make_string_from_list(x)))),
+    'type': function_type.make_type([1], handler=_get_type_name),
+    'arity': function_type.make_type([1], handler=_get_closure_arity),
+    '!': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: not x)),
+    '&&': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x and y)),
+    '||': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x or y)),
+    '==': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x == y)),
+    '!=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x != y)),
+    '<': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x < y)),
+    '<=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x <= y)),
+    '>': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x > y)),
+    '>=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x >= y)),
+    '~': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: -x)),
+    '+': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x + y)),
+    '-': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x - y)),
+    '*': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x * y)),
+    '/': function_type.make_type([2], handler=_division),
+    '%': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x % y)),
+    'floor': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.floor)),
+    'ceil': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.ceil)),
+    'trunc': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.trunc)),
+    'sin': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.sin)),
+    'cos': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.cos)),
+    'tn': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.tan)),
+    'arcsin': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.asin)),
+    'arccos': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.acos)),
+    'arctn': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.atan)),
+    'angle': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(math.atan2)),
+    'pow': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(math.pow)),
+    'sqrt': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.sqrt)),
+    'exp': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.exp)),
+    'ln': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.log)),
+    'lg': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.log10)),
+    'abs': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.fabs)),
+    'random': function_type.make_type([], handler=random.random),
+    '$': function_type.make_type([], handler=lambda: ()),
+    ',': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: (x, y))),
+    'head': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: x[0])),
+    'tail': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: x[1])),
+    'if': function_type.make_type([3], handler=lambda condition, true, false: true if trampoline.closure_trampoline(condition) else false),
+    '>@': function_type.make_type([1], handler=lambda value: (value,)),
+    '<@': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda value: value[0])),
+    '<<@': function_type.make_type([1], handler=trampoline.pack_trampoline),
+    'str': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: string_utilities.make_list_from_string(string_utilities.get_representation(x)))),
+    'in': function_type.make_type([], handler=lambda: ord(sys.stdin.read(1))),
+    'out': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: print(string_utilities.make_string_from_list(x), end=''))),
+    'err': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.stderr.write(string_utilities.make_string_from_list(x)))),
+    'exit': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.exit(x)))
 }
+
+def add_args_function(functions, options):
+    arguments = _make_script_argument_list(options)
+
+    extended_functions = functions.copy()
+    extended_functions['args'] = function_type.make_type([], handler=lambda: arguments)
+
+    return extended_functions
+
+def _make_script_argument_list(options):
+    arguments = _get_script_arguments(options)
+    return utilities.reduce_list(arguments, string_utilities.make_list_from_string)
+
+def _get_script_arguments(options):
+    script = options.script if options.script != '-' else 'stdin'
+    return [script] + options.args
+
+if __name__ == '__main__':
+    import read_code
+    import lexer
+    import preparser
+    import parser
+    import evaluate
+
+    code = read_code.read_code()
+    specific_lexer = lexer.Lexer()
+    specific_preparser = preparser.Preparser(specific_lexer)
+    preast = specific_preparser.preparse(code)
+    specific_parser = parser.Parser()
+    ast = specific_parser.parse(preast, BUILTIN_FUNCTIONS)
+    result = evaluate.evaluate(ast, BUILTIN_FUNCTIONS)
+    print(result)
+
+    for some_error in specific_lexer.get_errors() + specific_preparser.get_errors() + specific_parser.get_errors():
+        some_error.detect_position(code)
+        print(some_error)

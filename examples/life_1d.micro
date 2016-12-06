@@ -1,0 +1,122 @@
+nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
+
+fn generate(size)
+	fn _generate(size field)
+		if < 0 size
+			fn()
+				fn cell() > 0.5 random;
+				>@fn() _generate - size 1 , cell field;
+			;
+			fn() field;
+	;
+
+	<<@_generate size $
+;
+
+fn populate_cell(previous_cell current_cell next_cell)
+	fn neighbours() + previous_cell next_cell;
+	if current_cell
+		== 1 neighbours
+		== 2 neighbours
+;
+
+fn get_last_cell(field)
+	fn _get_last_cell(field)
+		if != $ tail field
+			>@fn() _get_last_cell tail field;
+			fn() head field;
+	;
+
+	<<@_get_last_cell field
+;
+
+fn reverse(field)
+	fn _reverse(old_field new_field)
+		if != $ old_field
+			>@fn() _reverse tail old_field , head old_field new_field;
+			fn() new_field;
+	;
+
+	<<@_reverse field $
+;
+
+fn populate(field)
+	fn _populate(old_front_cell old_field old_back_cell new_field)
+		if != $ old_field
+			fn()
+				fn previous_cell() old_front_cell;
+				fn current_cell() head old_field;
+				fn next_cell()
+					if != $ tail old_field
+						fn() head tail old_field;
+						fn() old_back_cell;
+				;
+				fn populated_cell()
+					populate_cell previous_cell current_cell next_cell
+				;
+				>@fn()
+					_populate
+						head old_field
+						tail old_field
+						old_back_cell
+						, populated_cell new_field
+				;
+			;
+			fn() new_field;
+	;
+
+	fn front_cell() get_last_cell field;
+	fn back_cell() head field;
+	reverse <<@_populate front_cell field back_cell $
+;
+
+fn print(field)
+	fn _print(field)
+		if != $ field
+			fn()
+				out
+					if head field
+						"#"
+						"."
+				>@fn() _print tail field;
+			;
+			fn();
+	;
+
+	<<@_print field
+	out "\n"
+;
+
+fn compare_fields(first_field second_field)
+	fn _compare_fields(first_field second_field)
+		if && == $ first_field == $ second_field
+			1
+			if || == $ first_field == $ second_field
+				0
+				fn()
+					if != head first_field head second_field
+						0
+						>@fn()
+							_compare_fields tail first_field tail second_field
+						;
+				;
+	;
+
+	<<@_compare_fields first_field second_field
+;
+
+fn iterate_populations(field)
+	fn _iterate_populations(previous_field field)
+		if !compare_fields previous_field field
+			fn()
+				print field
+				>@fn() _iterate_populations field populate field;
+			;
+			fn();
+	;
+
+	<<@_iterate_populations $ field
+;
+
+fn field() generate 80;
+iterate_populations field
