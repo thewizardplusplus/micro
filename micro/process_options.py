@@ -16,7 +16,7 @@ def _make_options_parser():
         '--version',
         action='version',
         help='- show the version message and exit',
-        version='Micro interpreter, v2.1\nCopyright (c) 2016 thewizardplusplus'
+        version='Micro interpreter, v2.1\nCopyright (c) 2016, 2017 thewizardplusplus'
     )
     parser.add_argument(
         '-h',
