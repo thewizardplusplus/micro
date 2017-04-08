@@ -38,4 +38,4 @@ Arguments:
 
 The MIT License (MIT)
 
-Copyright &copy; 2016 thewizardplusplus <thewizardplusplus@yandex.ru>
+Copyright &copy; 2016, 2017 thewizardplusplus <thewizardplusplus@yandex.ru>
