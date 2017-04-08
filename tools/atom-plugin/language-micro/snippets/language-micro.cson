@@ -2,6 +2,9 @@
 	'function':
 		'prefix': 'fn'
 		'body': 'fn$1($2)$3;$4'
+	'assignment':
+		'prefix': 'le'
+		'body': 'let $1 $2;$3'
 	'condition':
 		'prefix': 'if'
 		'body': 'if $1\n\tfn()$2;\n\tfn()$3;$4'
