@@ -15,6 +15,7 @@ Micro language support in Atom.
 Prefix | Body
 --- | ---
 fn | a function declaration
+le | an assignment
 if | a condition (a call of `if` function)
 > | a packing (a call of `>@` function with a function declaration)
 < | an unpacking (a call of `<<@` function)
@@ -24,4 +25,4 @@ if | a condition (a call of `if` function)
 
 The MIT License (MIT)
 
-Copyright &copy; 2016 thewizardplusplus <thewizardplusplus@yandex.ru>
+Copyright &copy; 2016, 2017 thewizardplusplus

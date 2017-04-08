@@ -55,6 +55,10 @@ class Preparser:
     def p_entity_function(self, node):
         node[0] = node[1]
 
+    @_rule('entity : assignment')
+    def p_entity_assignment(self, node):
+        node[0] = node[1]
+
     @_rule("function : function_declaration entity_list ';'")
     def p_function(self, node):
         node[0] = ast_node.AstNode('function', children=[node[1], node[2]])
@@ -97,12 +101,20 @@ class Preparser:
     def p_result(self, node):
         node[0] = ast_node.AstNode('result', children=[node[1]])
 
+    @_rule("assignment : assignment_declaration entity_list ';'")
+    def p_assignment(self, node):
+        node[0] = ast_node.AstNode('assignment', children=[node[1], node[2]])
+
+    @_rule("assignment_declaration : ASSIGNMENT function_name type")
+    def p_assignment_declaration(self, node):
+        node[0] = ast_node.AstNode('assignment_declaration', children=[node[2], node[3]])
+
     def p_error(self, token):
         if token is not None:
             self._errors.append(error.Error('the unexpected token {}'.format(ast_token.AstToken(token)), token.lexpos))
             self._preparser.errok()
         else:
-            self._errors.append(error.Error('the unexpected token EOF', len(self._code)))            
+            self._errors.append(error.Error('the unexpected token EOF', len(self._code)))
 
 def _process_list(name, node):
     items = []

@@ -4,7 +4,7 @@ fn generate(size)
 	fn _generate(size field)
 		if < 0 size
 			fn()
-				fn cell() > 0.5 random;
+				let cell > 0.5 random;
 				>@fn() _generate - size 1 , cell field;
 			;
 			fn() field;
@@ -14,7 +14,7 @@ fn generate(size)
 ;
 
 fn populate_cell(previous_cell current_cell next_cell)
-	fn neighbours() + previous_cell next_cell;
+	let neighbours + previous_cell next_cell;
 	if current_cell
 		== 1 neighbours
 		== 2 neighbours
@@ -44,14 +44,14 @@ fn populate(field)
 	fn _populate(old_front_cell old_field old_back_cell new_field)
 		if != $ old_field
 			fn()
-				fn previous_cell() old_front_cell;
-				fn current_cell() head old_field;
-				fn next_cell()
+				let previous_cell old_front_cell;
+				let current_cell head old_field;
+				let next_cell
 					if != $ tail old_field
 						fn() head tail old_field;
 						fn() old_back_cell;
 				;
-				fn populated_cell()
+				let populated_cell
 					populate_cell previous_cell current_cell next_cell
 				;
 				>@fn()
@@ -65,8 +65,8 @@ fn populate(field)
 			fn() new_field;
 	;
 
-	fn front_cell() get_last_cell field;
-	fn back_cell() head field;
+	let front_cell get_last_cell field;
+	let back_cell head field;
 	reverse <<@_populate front_cell field back_cell $
 ;
 
@@ -118,5 +118,5 @@ fn iterate_populations(field)
 	<<@_iterate_populations $ field
 ;
 
-fn field() generate 80;
+let field generate 80;
 iterate_populations field

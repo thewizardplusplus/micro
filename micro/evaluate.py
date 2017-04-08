@@ -23,6 +23,8 @@ def _evaluate_entity(entity, functions):
         return trampoline.closure_trampoline(functions[entity.value])
     elif entity.name == 'function':
         return _evaluate_function(entity, functions)
+    elif entity.name == 'assignment':
+        return _evaluate_assignment(entity, functions)
     elif entity.name == 'call':
         return _evaluate_call(entity, functions)
 
@@ -40,13 +42,26 @@ def _make_function_handler(function_node, functions):
     def handler(*args):
         for i, argument in enumerate(function_node.children[0].children[1].children):
             entity_type = function_type.make_type(argument.children[1])
-            entity_type.set_handler(args[i] if entity_type.arity > 0 else lambda value=args[i]: value)
+            entity_type.set_handler(_make_value_wrapper(args[i], entity_type))
 
             functions[argument.children[0].value] = entity_type
 
         return evaluate(function_node.children[1], functions)
 
     return handler
+
+def _make_value_wrapper(value, value_type):
+    return value if value_type.arity > 0 else lambda: value
+
+def _evaluate_assignment(entity, functions):
+    name, entity_type = utilities.extract_assignment(entity)
+    if name != '':
+        functions[name] = entity_type
+
+    value = evaluate(entity.children[1], functions.copy())
+    entity_type.set_handler(_make_value_wrapper(value, entity_type))
+
+    return entity_type
 
 def _evaluate_call(call, functions):
     inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)

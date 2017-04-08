@@ -9,9 +9,14 @@ entity = INTEGRAL NUMBER
 	| CHARACTER
 	| STRING
 	| identifier
+	| assignment
 	| function definition
 	| function call;
-identifier = (ALPHABETIC IDENTIFIER - "fn") | PUNCTUATION IDENTIFIER;
+key words = "fn" | "let";
+identifier = (ALPHABETIC IDENTIFIER - key words) | PUNCTUATION IDENTIFIER;
+assignment = "let", [identifier], type,
+		entity list,
+	";";
 function definition = "fn", [identifier], "(", {identifier, type}, ")", type,
 		entity list,
 	";";

@@ -46,6 +46,8 @@ class Parser:
         if not entity_type.is_callable():
             if first_entity.name == 'function':
                 self._transform_function(first_entity, functions)
+            elif first_entity.name == 'assignment':
+                self._transform_assignment(first_entity, functions)
 
             return first_entity, rest_entities
         else:
@@ -74,6 +76,13 @@ class Parser:
         for argument in entity.children[0].children[1].children:
             new_functions[argument.children[0].value] = function_type.make_type(argument.children[1])
         entity.children[1].children = self._make_calls(entity.children[1].children, new_functions)
+
+    def _transform_assignment(self, entity, functions):
+        name, entity_type = utilities.extract_assignment(entity)
+        if name != '':
+            functions[name] = entity_type
+
+        entity.children[1].children = self._make_calls(entity.children[1].children, functions.copy())
 
 def _make_call_node(entity, entity_type, parameters):
     inner_call_node = ast_node.AstNode('inner_call', children=[entity])
