@@ -6,7 +6,7 @@ import re
 import error
 
 class Lexer:
-    _keywords = {'fn' : 'FUNCTION'}
+    _keywords = {'fn': 'FUNCTION', 'let': 'ASSIGNMENT'}
 
     tokens = ['INTEGRAL_NUMBER', 'REAL_NUMBER', 'CHARACTER', 'STRING', 'IDENTIFIER'] + list(_keywords.values())
     t_INTEGRAL_NUMBER = r'\d+'
