@@ -43,6 +43,8 @@ class Parser:
             self._errors.append(error.Error('not enough arguments for the call {}'.format(first_entity), first_entity.offset))
             return None, rest_entities
 
+        if first_entity.name == 'cast':
+            self._transform_cast(first_entity, functions)
         if not entity_type.is_callable():
             if first_entity.name == 'function':
                 self._transform_function(first_entity, functions)
@@ -62,6 +64,8 @@ class Parser:
             else:
                 self._errors.append(error.Error('unknown function {}'.format(string_utilities.quote(entity.value)), entity.offset))
                 entity_type = None
+        elif entity.name == 'cast':
+            entity_type = function_type.make_type(entity.children[1])
         elif entity.name == 'call':
             entity_type = function_type.make_type(entity.children[0].children[1].children[0])
 
@@ -83,6 +87,9 @@ class Parser:
             functions[name] = entity_type
 
         entity.children[1].children = self._make_calls(entity.children[1].children, functions.copy())
+
+    def _transform_cast(self, entity, functions):
+        entity.children[0].children = self._make_calls(entity.children[0].children, functions.copy())
 
 def _make_call_node(entity, entity_type, parameters):
     inner_call_node = ast_node.AstNode('inner_call', children=[entity])
