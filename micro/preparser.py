@@ -59,6 +59,10 @@ class Preparser:
     def p_entity_assignment(self, node):
         node[0] = node[1]
 
+    @_rule('entity : cast')
+    def p_entity_cast(self, node):
+        node[0] = node[1]
+
     @_rule("function : function_declaration entity_list ';'")
     def p_function(self, node):
         node[0] = ast_node.AstNode('function', children=[node[1], node[2]])
@@ -108,6 +112,11 @@ class Preparser:
     @_rule("assignment_declaration : ASSIGNMENT function_name type")
     def p_assignment_declaration(self, node):
         node[0] = ast_node.AstNode('assignment_declaration', children=[node[2], node[3]])
+
+    @_rule("cast : CAST '(' entity_list ')' type")
+    def p_cast(self, node):
+        node[0] = ast_node.AstNode('cast', children=[node[3], node[5]])
+        node[0].set_offset(node.lexpos(1))
 
     def p_error(self, token):
         if token is not None:
