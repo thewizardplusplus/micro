@@ -5,6 +5,9 @@
 	'assignment':
 		'prefix': 'le'
 		'body': 'let $1 $2;$3'
+	'cast':
+		'prefix': 'as'
+		'body': 'as($1):$2 $3'
 	'condition':
 		'prefix': 'if'
 		'body': 'if $1\n\tfn()$2;\n\tfn()$3;$4'
