@@ -10,13 +10,15 @@ entity = INTEGRAL NUMBER
 	| STRING
 	| identifier
 	| assignment
+	| cast
 	| function definition
 	| function call;
-key words = "fn" | "let";
+key words = "fn" | "let" | "as";
 identifier = (ALPHABETIC IDENTIFIER - key words) | PUNCTUATION IDENTIFIER;
 assignment = "let", [identifier], type,
 		entity list,
 	";";
+cast = "as", "(", entity list, ")", type;
 function definition = "fn", [identifier], "(", {identifier, type}, ")", type,
 		entity list,
 	";";
