@@ -25,6 +25,8 @@ def _evaluate_entity(entity, functions):
         return _evaluate_function(entity, functions)
     elif entity.name == 'assignment':
         return _evaluate_assignment(entity, functions)
+    elif entity.name == 'cast':
+        return _evaluate_cast(entity, functions)
     elif entity.name == 'call':
         return _evaluate_call(entity, functions)
 
@@ -62,6 +64,9 @@ def _evaluate_assignment(entity, functions):
     entity_type.set_handler(_make_value_wrapper(value, entity_type))
 
     return entity_type
+
+def _evaluate_cast(entity, functions):
+    return evaluate(entity.children[0], functions.copy())
 
 def _evaluate_call(call, functions):
     inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)
