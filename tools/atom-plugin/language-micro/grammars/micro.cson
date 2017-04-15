@@ -42,7 +42,7 @@
 	}
 	{
 		'comment': 'Keywords (it should be described before functions)'
-		'match': '\\b(fn|let)\\b'
+		'match': '\\b(fn|let|as)\\b'
 		'name': 'keyword.control.statement.micro'
 	}
 	{
