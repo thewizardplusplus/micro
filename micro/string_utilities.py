@@ -18,8 +18,8 @@ def get_representation(value):
     representation = ''
     if value is None:
         representation = 'nil'
-    elif isinstance(value, bool):
-        representation = _get_boolean_representation(value)
+    elif isinstance(value, float):
+        representation = _get_number_representation(value)
     elif type_utilities.is_list(value):
         representation = _get_list_representation(value)
     elif type_utilities.is_pack(value):
@@ -27,19 +27,20 @@ def get_representation(value):
     elif type_utilities.is_closure(value):
         representation = _get_closure_representation(value)
     else:
-        representation = str(value)
+        raise Exception('the unknown type ' + value.__class__.__name__)
 
     return representation
 
 def make_list_from_string(string):
-    return utilities.reduce_list(string, ord)
+    return utilities.reduce_list(string, lambda symbol: float(ord(symbol)))
 
 def make_string_from_list(pair):
-    items = _map_list(pair, chr)
+    items = _map_list(pair, lambda symbol: chr(int(symbol)))
     return ''.join(items)
 
-def _get_boolean_representation(boolean):
-    return str(int(boolean))
+def _get_number_representation(number):
+    # must not combine a stripping
+    return str(number).rstrip('0').rstrip('.')
 
 def _get_list_representation(pair):
     items = _map_list(pair, get_representation)
