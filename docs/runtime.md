@@ -28,6 +28,7 @@
 		* `floor(x: num): num`;
 		* `ceil(x: num): num`;
 		* `trunc(x: num): int`;
+		* `round(x: num): num`;
 		* `sin(x: num): num`;
 		* `cos(x: num): num`;
 		* `tn(x: num): num`;
