@@ -12,8 +12,6 @@ def _get_type_name(value):
     name = ''
     if value is None:
         name = 'nil'
-    elif isinstance(value, int):
-        name = 'int'
     elif isinstance(value, float):
         name = 'num'
     elif type_utilities.is_list(value):
@@ -27,38 +25,29 @@ def _get_type_name(value):
 
     return string_utilities.make_list_from_string(name)
 
-@trampoline.make_closure_trampoline_wrapper
-def _get_closure_arity(value):
-    return utilities.reduce_list(value.to_array())
-
-@trampoline.make_closure_trampoline_wrapper
-def _division(x, y):
-    quotient = x / y
-    return math.trunc(quotient) if isinstance(x, int) and isinstance(y, int) else quotient
-
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
     'num': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(string_utilities.make_string_from_list(x)))),
     'type': function_type.make_type([1], handler=_get_type_name),
-    'arity': function_type.make_type([1], handler=_get_closure_arity),
-    '!': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: not x)),
+    'arity': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: utilities.reduce_list(list(map(float, x.to_array()))))),
+    '!': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(not x))),
     '&&': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x and y)),
     '||': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x or y)),
-    '==': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x == y)),
-    '!=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x != y)),
-    '<': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x < y)),
-    '<=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x <= y)),
-    '>': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x > y)),
-    '>=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x >= y)),
+    '==': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: float(x == y))),
+    '!=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: float(x != y))),
+    '<': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: float(x < y))),
+    '<=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: float(x <= y))),
+    '>': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: float(x > y))),
+    '>=': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: float(x >= y))),
     '~': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: -x)),
     '+': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x + y)),
     '-': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x - y)),
     '*': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x * y)),
-    '/': function_type.make_type([2], handler=_division),
+    '/': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x / y)),
     '%': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x % y)),
-    'floor': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.floor)),
-    'ceil': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.ceil)),
-    'trunc': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.trunc)),
+    'floor': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(math.floor(x)))),
+    'ceil': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(math.ceil(x)))),
+    'trunc': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(math.trunc(x)))),
     'round': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(round(x)))),
     'sin': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.sin)),
     'cos': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.cos)),
@@ -83,12 +72,12 @@ BUILTIN_FUNCTIONS = {
     '<@': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda value: value[0])),
     '<<@': function_type.make_type([1], handler=trampoline.pack_trampoline),
     'str': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: string_utilities.make_list_from_string(string_utilities.get_representation(x)))),
-    'in': function_type.make_type([], handler=lambda: ord(sys.stdin.read(1))),
+    'in': function_type.make_type([], handler=lambda: float(ord(sys.stdin.read(1)))),
     'out': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: print(string_utilities.make_string_from_list(x), end=''))),
     'outln': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: print(string_utilities.make_string_from_list(x)))),
     'err': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.stderr.write(string_utilities.make_string_from_list(x)))),
     'errln': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.stderr.write(string_utilities.make_string_from_list(x) + '\n'))),
-    'exit': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.exit(x)))
+    'exit': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.exit(int(x)))),
 }
 
 def add_args_function(functions, options):
