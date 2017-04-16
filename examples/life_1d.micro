@@ -1,16 +1,14 @@
 nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 
 fn generate(size)
-	fn _generate(size field)
+	<<@ as(fn _generate(size field)
 		if < 0 size
 			fn()
 				let cell > 0.5 random;
 				>@fn() _generate - size 1 , cell field;
 			;
 			fn() field;
-	;
-
-	<<@_generate size $
+	;):2 size $
 ;
 
 fn populate_cell(previous_cell current_cell next_cell)
@@ -21,27 +19,30 @@ fn populate_cell(previous_cell current_cell next_cell)
 ;
 
 fn get_last_cell(field)
-	fn _get_last_cell(field)
+	<<@ as(fn _get_last_cell(field)
 		if != $ tail field
 			>@fn() _get_last_cell tail field;
 			fn() head field;
-	;
-
-	<<@_get_last_cell field
+	;):1 field
 ;
 
 fn reverse(field)
-	fn _reverse(old_field new_field)
+	<<@ as(fn _reverse(old_field new_field)
 		if != $ old_field
 			>@fn() _reverse tail old_field , head old_field new_field;
 			fn() new_field;
-	;
-
-	<<@_reverse field $
+	;):2 field $
 ;
 
 fn populate(field)
-	fn _populate(old_front_cell old_field old_back_cell new_field)
+	let front_cell get_last_cell field;
+	let back_cell head field;
+	reverse <<@ as(fn _populate(
+		old_front_cell
+		old_field
+		old_back_cell
+		new_field
+	)
 		if != $ old_field
 			fn()
 				let previous_cell old_front_cell;
@@ -63,15 +64,11 @@ fn populate(field)
 				;
 			;
 			fn() new_field;
-	;
-
-	let front_cell get_last_cell field;
-	let back_cell head field;
-	reverse <<@_populate front_cell field back_cell $
+	;):4 front_cell field back_cell $
 ;
 
 fn print(field)
-	fn _print(field)
+	<<@ as(fn _print(field)
 		if != $ field
 			fn()
 				out
@@ -81,14 +78,12 @@ fn print(field)
 				>@fn() _print tail field;
 			;
 			fn();
-	;
-
-	<<@_print field
+	;):1 field
 	out "\n"
 ;
 
 fn compare_fields(first_field second_field)
-	fn _compare_fields(first_field second_field)
+	<<@ as(fn _compare_fields(first_field second_field)
 		if && == $ first_field == $ second_field
 			1
 			if || == $ first_field == $ second_field
@@ -100,22 +95,18 @@ fn compare_fields(first_field second_field)
 							_compare_fields tail first_field tail second_field
 						;
 				;
-	;
-
-	<<@_compare_fields first_field second_field
+	;):2 first_field second_field
 ;
 
 fn iterate_populations(field)
-	fn _iterate_populations(previous_field field)
+	<<@ as(fn _iterate_populations(previous_field field)
 		if !compare_fields previous_field field
 			fn()
 				print field
 				>@fn() _iterate_populations field populate field;
 			;
 			fn();
-	;
-
-	<<@_iterate_populations $ field
+	;):2 $ field
 ;
 
 let field generate 80;
