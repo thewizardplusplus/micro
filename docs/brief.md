@@ -195,7 +195,7 @@ fn add():0:0:2
 ```
 fn size(list)
 	fn _size(list result)
-		if != list $
+		if != [] list
 			fn() _size tail list + result 1;
 			fn() result;
 	;
@@ -209,7 +209,7 @@ fn size(list)
 ```
 fn size(list)
 	fn _size(list result)
-		if != list $
+		if != [] list
 			nb рекурсия здесь остановится...
 			>@fn() _size tail list + result 1;
 			fn() result;
