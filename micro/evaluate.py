@@ -70,33 +70,3 @@ def _evaluate_call(call, functions):
     inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)
     parameters = [_evaluate_entity(parameter, functions) for parameter in call.children[1].children]
     return trampoline.closure_trampoline(inner_function(*parameters))
-
-if __name__ == '__main__':
-    import read_code
-    import lexer
-    import preparser
-    import parser
-
-    FUNCTIONS = {
-        'ans': function_type.make_type([], handler=lambda: 42),
-        '~': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: -x)),
-        '+': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x + y)),
-        '-': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x - y)),
-        '*': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x * y)),
-        '/': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x / y)),
-        '%': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x % y))
-    }
-
-    code = read_code.read_code()
-    specific_lexer = lexer.Lexer()
-    specific_preparser = preparser.Preparser(specific_lexer)
-    preast = specific_preparser.preparse(code)
-    specific_parser = parser.Parser()
-    ast = specific_parser.parse(preast, FUNCTIONS)
-    print(ast)
-    result = evaluate(ast, FUNCTIONS)
-    print(result)
-
-    for some_error in specific_lexer.get_errors() + specific_preparser.get_errors() + specific_parser.get_errors():
-        some_error.detect_position(code)
-        print(some_error)

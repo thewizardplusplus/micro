@@ -101,28 +101,3 @@ def _make_call_node(entity, entity_type, parameters):
     call_node.set_offset(entity.offset)
 
     return call_node
-
-if __name__ == '__main__':
-    import read_code
-    import lexer
-    import preparser
-
-    FUNCTIONS = {
-        '@': function_type.make_type([]),
-        '~': function_type.make_type([1]),
-        '+': function_type.make_type([2]),
-        'rand': function_type.make_type([1, 1, 1]),
-        'range': function_type.make_type([0, 2])
-    }
-
-    code = read_code.read_code()
-    specific_lexer = lexer.Lexer()
-    specific_preparser = preparser.Preparser(specific_lexer)
-    preast = specific_preparser.preparse(code)
-    parser = Parser()
-    ast = parser.parse(preast, FUNCTIONS)
-    print(ast)
-
-    for some_error in specific_lexer.get_errors() + specific_preparser.get_errors() + parser.get_errors():
-        some_error.detect_position(code)
-        print(some_error)

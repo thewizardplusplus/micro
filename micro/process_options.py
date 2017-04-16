@@ -41,7 +41,3 @@ def _make_options_parser():
     )
 
     return parser
-
-if __name__ == '__main__':
-    options = process_options()
-    print(options)

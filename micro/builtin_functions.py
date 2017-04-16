@@ -95,23 +95,3 @@ def _make_script_argument_list(options):
 def _get_script_arguments(options):
     script = options.script if options.script != '-' else 'stdin'
     return [script] + options.args
-
-if __name__ == '__main__':
-    import read_code
-    import lexer
-    import preparser
-    import parser
-    import evaluate
-
-    code = read_code.read_code()
-    specific_lexer = lexer.Lexer()
-    specific_preparser = preparser.Preparser(specific_lexer)
-    preast = specific_preparser.preparse(code)
-    specific_parser = parser.Parser()
-    ast = specific_parser.parse(preast, BUILTIN_FUNCTIONS)
-    result = evaluate.evaluate(ast, BUILTIN_FUNCTIONS)
-    print(result)
-
-    for some_error in specific_lexer.get_errors() + specific_preparser.get_errors() + specific_parser.get_errors():
-        some_error.detect_position(code)
-        print(some_error)

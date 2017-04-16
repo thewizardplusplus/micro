@@ -137,17 +137,3 @@ def _process_list(name, node):
 
 def _process_alias(name, node, item=1):
     node[0] = ast_node.AstNode(name, value=node[item])
-
-if __name__ == '__main__':
-    import read_code
-    import lexer
-
-    code = read_code.read_code()
-    specific_lexer = lexer.Lexer()
-    preparser = Preparser(specific_lexer)
-    preast = preparser.preparse(code)
-    print(preast)
-
-    for some_error in specific_lexer.get_errors() + preparser.get_errors():
-        some_error.detect_position(code)
-        print(some_error)

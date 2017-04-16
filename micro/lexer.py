@@ -54,17 +54,3 @@ class Lexer:
     def t_error(self, token):
         self._errors.append(error.Error('the illegal character {}'.format(string_utilities.quote(token.value[0])), token.lexpos))
         self._lexer.skip(1)
-
-if __name__ == '__main__':
-    import read_code
-    import ast_token_encoder
-    import json
-
-    code = read_code.read_code()
-    lexer = Lexer()
-    tokens = lexer.tokenize(code)
-    print(json.dumps(tokens, cls=ast_token_encoder.AstTokenEncoder))
-
-    for some_error in lexer.get_errors():
-        some_error.detect_position(code)
-        print(some_error)
