@@ -1,0 +1,97 @@
+fn test(name result)
+	out ,27,'[','1','m'name
+	out ,27"[m "
+	out
+		if result
+			,27,'[','3','2','m'"[SUCCESS]"
+			,27,'[','3','1','m'"[FAILURE]"
+	out ,27"[m\n"
+;
+
+test "call" fn()
+	== 5 + 2 3
+;
+
+test "closure" fn()
+	fn add(x y)
+		+ x y
+	;
+
+	== 5 add 2 3
+;
+
+test "closure argument" fn()
+	fn apply(operation:2 x y)
+		operation x y
+	;
+
+	== 5 apply fn(x y) + x y; 2 3
+;
+
+test "currying" fn()
+	fn add(x):1
+		fn(y)
+			+ x y
+		;
+	;
+
+	== 5 add 2 3
+;
+
+test "cyclic call" fn()
+	fn answer()
+		fn()
+			42
+		;
+	;
+
+	== 42 answer
+;
+
+test "cyclic call of a closure" fn()
+	fn add():0:2
+		fn():2
+			fn(x y)
+				fn()
+					+ 2 3
+				;
+			;
+		;
+	;
+
+	== 5 add 2 3
+;
+
+test "recursion" fn()
+	fn sum(start end)
+		<<@ as(fn _sum(number limit result)
+			if < number limit
+				>@fn() _sum + 1 number limit + result number;
+				fn() result;
+		;):3 start end 0
+	;
+
+	== 8572599 sum 1234 4321
+;
+
+test "assignment" fn()
+	let number
+		+ 2 3
+	;
+
+	== 5 number
+;
+
+test "assignment of a closure" fn()
+	let add:2
+		fn(x y)
+			+ x y
+		;
+	;
+
+	== 5 add 2 3
+;
+
+test "cast" fn()
+	== 5 as(fn(x y) + x y;):2 2 3
+;
