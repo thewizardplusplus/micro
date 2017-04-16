@@ -56,4 +56,6 @@
 	* функции для ввода/вывода:
 		* `in(): int` &mdash; считывает один символ из stdin и возвращает его код;
 		* `out(string: str): nil` &mdash; выводит переданную строку в stdout;
-		* `err(string: str): nil` &mdash; выводит переданную строку в stderr.
+		* `outln(string: str): nil` &mdash; выводит переданную строку в stdout и переводит строку (добавляет символ `'\n'`);
+		* `err(string: str): nil` &mdash; выводит переданную строку в stderr;
+		* `errln(string: str): nil` &mdash; выводит переданную строку в stderr и переводит строку (добавляет символ `'\n'`).
