@@ -72,6 +72,8 @@ BUILTIN_FUNCTIONS = {
     '<@': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda value: value[0])),
     '<<@': function_type.make_type([1], handler=trampoline.pack_trampoline),
     'str': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: string_utilities.make_list_from_string(string_utilities.get_representation(x)))),
+    'strb': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: string_utilities.make_list_from_string("true" if x else "false"))),
+    'strl': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: string_utilities.make_list_from_string(string_utilities.get_string_list_representation(x)))),
     'in': function_type.make_type([], handler=lambda: float(ord(sys.stdin.read(1)))),
     'out': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: print(string_utilities.make_string_from_list(x), end=''))),
     'outln': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: print(string_utilities.make_string_from_list(x)))),

@@ -21,7 +21,7 @@ def get_representation(value):
     elif isinstance(value, float):
         representation = _get_number_representation(value)
     elif type_utilities.is_list(value):
-        representation = _get_list_representation(value)
+        representation = _get_list_representation(value, get_representation)
     elif type_utilities.is_pack(value):
         representation = _get_pack_representation(value)
     elif type_utilities.is_closure(value):
@@ -31,6 +31,9 @@ def get_representation(value):
 
     return representation
 
+def get_string_list_representation(string_list):
+    return _get_list_representation(string_list, lambda item: quote(make_string_from_list(item)))
+
 def make_list_from_string(string):
     return utilities.reduce_list(string, lambda symbol: float(ord(symbol)))
 
@@ -38,13 +41,13 @@ def make_string_from_list(pair):
     items = _map_list(pair, lambda symbol: chr(int(symbol)))
     return ''.join(items)
 
+def _get_list_representation(pair, handler):
+    items = _map_list(pair, handler)
+    return '[' + ', '.join(items) + ']'
+
 def _get_number_representation(number):
     # must not combine a stripping
     return str(number).rstrip('0').rstrip('.')
-
-def _get_list_representation(pair):
-    items = _map_list(pair, get_representation)
-    return '[' + ', '.join(items) + ']'
 
 def _get_pack_representation(pack):
     return '(' + get_representation(pack[0]) + ')'
