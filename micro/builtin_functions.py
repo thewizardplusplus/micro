@@ -59,6 +59,7 @@ BUILTIN_FUNCTIONS = {
     'floor': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.floor)),
     'ceil': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.ceil)),
     'trunc': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.trunc)),
+    'round': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(round)),
     'sin': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.sin)),
     'cos': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.cos)),
     'tn': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(math.tan)),
