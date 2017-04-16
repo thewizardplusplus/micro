@@ -11,12 +11,10 @@ def evaluate(ast, functions={}):
     return result
 
 def _evaluate_entity(entity, functions):
-    if entity.name == 'INTEGRAL_NUMBER':
-        return int(entity.value)
-    elif entity.name == 'REAL_NUMBER':
+    if entity.name == 'INTEGRAL_NUMBER' or entity.name == 'REAL_NUMBER':
         return float(entity.value)
     elif entity.name == 'CHARACTER':
-        return ord(string_utilities.unquote(entity.value))
+        return float(ord(string_utilities.unquote(entity.value)))
     elif entity.name == 'STRING':
         return string_utilities.make_list_from_string(string_utilities.unquote(entity.value))
     elif entity.name == 'IDENTIFIER':
