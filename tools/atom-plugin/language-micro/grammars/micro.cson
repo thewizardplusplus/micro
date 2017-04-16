@@ -47,7 +47,7 @@
 	}
 	{
 		'comment': 'Built-in functions (it should be described before functions)'
-		'match': '\\b(nil|num|type|arity|floor|ceil|trunc|sin|cos|tn|arcsin|arccos|arctn|angle|pow|sqrt|exp|ln|lg|abs|random|head|tail|if|str|in|out|err|exit)\\b'
+		'match': '\\b(nil|num|type|arity|floor|ceil|trunc|sin|cos|tn|arcsin|arccos|arctn|angle|pow|sqrt|exp|ln|lg|abs|random|head|tail|if|str|in|out|outln|err|errln|exit)\\b'
 		'name': 'variable.function.micro'
 	}
 	{
