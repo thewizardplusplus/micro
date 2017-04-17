@@ -1,11 +1,5 @@
 import function_type
 
-def is_closure(value):
-    return isinstance(value, function_type.FunctionType)
-
-def is_nullary_closure(value):
-    return is_closure(value) and not value.is_callable()
-
 # it shouldn't be recursive
 def is_list(value):
     return _match_tuple(value, [0, 2])
@@ -13,5 +7,28 @@ def is_list(value):
 def is_pack(value):
     return _match_tuple(value, [1])
 
+def is_closure(value):
+    return isinstance(value, function_type.FunctionType)
+
+def is_nullary_closure(value):
+    return is_closure(value) and not value.is_callable()
+
+def get_type_name(value):
+    name = ''
+    if value is None:
+        name = 'nil'
+    elif isinstance(value, float):
+        name = 'num'
+    elif is_list(value):
+        name = 'list'
+    elif is_pack(value):
+        name = 'pack'
+    elif is_closure(value):
+        name = 'closure'
+    else:
+        raise Exception("the unknown type " + value.__class__.__name__)
+
+    return name
+
 def _match_tuple(value, allowed_lengths):
-    return (isinstance(value, tuple) and len(value) in allowed_lengths)
+    return isinstance(value, tuple) and len(value) in allowed_lengths

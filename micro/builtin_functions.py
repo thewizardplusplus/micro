@@ -7,28 +7,10 @@ import function_type
 import random
 import sys
 
-@trampoline.make_closure_trampoline_wrapper
-def _get_type_name(value):
-    name = ''
-    if value is None:
-        name = 'nil'
-    elif isinstance(value, float):
-        name = 'num'
-    elif type_utilities.is_list(value):
-        name = 'list'
-    elif type_utilities.is_pack(value):
-        name = 'pack'
-    elif type_utilities.is_closure(value):
-        name = 'closure'
-    else:
-        raise Exception("the unknown type " + value.__class__.__name__)
-
-    return string_utilities.make_list_from_string(name)
-
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
     'num': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(string_utilities.make_string_from_list(x)))),
-    'type': function_type.make_type([1], handler=_get_type_name),
+    'type': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: string_utilities.make_list_from_string(type_utilities.get_type_name(x)))),
     'arity': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: utilities.reduce_list(list(map(float, x.to_array()))))),
     '!': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(not x))),
     '&&': function_type.make_type([2], handler=trampoline.make_closure_trampoline_wrapper(lambda x, y: x and y)),
