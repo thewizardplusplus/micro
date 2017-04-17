@@ -10,6 +10,8 @@ import list_utilities
 
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
+    'false': function_type.make_type([], handler=lambda: 0.0),
+    'true': function_type.make_type([], handler=lambda: 1.0),
     'num': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: float(string_utilities.make_string_from_list(x)))),
     'type': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: string_utilities.make_list_from_string(type_utilities.get_type_name(x)))),
     'arity': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: list_utilities.reduce_list(list(map(float, x.to_array()))))),
