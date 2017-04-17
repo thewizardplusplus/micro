@@ -2,7 +2,7 @@ import sys
 import process_options
 import read_code
 import lexer
-import ast_token_encoder
+import ast_token
 import json
 import preparser
 import parser
@@ -21,7 +21,7 @@ if options.target == 'tokens':
     tokens = specific_lexer.tokenize(code)
     _process_errors(specific_lexer.get_errors(), code)
 
-    print(json.dumps(tokens, cls=ast_token_encoder.AstTokenEncoder))
+    print(json.dumps(tokens, cls=ast_token.AstTokenEncoder))
     sys.exit(1 if specific_lexer.get_errors() else 0)
 
 specific_preparser = preparser.Preparser(specific_lexer)
