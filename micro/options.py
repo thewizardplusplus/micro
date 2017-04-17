@@ -1,7 +1,7 @@
 import argparse
 
 import string_utilities
-import utilities
+import list_utilities
 import function_type
 
 class HelpFormatter(
@@ -52,7 +52,7 @@ def process_options():
     return parser.parse_args()
 
 def add_args_function(functions, options):
-    arguments = utilities.reduce_list(
+    arguments = list_utilities.reduce_list(
         [options.script if options.script != '-' else 'stdin'] + options.args,
         string_utilities.make_list_from_string,
     )

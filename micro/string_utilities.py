@@ -1,6 +1,6 @@
 import re
 import type_utilities
-import utilities
+import list_utilities
 
 STRING_CHARACTER_PATTERN = r'\\["\\tn]|(?!\\)[^"]'
 
@@ -35,14 +35,14 @@ def get_string_list_representation(string_list):
     return _get_list_representation(string_list, lambda item: quote(make_string_from_list(item)))
 
 def make_list_from_string(string):
-    return utilities.reduce_list(string, lambda symbol: float(ord(symbol)))
+    return list_utilities.reduce_list(string, lambda symbol: float(ord(symbol)))
 
 def make_string_from_list(pair):
-    items = _map_list(pair, lambda symbol: chr(int(symbol)))
+    items = list_utilities.map_list(pair, lambda symbol: chr(int(symbol)))
     return ''.join(items)
 
 def _get_list_representation(pair, handler):
-    items = _map_list(pair, handler)
+    items = list_utilities.map_list(pair, handler)
     return '[' + ', '.join(items) + ']'
 
 def _get_number_representation(number):
@@ -54,13 +54,3 @@ def _get_pack_representation(pack):
 
 def _get_closure_representation(function):
     return '<closure {:#x}>'.format(id(function))
-
-def _map_list(pair, handler):
-    items = []
-    while len(pair) > 0:
-        item = handler(pair[0])
-        items.append(item)
-
-        pair = pair[1]
-
-    return items
