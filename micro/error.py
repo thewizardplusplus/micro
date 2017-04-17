@@ -1,3 +1,5 @@
+import sys
+
 class Error:
     def __init__(self, description, offset):
         self._description = description
@@ -5,7 +7,11 @@ class Error:
 
     def __str__(self):
         try:
-            return 'error({}; {}): {}'.format(self._line, self._column, self._description)
+            return 'error({}; {}): {}'.format(
+                self._line,
+                self._column,
+                self._description,
+            )
         except AttributeError:
             return 'error({}): {}'.format(self._offset, self._description)
 
@@ -13,3 +19,8 @@ class Error:
         right_code = code[0:self._offset]
         self._line = right_code.count('\n') + 1
         self._column = self._offset - right_code.rfind('\n')
+
+def process_errors(errors, code):
+    for some_error in errors:
+        some_error.detect_position(code)
+        sys.stderr.write(str(some_error) + '\n')
