@@ -81,19 +81,3 @@ BUILTIN_FUNCTIONS = {
     'errln': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.stderr.write(string_utilities.make_string_from_list(x) + '\n'))),
     'exit': function_type.make_type([1], handler=trampoline.make_closure_trampoline_wrapper(lambda x: sys.exit(int(x)))),
 }
-
-def add_args_function(functions, options):
-    arguments = _make_script_argument_list(options)
-
-    extended_functions = functions.copy()
-    extended_functions['args'] = function_type.make_type([], handler=lambda: arguments)
-
-    return extended_functions
-
-def _make_script_argument_list(options):
-    arguments = _get_script_arguments(options)
-    return utilities.reduce_list(arguments, string_utilities.make_list_from_string)
-
-def _get_script_arguments(options):
-    script = options.script if options.script != '-' else 'stdin'
-    return [script] + options.args
