@@ -7,19 +7,16 @@ class FunctionType:
     def __init__(self, arity=0, result=None, handler=_default_handler):
         self.arity = arity
         self.result = result
-        self._handler = handler
+        self.handler = handler
 
     def __call__(self, *args):
-        return self._handler(*args)
+        return self.handler(*args)
 
     def is_callable(self):
         return self.arity != 0 or ((self.result is not None) and self.result.is_callable())
 
     def get_result(self):
         return self.result if self.result is not None else FunctionType(0)
-
-    def set_handler(self, handler):
-        self._handler = handler
 
     def to_ast(self):
         arities = self.to_array()

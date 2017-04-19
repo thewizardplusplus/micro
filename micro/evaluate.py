@@ -33,16 +33,14 @@ def _evaluate_function(entity, functions):
     if name != '':
         functions[name] = entity_type
 
-    handler = _make_function_handler(entity, functions.copy())
-    entity_type.set_handler(handler)
-
+    entity_type.handler = _make_function_handler(entity, functions.copy())
     return entity_type
 
 def _make_function_handler(function_node, functions):
     def handler(*args):
         for i, argument in enumerate(function_node.children[0].children[1].children):
             entity_type = function_type.make_type(argument.children[1])
-            entity_type.set_handler(_make_value_wrapper(args[i], entity_type))
+            entity_type.handler = _make_value_wrapper(args[i], entity_type)
 
             functions[argument.children[0].value] = entity_type
 
@@ -59,7 +57,7 @@ def _evaluate_assignment(entity, functions):
         functions[name] = entity_type
 
     value = evaluate(entity.children[1], functions.copy())
-    entity_type.set_handler(_make_value_wrapper(value, entity_type))
+    entity_type.handler = _make_value_wrapper(value, entity_type)
 
     return entity_type
 
