@@ -8,16 +8,23 @@ class Parser:
     _errors = []
 
     def parse(self, preast, functions={}):
-        preast.children = self._make_calls(preast.children, functions)
+        self._transform_entity_list(preast, functions)
         return preast
 
     def get_errors(self):
         return self._errors
 
+    def _transform_entity_list(self, entity, functions):
+        entity.children = self._make_calls(entity.children, functions)
+
     def _make_calls(self, entities, functions):
         calls = []
         while len(entities) > 0:
-            call, entities = self._make_call(entities[0], entities[1:], functions)
+            call, entities = self._make_call(
+                entities[0],
+                entities[1:],
+                functions,
+            )
             if call is None:
                 continue
 
@@ -33,14 +40,24 @@ class Parser:
         parameters = []
         arity = entity_type.arity
         while arity > 0 and len(rest_entities) > 0:
-            call, rest_entities = self._make_call(rest_entities[0], rest_entities[1:], functions)
+            call, rest_entities = self._make_call(
+                rest_entities[0],
+                rest_entities[1:],
+                functions,
+            )
             if call is None:
                 continue
 
             parameters.append(call)
             arity -= 1
         if arity > 0:
-            self._errors.append(error.Error('not enough arguments for the call {}'.format(first_entity), first_entity.offset))
+            self._errors.append(
+                error.Error(
+                    'not enough arguments for the call {}'.format(first_entity),
+                    first_entity.offset,
+                ),
+            )
+
             return None, rest_entities
 
         if first_entity.name == 'cast':
@@ -62,12 +79,22 @@ class Parser:
             if entity.value in functions:
                 entity_type = functions[entity.value]
             else:
-                self._errors.append(error.Error('unknown function {}'.format(string_utilities.quote(entity.value)), entity.offset))
+                self._errors.append(
+                    error.Error(
+                        'unknown function {}'.format(
+                            string_utilities.quote(entity.value),
+                        ),
+                        entity.offset,
+                    ),
+                )
+
                 entity_type = None
         elif entity.name == 'cast':
             entity_type = function_type.make_type(entity.children[1])
         elif entity.name == 'call':
-            entity_type = function_type.make_type(entity.children[0].children[1].children[0])
+            entity_type = function_type.make_type(
+                entity.children[0].children[1].children[0],
+            )
 
         return entity_type
 
@@ -78,26 +105,35 @@ class Parser:
 
         new_functions = functions.copy()
         for argument in entity.children[0].children[1].children:
-            new_functions[argument.children[0].value] = function_type.make_type(argument.children[1])
-        entity.children[1].children = self._make_calls(entity.children[1].children, new_functions)
+            new_functions[argument.children[0].value] = function_type.make_type(
+                argument.children[1],
+            )
+
+        self._transform_entity_list(entity.children[1], new_functions)
 
     def _transform_assignment(self, entity, functions):
         name, entity_type = utilities.extract_assignment(entity)
         if name != '':
             functions[name] = entity_type
 
-        entity.children[1].children = self._make_calls(entity.children[1].children, functions.copy())
+        self._transform_entity_list(entity.children[1], functions.copy())
 
     def _transform_cast(self, entity, functions):
-        entity.children[0].children = self._make_calls(entity.children[0].children, functions.copy())
+        self._transform_entity_list(entity.children[0], functions.copy())
 
 def _make_call_node(entity, entity_type, parameters):
     inner_call_node = ast_node.AstNode('inner_call', children=[entity])
     type_node = entity_type.get_result().to_ast()
     result_node = ast_node.AstNode('result', children=[type_node])
-    inner_function_node = ast_node.AstNode('inner_function', children=[inner_call_node, result_node])
+    inner_function_node = ast_node.AstNode(
+        'inner_function',
+        children=[inner_call_node, result_node],
+    )
     parameters_node = ast_node.AstNode('parameter_list', children=parameters)
-    call_node = ast_node.AstNode('call', children=[inner_function_node, parameters_node])
+    call_node = ast_node.AstNode(
+        'call',
+        children=[inner_function_node, parameters_node],
+    )
     call_node.set_offset(entity.offset)
 
     return call_node
