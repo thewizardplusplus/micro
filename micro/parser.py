@@ -99,9 +99,7 @@ class Parser:
         return entity_type
 
     def _transform_function(self, entity, functions):
-        name, entity_type = utilities.extract_function(entity)
-        if name != '':
-            functions[name] = entity_type
+        utilities.extract_and_add_function(entity, functions)
 
         new_functions = functions.copy()
         for argument in entity.children[0].children[1].children:
@@ -112,10 +110,7 @@ class Parser:
         self._transform_entity_list(entity.children[1], new_functions)
 
     def _transform_assignment(self, entity, functions):
-        name, entity_type = utilities.extract_assignment(entity)
-        if name != '':
-            functions[name] = entity_type
-
+        utilities.extract_and_add_assignment(entity, functions)
         self._transform_entity_list(entity.children[1], functions.copy())
 
     def _transform_cast(self, entity, functions):

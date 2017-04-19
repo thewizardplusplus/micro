@@ -33,11 +33,9 @@ def _evaluate_entity(entity, functions):
         raise Exception('the unexpected entity {}'.format(entity))
 
 def _evaluate_function(entity, functions):
-    name, entity_type = utilities.extract_function(entity)
-    if name != '':
-        functions[name] = entity_type
-
+    entity_type = utilities.extract_and_add_function(entity, functions)
     entity_type.handler = _make_function_handler(entity, functions.copy())
+
     return entity_type
 
 def _make_function_handler(function_node, functions):
@@ -58,12 +56,11 @@ def _make_value_wrapper(value, value_type):
     return value if value_type.arity > 0 else lambda: value
 
 def _evaluate_assignment(entity, functions):
-    name, entity_type = utilities.extract_assignment(entity)
-    if name != '':
-        functions[name] = entity_type
-
-    value = evaluate(entity.children[1], functions.copy())
-    entity_type.handler = _make_value_wrapper(value, entity_type)
+    entity_type = utilities.extract_and_add_assignment(entity, functions)
+    entity_type.handler = _make_value_wrapper(
+        evaluate(entity.children[1], functions.copy()),
+        entity_type,
+    )
 
     return entity_type
 
