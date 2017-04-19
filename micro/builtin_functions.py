@@ -98,6 +98,10 @@ BUILTIN_FUNCTIONS = {
             string_utilities.get_string_list_representation(x),
         ),
     ),
+    'env': function_type.make_type(
+        [1],
+        handler=utilities.get_environment_variable,
+    ),
     'in': function_type.make_type(
         [],
         handler=lambda: float(ord(sys.stdin.read(1))),
