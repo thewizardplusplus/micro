@@ -1,6 +1,7 @@
 import math
 import random
 import sys
+import datetime
 
 import trampoline
 import type_utilities
@@ -101,6 +102,11 @@ BUILTIN_FUNCTIONS = {
     'env': function_type.make_type(
         [1],
         handler=utilities.get_environment_variable,
+    ),
+    'time': function_type.make_type(
+        [],
+        handler=lambda: \
+            datetime.datetime.now(datetime.timezone.utc).timestamp(),
     ),
     'in': function_type.make_type(
         [],
