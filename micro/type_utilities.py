@@ -26,7 +26,7 @@ def get_type_name(value):
     elif is_closure(value):
         name = 'closure'
     else:
-        raise Exception("the unknown type " + value.__class__.__name__)
+        raise Exception('the unknown type {}'.format(value.__class__.__name__))
 
     return name
 
