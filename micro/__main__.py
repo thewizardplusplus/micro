@@ -14,7 +14,7 @@ processed_options = options.process_options()
 code = read_code.read_code(processed_options.script)
 specific_lexer = lexer.Lexer()
 if processed_options.target == 'tokens':
-    tokens = specific_lexer.tokenize(code)
+    tokens = list(specific_lexer.tokenize(code))
     error.process_errors(specific_lexer.get_errors(), code)
 
     print(json.dumps(tokens, cls=ast_token.AstTokenEncoder))

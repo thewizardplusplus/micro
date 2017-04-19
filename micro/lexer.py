@@ -1,14 +1,27 @@
-import string_utilities
 import string
-import ply.lex
-import ast_token
 import re
+
+import string_utilities
+import ast_token
 import error
 
-class Lexer:
-    _keywords = {'fn': 'FUNCTION', 'let': 'ASSIGNMENT', 'as': 'CAST'}
+import ply.lex
 
-    tokens = ['INTEGRAL_NUMBER', 'REAL_NUMBER', 'CHARACTER', 'STRING', 'IDENTIFIER'] + list(_keywords.values())
+class Lexer:
+    _keywords = {
+        'fn': 'FUNCTION',
+        'let': 'ASSIGNMENT',
+        'as': 'CAST',
+    }
+
+    tokens = [
+        'INTEGRAL_NUMBER',
+        'REAL_NUMBER',
+        'CHARACTER',
+        'STRING',
+        'IDENTIFIER',
+    ] \
+        + list(_keywords.values())
     t_INTEGRAL_NUMBER = r'\d+'
     t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
     t_CHARACTER = r"'(\\['\\tn]|[^'\n])'"
@@ -17,7 +30,10 @@ class Lexer:
     literals = '():;'
 
     _letter = '[A-Za-z_]'
-    _punctuation = string.punctuation.translate({ord(character): None for character in '\'"_' + literals})
+    _punctuation = string.punctuation.translate({
+        ord(character): None
+        for character in '\'"_' + literals
+    })
     _errors = []
 
     def __init__(self):
@@ -31,7 +47,7 @@ class Lexer:
 
     def tokenize(self, code):
         self.input(code)
-        return [ast_token.AstToken(lex_token) for lex_token in self._lexer]
+        return (ast_token.AstToken(lex_token) for lex_token in self._lexer)
 
     def get_errors(self):
         return self._errors
@@ -52,5 +68,13 @@ class Lexer:
         return token
 
     def t_error(self, token):
-        self._errors.append(error.Error('the illegal character {}'.format(string_utilities.quote(token.value[0])), token.lexpos))
+        self._errors.append(
+            error.Error(
+                'the illegal character {}'.format(
+                    string_utilities.quote(token.value[0]),
+                ),
+                token.lexpos,
+            ),
+        )
+
         self._lexer.skip(1)
