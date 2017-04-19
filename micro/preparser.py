@@ -1,7 +1,8 @@
-import ply.yacc
 import ast_node
 import ast_token
 import error
+
+import ply.yacc
 
 def _rule(grammar):
     def set_doc(function):
@@ -49,34 +50,32 @@ class Preparser:
     @_rule('entity : IDENTIFIER')
     def p_entity_identifier(self, node):
         _process_alias('IDENTIFIER', node)
-        node[0].set_offset(node.lexpos(1))
+        _set_offset(node)
 
     @_rule('entity : function')
     def p_entity_function(self, node):
-        node[0] = node[1]
+        _process_equivalence(node)
 
     @_rule('entity : assignment')
     def p_entity_assignment(self, node):
-        node[0] = node[1]
+        _process_equivalence(node)
 
     @_rule('entity : cast')
     def p_entity_cast(self, node):
-        node[0] = node[1]
+        _process_equivalence(node)
 
     @_rule("function : function_declaration entity_list ';'")
     def p_function(self, node):
-        node[0] = ast_node.AstNode('function', children=[node[1], node[2]])
+        _process_children_set('function', node)
 
-    @_rule("function_declaration : FUNCTION function_name '(' argument_list ')' result")
+    @_rule("function_declaration : \
+        FUNCTION function_name '(' argument_list ')' result")
     def p_function_declaration(self, node):
-        node[0] = ast_node.AstNode('function_declaration', children=[node[2], node[4], node[6]])
+        _process_children_set('function_declaration', node, [2, 4, 6])
 
-    @_rule('function_name :')
-    def p_function_name_empty(self, node):
-        node[0] = ast_node.AstNode('name', value='')
-
-    @_rule('function_name : IDENTIFIER')
-    def p_function_name_nonempty(self, node):
+    @_rule('''function_name :
+        | IDENTIFIER''')
+    def p_function_name(self, node):
         _process_alias('name', node)
 
     @_rule('''argument_list :
@@ -86,7 +85,7 @@ class Preparser:
 
     @_rule('argument : argument_name type')
     def p_argument(self, node):
-        node[0] = ast_node.AstNode('argument', children=[node[1], node[2]])
+        _process_children_set('argument', node)
 
     @_rule('argument_name : IDENTIFIER')
     def p_argument_name(self, node):
@@ -103,27 +102,35 @@ class Preparser:
 
     @_rule('result : type')
     def p_result(self, node):
-        node[0] = ast_node.AstNode('result', children=[node[1]])
+        _process_children_set('result', node, [1])
 
     @_rule("assignment : assignment_declaration entity_list ';'")
     def p_assignment(self, node):
-        node[0] = ast_node.AstNode('assignment', children=[node[1], node[2]])
+        _process_children_set('assignment', node)
 
     @_rule("assignment_declaration : ASSIGNMENT function_name type")
     def p_assignment_declaration(self, node):
-        node[0] = ast_node.AstNode('assignment_declaration', children=[node[2], node[3]])
+        _process_children_set('assignment_declaration', node, [2, 3])
 
     @_rule("cast : CAST '(' entity_list ')' type")
     def p_cast(self, node):
-        node[0] = ast_node.AstNode('cast', children=[node[3], node[5]])
-        node[0].set_offset(node.lexpos(1))
+        _process_children_set('cast', node, [3, 5])
+        _set_offset(node)
 
     def p_error(self, token):
         if token is not None:
-            self._errors.append(error.Error('the unexpected token {}'.format(ast_token.AstToken(token)), token.lexpos))
+            self._errors.append(
+                error.Error(
+                    'the unexpected token {}'.format(ast_token.AstToken(token)),
+                    token.lexpos,
+                ),
+            )
+
             self._preparser.errok()
         else:
-            self._errors.append(error.Error('the unexpected token EOF', len(self._code)))
+            self._errors.append(
+                error.Error('the unexpected token EOF', len(self._code)),
+            )
 
 def _process_list(name, node):
     items = []
@@ -136,4 +143,19 @@ def _process_list(name, node):
     node[0] = ast_node.AstNode(name, children=items)
 
 def _process_alias(name, node, item=1):
-    node[0] = ast_node.AstNode(name, value=node[item])
+    node[0] = ast_node.AstNode(
+        name,
+        value=node[item] if len(node) == item+1 else '',
+    )
+
+def _set_offset(node):
+    node[0].set_offset(node.lexpos(1))
+
+def _process_equivalence(node):
+    node[0] = node[1]
+
+def _process_children_set(name, node, children_numbers=[1, 2]):
+    node[0] = ast_node.AstNode(
+        name,
+        children=[node[i] for i in children_numbers],
+    )
