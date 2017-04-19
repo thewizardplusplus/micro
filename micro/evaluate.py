@@ -16,7 +16,9 @@ def _evaluate_entity(entity, functions):
     elif entity.name == 'CHARACTER':
         return float(ord(string_utilities.unquote(entity.value)))
     elif entity.name == 'STRING':
-        return string_utilities.make_list_from_string(string_utilities.unquote(entity.value))
+        return string_utilities.make_list_from_string(
+            string_utilities.unquote(entity.value),
+        )
     elif entity.name == 'IDENTIFIER':
         return trampoline.closure_trampoline(functions[entity.value])
     elif entity.name == 'function':
@@ -27,6 +29,8 @@ def _evaluate_entity(entity, functions):
         return _evaluate_cast(entity, functions)
     elif entity.name == 'call':
         return _evaluate_call(entity, functions)
+    else:
+        raise Exception('the unexpected entity {}'.format(entity))
 
 def _evaluate_function(entity, functions):
     name, entity_type = utilities.extract_function(entity)
@@ -38,7 +42,9 @@ def _evaluate_function(entity, functions):
 
 def _make_function_handler(function_node, functions):
     def handler(*args):
-        for i, argument in enumerate(function_node.children[0].children[1].children):
+        for i, argument in enumerate(
+            function_node.children[0].children[1].children,
+        ):
             entity_type = function_type.make_type(argument.children[1])
             entity_type.handler = _make_value_wrapper(args[i], entity_type)
 
@@ -65,6 +71,12 @@ def _evaluate_cast(entity, functions):
     return evaluate(entity.children[0], functions.copy())
 
 def _evaluate_call(call, functions):
-    inner_function = _evaluate_entity(call.children[0].children[0].children[0], functions)
-    parameters = [_evaluate_entity(parameter, functions) for parameter in call.children[1].children]
+    inner_function = _evaluate_entity(
+        call.children[0].children[0].children[0],
+        functions,
+    )
+    parameters = [
+        _evaluate_entity(parameter, functions)
+        for parameter in call.children[1].children
+    ]
     return trampoline.closure_trampoline(inner_function(*parameters))
