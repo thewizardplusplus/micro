@@ -3,8 +3,9 @@ fn ansi(code text)
 ;
 
 fn test(name result)
-	out [+] ansi "1" name " "
 	outln
+		[+] ansi "1" name
+		[+] " "
 		if result
 			fn() ansi "32" "[SUCCESS]";
 			fn() ansi "31" "[FAILURE]";
@@ -68,7 +69,7 @@ test "recursion" fn()
 	fn sum(start end)
 		<<@ as(fn _sum(number limit result)
 			if < number limit
-				>@fn() _sum + 1 number limit + result number;
+				>@fn() _sum ++ number limit + result number;
 				fn() result;
 		;):3 start end 0
 	;

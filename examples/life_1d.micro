@@ -5,7 +5,7 @@ fn generate(size)
 		if < 0 size
 			fn()
 				let cell > 0.5 random;
-				>@fn() _generate - size 1 , cell field;
+				>@fn() _generate -- size , cell field;
 			;
 			fn() field;
 	;):2 size []
@@ -79,28 +79,33 @@ fn print(field)
 			;
 			fn();
 	;):1 field
+
 	out "\n"
 ;
 
 fn compare_fields(first_field second_field)
 	<<@ as(fn _compare_fields(first_field second_field)
 		if && == [] first_field == [] second_field
-			1
-			if || == [] first_field == [] second_field
-				0
-				fn()
-					if != head first_field head second_field
-						0
-						>@fn()
-							_compare_fields tail first_field tail second_field
-						;
-				;
+			fn() true;
+			fn()
+				if || == [] first_field == [] second_field
+					fn() false;
+					fn()
+						if != head first_field head second_field
+							fn() false;
+							>@fn()
+								_compare_fields
+									tail first_field
+									tail second_field
+							;
+					;
+			;
 	;):2 first_field second_field
 ;
 
 fn iterate_populations(field)
 	<<@ as(fn _iterate_populations(previous_field field)
-		if !compare_fields previous_field field
+		if ! compare_fields previous_field field
 			fn()
 				print field
 				>@fn() _iterate_populations field populate field;
