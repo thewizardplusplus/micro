@@ -24,3 +24,6 @@ def process_errors(errors, code):
     for some_error in errors:
         some_error.detect_position(code)
         sys.stderr.write(str(some_error) + '\n')
+
+    if len(errors) != 0:
+        sys.exit(1)
