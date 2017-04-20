@@ -1,11 +1,11 @@
 import string
 import re
 
+import ply.lex
+
 import string_utilities
 import ast_token
 import error
-
-import ply.lex
 
 class Lexer:
     _keywords = {
