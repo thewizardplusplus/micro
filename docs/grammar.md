@@ -29,8 +29,8 @@ SINGLE-LINE COMMENT = ? /(?<![a-z_])nb(?![:a-z_]).*/i ?;
 MULTILINE COMMENT = ? /(?<![a-z_])nb:.*?(?<![a-z_])nb;/is ?;
 INTEGRAL NUMBER = ? /\d+/ ?;
 REAL NUMBER = ? /\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))/ ?;
-CHARACTER = ? /'(\\['\\tn]|[^'\n])'/ ?;
-STRING = ? /"(\\["\\tn]|(?!\\)[^"])*"/ ?;
+CHARACTER = ? /'(\\.|[^'])'/ ?;
+STRING = ? /"(\\.|[^"])*"/ ?;
 ALPHABETIC IDENTIFIER = ? /[a-z_]+/i ?;
 PUNCTUATION IDENTIFIER = ? /[!#$%&*+,\-.\/<=>?@[\\\]^`{|}~]+/ ?;
 ```
