@@ -1,4 +1,5 @@
 import argparse
+import os
 
 import string_utilities
 import list_utilities
@@ -63,3 +64,10 @@ def add_args_function(functions, options):
             handler=lambda: arguments,
         ),
     }
+
+def get_environment_variable(name):
+    value = os.getenv(string_utilities.make_string_from_list(name))
+    if value is None:
+        return None
+
+    return string_utilities.make_list_from_string(value)

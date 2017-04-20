@@ -1,7 +1,4 @@
-import os
-
 import function_type
-import string_utilities
 
 def extract_and_add_function(entity, functions):
     entity_type = function_type.FunctionType(
@@ -25,13 +22,6 @@ def extract_and_add_assignment(entity, functions):
     )
 
     return entity_type
-
-def get_environment_variable(name):
-    value = os.getenv(string_utilities.make_string_from_list(name))
-    if value is None:
-        return None
-
-    return string_utilities.make_list_from_string(value)
 
 def _add_to_functions(functions, entity_name, entity_type):
     if entity_name != '':

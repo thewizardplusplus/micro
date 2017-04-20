@@ -6,7 +6,7 @@ import datetime
 import trampoline
 import type_utilities
 import string_utilities
-import utilities
+import options
 import function_type
 import list_utilities
 import input_utilities
@@ -111,7 +111,7 @@ BUILTIN_FUNCTIONS = {
     ),
     'env': function_type.make_type(
         [1],
-        handler=utilities.get_environment_variable,
+        handler=options.get_environment_variable,
     ),
     'time': function_type.make_type(
         [],
