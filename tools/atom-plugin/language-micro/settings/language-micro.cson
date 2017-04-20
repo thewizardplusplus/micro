@@ -3,6 +3,7 @@
 		'commentStart': 'nb ',
 		'increaseIndentPattern': '(?x)
 			\\bfn\\b[^(]*\\([^)]*\\)[^;]*$
+			| \\blet\\b[^;]*$
 			| \\(\\s*$
 			| ^\\s*\\)
 			| \\bif\\b.*$
