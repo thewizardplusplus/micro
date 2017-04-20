@@ -9,6 +9,13 @@ class AstToken:
     def __str__(self):
         return json.dumps(self, cls=AstTokenEncoder)
 
+class AstTokenList:
+    def __init__(self, tokens):
+        self.tokens = tokens
+
+    def __str__(self):
+        return json.dumps(self.tokens, cls=AstTokenEncoder)
+
 class AstTokenEncoder(json.JSONEncoder):
     def default(self, some_object):
         if not isinstance(some_object, AstToken):

@@ -47,7 +47,11 @@ class Lexer:
 
     def tokenize(self, code):
         self.input(code)
-        return (ast_token.AstToken(lex_token) for lex_token in self._lexer)
+
+        return ast_token.AstTokenList([
+            ast_token.AstToken(lex_token)
+            for lex_token in self._lexer
+        ])
 
     def get_errors(self):
         return self._errors
