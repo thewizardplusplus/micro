@@ -1,7 +1,11 @@
 import json
+import re
 
 import type_utilities
 import list_utilities
+
+HEXADECIMAL_ESCAPE_SEQUENCE = r'\\x([A-Fa-f0-9]{2})'
+_HEXADECIMAL_ESCAPE_SEQUENCE = re.compile(HEXADECIMAL_ESCAPE_SEQUENCE)
 
 def quote(string):
     return json.dumps(string)
@@ -9,6 +13,12 @@ def quote(string):
 def unquote(string):
     # force a wrapping of a string to double quotes
     string = '"{}"'.format(string[1:-1])
+    # replace ASCII hexadecimal escape sequences to Unicode hexadecimal escape
+    # sequences (for a JSON decoding)
+    string = _HEXADECIMAL_ESCAPE_SEQUENCE.sub(
+        lambda matches: r'\u00{}'.format(matches.group(1)),
+        string,
+    )
     return json.loads(string)
 
 def get_representation(value):

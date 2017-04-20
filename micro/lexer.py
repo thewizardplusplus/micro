@@ -24,8 +24,12 @@ class Lexer:
         + list(_keywords.values())
     t_INTEGRAL_NUMBER = r'\d+'
     t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
-    t_CHARACTER = r"'(\\.|[^'])'"
-    t_STRING = r'"(\\.|[^"])*"'
+    t_CHARACTER = r"'(\\.|{}|[^'])'".format(
+        string_utilities.HEXADECIMAL_ESCAPE_SEQUENCE,
+    )
+    t_STRING = r'"(\\.|{}|[^"])*"'.format(
+        string_utilities.HEXADECIMAL_ESCAPE_SEQUENCE,
+    )
     t_ignore = ' \t\n\r'
     literals = '():;'
 
