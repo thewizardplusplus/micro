@@ -1,6 +1,6 @@
 import sys
 import options
-import read_code
+import input_utilities
 import lexer
 import ast_token
 import json
@@ -11,7 +11,7 @@ import evaluate
 import error
 
 processed_options = options.process_options()
-code = read_code.read_code(processed_options.script)
+code = input_utilities.read_code(processed_options.script)
 specific_lexer = lexer.Lexer()
 if processed_options.target == 'tokens':
     tokens = list(specific_lexer.tokenize(code))
