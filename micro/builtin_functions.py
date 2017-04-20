@@ -9,6 +9,7 @@ import string_utilities
 import utilities
 import function_type
 import list_utilities
+import input_utilities
 
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
@@ -108,10 +109,7 @@ BUILTIN_FUNCTIONS = {
         handler=lambda: \
             datetime.datetime.now(datetime.timezone.utc).timestamp(),
     ),
-    'in': function_type.make_type(
-        [],
-        handler=lambda: float(ord(sys.stdin.read(1))),
-    ),
+    'in': function_type.make_type([1], handler=input_utilities.read_input),
     'out': function_type.make_type(
         [1],
         handler=lambda x: print(
