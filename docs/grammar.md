@@ -25,8 +25,8 @@ function definition = "fn", [identifier], "(", {identifier, type}, ")", type,
 type = {":", INTEGRAL NUMBER};
 function call = entity, entity, {entity};
 
-SINGLE-LINE COMMENT = ? /(?<![a-z_])nb(?![:a-z_]).*/i ?;
-MULTILINE COMMENT = ? /(?<![a-z_])nb:.*?(?<![a-z_])nb;/is ?;
+SINGLE-LINE COMMENT = ? /(?<![A-Za-z_])nb(?![:A-Za-z_]).*/ ?;
+MULTILINE COMMENT = ? /(?<![A-Za-z_])nb:.*?(?<![A-Za-z_])nb;/s ?;
 INTEGRAL NUMBER = ? /\d+/ ?;
 REAL NUMBER = ? /\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))/ ?;
 CHARACTER = ? /'(\\.|\\x[A-Fa-f0-9]{2}|[^'])'/ ?;
