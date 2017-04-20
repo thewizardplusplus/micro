@@ -26,7 +26,7 @@ class Lexer:
     t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
     t_CHARACTER = r"'(\\['\\tn]|[^'\n])'"
     t_STRING = '"({})*"'.format(string_utilities.STRING_CHARACTER_PATTERN)
-    t_ignore = ' \t\n'
+    t_ignore = ' \t\n\r'
     literals = '():;'
 
     _letter = '[A-Za-z_]'
