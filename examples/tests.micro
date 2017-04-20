@@ -95,3 +95,7 @@ test "assignment of a closure" fn()
 test "cast" fn()
 	== 5 as(fn(x y) + x y;):2 2 3
 ;
+
+test "applying of a closure" fn()
+	== 5 apply fn(x y) + x y; ,2,3[]
+;
