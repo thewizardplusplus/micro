@@ -1,35 +1,15 @@
-import re
+import json
 
 import type_utilities
 import list_utilities
 
-STRING_CHARACTER_PATTERN = r'\\.|[^"]'
-
-_ESCAPING_MAP = {
-    '"': r'\"',
-    '\\': r'\\',
-    '\t': r'\t',
-    '\n': r'\n',
-}
-_UNESCAPING_MAP = {
-    value: key
-    for key, value in _ESCAPING_MAP.items()
-}
-_STRING_CHARACTER_COMPILED_PATTERN = re.compile(STRING_CHARACTER_PATTERN)
-
 def quote(string):
-    return '"{}"'.format(
-        ''.join(
-            _ESCAPING_MAP.get(character, character)
-            for character in string
-        ),
-    )
+    return json.dumps(string)
 
 def unquote(string):
-    return _STRING_CHARACTER_COMPILED_PATTERN.sub(
-        lambda matches: _UNESCAPING_MAP.get(matches.group(), matches.group()),
-        string[1:-1],
-    )
+    # force a wrapping of a string to double quotes
+    string = '"{}"'.format(string[1:-1])
+    return json.loads(string)
 
 def get_representation(value):
     representation = ''
