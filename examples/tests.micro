@@ -1,5 +1,5 @@
 fn ansi(code text)
-	[+] ,27"[" [+] code [+] "m" [+] text ,27"[m"
+	[+] "\x1b[" [+] code [+] "m" [+] text "\x1b[m"
 ;
 
 fn test(name result)
