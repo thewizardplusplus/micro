@@ -20,7 +20,7 @@
 	}
 	{
 		'comment': 'Symbols'
-		'match': "'(?:(\\\\['\\\\tn])|[^'\\n])'"
+		'match': "'(?:(\\\\.)|[^'])'"
 		'captures':
 			'0':
 				'name': 'string.quoted.single.micro'
@@ -35,7 +35,7 @@
 		'patterns': [
 			{
 				'comment': 'Escaped symbol'
-				'match': '\\\\["\\\\tn]'
+				'match': '\\\\.'
 				'name': 'constant.character.escape.micro'
 			}
 		]
