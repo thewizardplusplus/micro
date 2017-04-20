@@ -20,11 +20,13 @@
 	}
 	{
 		'comment': 'Symbols'
-		'match': "'(?:(\\\\.)|[^'])'"
+		'match': "'(?:(\\\\.)|(\\\\x[A-Fa-f0-9]{2})|[^'])'"
 		'captures':
 			'0':
 				'name': 'string.quoted.single.micro'
 			'1':
+				'name': 'constant.character.escape.micro'
+			'2':
 				'name': 'constant.character.escape.micro'
 	}
 	{
@@ -34,8 +36,8 @@
 		'name': 'string.quoted.double.micro'
 		'patterns': [
 			{
-				'comment': 'Escaped symbol'
-				'match': '\\\\.'
+				'comment': 'Escaped symbol (a subgroups order is significant)'
+				'match': '((\\\\x[A-Fa-f0-9]{2})|(\\\\.))'
 				'name': 'constant.character.escape.micro'
 			}
 		]
