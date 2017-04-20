@@ -24,7 +24,7 @@ class Lexer:
         + list(_keywords.values())
     t_INTEGRAL_NUMBER = r'\d+'
     t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
-    t_CHARACTER = r"'(\\['\\tn]|[^'\n])'"
+    t_CHARACTER = r"'(\\.|[^'])'"
     t_STRING = '"({})*"'.format(string_utilities.STRING_CHARACTER_PATTERN)
     t_ignore = ' \t\n\r'
     literals = '():;'

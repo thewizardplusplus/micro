@@ -3,7 +3,7 @@ import re
 import type_utilities
 import list_utilities
 
-STRING_CHARACTER_PATTERN = r'\\["\\tn]|(?!\\)[^"]'
+STRING_CHARACTER_PATTERN = r'\\.|[^"]'
 
 _ESCAPING_MAP = {
     '"': r'\"',
