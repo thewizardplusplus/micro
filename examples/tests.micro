@@ -1,11 +1,13 @@
+fn ansi(code text)
+	[+] ,27"[" [+] code [+] "m" [+] text ,27"[m"
+;
+
 fn test(name result)
-	out ,27,'[','1','m'name
-	out ,27"[m "
-	out
+	out [+] ansi "1" name " "
+	outln
 		if result
-			,27,'[','3','2','m'"[SUCCESS]"
-			,27,'[','3','1','m'"[FAILURE]"
-	out ,27"[m\n"
+			fn() ansi "32" "[SUCCESS]";
+			fn() ansi "31" "[FAILURE]";
 ;
 
 test "call" fn()
