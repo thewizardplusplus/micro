@@ -1,4 +1,5 @@
 import type_utilities
+import utilities
 
 def closure_trampoline(value):
     while type_utilities.is_nullary_closure(value):
@@ -6,8 +7,8 @@ def closure_trampoline(value):
 
     return value
 
-def make_closure_trampoline_wrapper(handler):
-    return lambda *args: handler(*list(map(closure_trampoline, args)))
+def make_closure_trampoline_wrapper(function):
+    return utilities.make_arguments_processor(closure_trampoline)(function)
 
 def pack_trampoline(value):
     while type_utilities.is_pack(value):

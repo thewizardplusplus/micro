@@ -25,6 +25,11 @@ def extract_and_add_assignment(entity, functions):
 
     return entity_type
 
+def make_arguments_processor(argument_handler):
+    return lambda function: \
+        lambda *arguments: \
+            function(*list(map(argument_handler, arguments)))
+
 def _add_to_functions(functions, entity_name, entity_type):
     if entity_name != '':
         functions[entity_name] = entity_type
