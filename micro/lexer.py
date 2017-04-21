@@ -6,6 +6,7 @@ import ply.lex
 import string_utilities
 import ast_token
 import error
+import utilities
 
 class Lexer:
     _keywords = {
@@ -16,6 +17,7 @@ class Lexer:
 
     tokens = [
         'INTEGRAL_NUMBER',
+        'HEXADECIMAL_NUMBER',
         'REAL_NUMBER',
         'CHARACTER',
         'STRING',
@@ -23,6 +25,7 @@ class Lexer:
     ] \
         + list(_keywords.values())
     t_INTEGRAL_NUMBER = r'\d+'
+    t_HEXADECIMAL_NUMBER = '0x{}+'.format(utilities.HEXADECIMAL_NUMBER)
     t_REAL_NUMBER = r'\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))'
     t_CHARACTER = r"'(\\.|{}|[^'])'".format(
         string_utilities.HEXADECIMAL_ESCAPE_SEQUENCE,

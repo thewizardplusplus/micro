@@ -1,5 +1,7 @@
 import function_type
 
+HEXADECIMAL_NUMBER = '[A-Fa-f0-9]'
+
 def extract_and_add_function(entity, functions):
     entity_type = function_type.FunctionType(
         len(entity.children[0].children[1].children),

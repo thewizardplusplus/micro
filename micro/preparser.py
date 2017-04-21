@@ -35,6 +35,10 @@ class Preparser:
     def p_entity_integral_number(self, node):
         _process_alias('INTEGRAL_NUMBER', node)
 
+    @_rule('entity : HEXADECIMAL_NUMBER')
+    def p_entity_hexadecimal_number(self, node):
+        _process_alias('HEXADECIMAL_NUMBER', node)
+
     @_rule('entity : REAL_NUMBER')
     def p_entity_real_number(self, node):
         _process_alias('REAL_NUMBER', node)

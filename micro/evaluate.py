@@ -13,6 +13,8 @@ def evaluate(ast, functions={}):
 def _evaluate_entity(entity, functions):
     if entity.name == 'INTEGRAL_NUMBER' or entity.name == 'REAL_NUMBER':
         return float(entity.value)
+    elif entity.name == 'HEXADECIMAL_NUMBER':
+        return float(int(entity.value, base=16))
     elif entity.name == 'CHARACTER':
         return float(ord(string_utilities.unquote(entity.value)))
     elif entity.name == 'STRING':

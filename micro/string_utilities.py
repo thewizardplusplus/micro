@@ -3,8 +3,11 @@ import re
 
 import type_utilities
 import list_utilities
+import utilities
 
-HEXADECIMAL_ESCAPE_SEQUENCE = r'\\x([A-Fa-f0-9]{2})'
+HEXADECIMAL_ESCAPE_SEQUENCE = r'\\x({}{{2}})'.format(
+    utilities.HEXADECIMAL_NUMBER,
+)
 _HEXADECIMAL_ESCAPE_SEQUENCE = re.compile(HEXADECIMAL_ESCAPE_SEQUENCE)
 
 def quote(string):
