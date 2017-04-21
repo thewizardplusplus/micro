@@ -14,8 +14,8 @@
 		'name': 'comment.block.micro'
 	}
 	{
-		'comment': 'Numbers'
-		'match': '\\d+(\\.\\d+)?(e-?\\d+)?'
+		'comment': 'Numbers (a subgroups order is significant)'
+		'match': '(0x[A-Fa-f0-9]+)|(\\d+(\\.\\d+)?(e-?\\d+)?)'
 		'name': 'constant.numeric.micro'
 	}
 	{
