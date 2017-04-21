@@ -23,7 +23,7 @@
 	* `<=(x: num, y: num): bool` &mdash; меньше или равно;
 	* `>(x: num, y: num): bool` &mdash; больше;
 	* `>=(x: num, y: num): bool` &mdash; больше или равно;
-	* `~(x: num): num` &mdash; унарный минус;
+	* `_(x: num): num` &mdash; унарный минус;
 	* `++(x: num): num` &mdash; инкремент;
 	* `+(x: num, y: num): num` &mdash; сложение;
 	* `--(x: num): num` &mdash; декремент;
