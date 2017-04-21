@@ -1,0 +1,44 @@
+fn ansi(code text)
+	[+] "\x1b[" [+] code [+] "m" [+] text "\x1b[m"
+;
+
+fn test(name result)
+	outln
+		[+] ansi "1" name
+		[+] " "
+		if result
+			fn() ansi "32" "[SUCCESS]";
+			fn() ansi "31" "[FAILURE]";
+;
+
+test "bitwise AND" fn()
+	== 8 & 14 9
+;
+
+test "bitwise OR" fn()
+	== 15 | 14 9
+;
+
+test "bitwise XOR" fn()
+	== 7 ^ 14 9
+;
+
+test "bitwise left shift" fn()
+	== 36 << 9 2
+;
+
+test "bitwise arithmetic right shift" fn()
+	&&
+		== 2 >> 9 2
+		== _3 >> _9 2
+;
+
+test "bitwise logical right shift" fn()
+	&&
+		== 2 >>> 9 2
+		== 1073741821 >>> _9 2
+;
+
+test "bitwise NOT" fn()
+	== _10 ~ 9
+;
