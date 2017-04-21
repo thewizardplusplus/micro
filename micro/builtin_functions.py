@@ -10,6 +10,7 @@ import options
 import function_type
 import list_utilities
 import input_utilities
+import bitwise_operations
 
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
@@ -54,6 +55,22 @@ BUILTIN_FUNCTIONS = {
     '*': function_type.make_type([2], handler=lambda x, y: x * y),
     '/': function_type.make_type([2], handler=lambda x, y: x / y),
     '%': function_type.make_type([2], handler=lambda x, y: x % y),
+    '&': function_type.make_type([2], handler=bitwise_operations.bitwise_and),
+    '|': function_type.make_type([2], handler=bitwise_operations.bitwise_or),
+    '^': function_type.make_type([2], handler=bitwise_operations.bitwise_xor),
+    '<<': function_type.make_type(
+        [2],
+        handler=bitwise_operations.bitwise_left_shift,
+    ),
+    '>>': function_type.make_type(
+        [2],
+        handler=bitwise_operations.bitwise_arithmetic_right_shift,
+    ),
+    '>>>': function_type.make_type(
+        [2],
+        handler=bitwise_operations.bitwise_logical_right_shift,
+    ),
+    '~': function_type.make_type([1], handler=bitwise_operations.bitwise_not),
     'floor': function_type.make_type(
         [1],
         handler=lambda x: float(math.floor(x)),
