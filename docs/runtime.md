@@ -31,6 +31,14 @@
 	* `*(x: num, y: num): num` &mdash; умножение;
 	* `/(x: num, y: num): num` &mdash; деление;
 	* `%(x: num, y: num): num` &mdash; остаток от деления;
+	* битовые функции:
+		* `&(x: num, y: num): num` &mdash; побитовое И;
+		* `|(x: num, y: num): num` &mdash; побитовое ИЛИ;
+		* `^(x: num, y: num): num` &mdash; побитовое исключающее ИЛИ;
+		* `<<(x: num, y: num): num` &mdash; сдвиг влево;
+		* `>>(x: num, y: num): num` &mdash; арифметический сдвиг вправо;
+		* `>>>(x: num, y: num): num` &mdash; логический сдвиг вправо;
+		* `~(x: num): num` &mdash; побитовое НЕ;
 	* математические функции:
 		* `floor(x: num): num`;
 		* `ceil(x: num): num`;
