@@ -46,7 +46,7 @@ BUILTIN_FUNCTIONS = {
     '<=': function_type.make_type([2], handler=lambda x, y: float(x <= y)),
     '>': function_type.make_type([2], handler=lambda x, y: float(x > y)),
     '>=': function_type.make_type([2], handler=lambda x, y: float(x >= y)),
-    '~': function_type.make_type([1], handler=lambda x: -x),
+    '_': function_type.make_type([1], handler=lambda x: -x),
     '++': function_type.make_type([1], handler=lambda x: x + 1),
     '+': function_type.make_type([2], handler=lambda x, y: x + y),
     '--': function_type.make_type([1], handler=lambda x: x - 1),
