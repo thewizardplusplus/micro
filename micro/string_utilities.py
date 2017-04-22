@@ -8,17 +8,27 @@ import utilities
 HEXADECIMAL_ESCAPE_SEQUENCE = r'\\x({}{{2}})'.format(
     utilities.HEXADECIMAL_NUMBER,
 )
-_HEXADECIMAL_ESCAPE_SEQUENCE = re.compile(HEXADECIMAL_ESCAPE_SEQUENCE)
+
+_UNICODE_HEXADECIMAL_ESCAPE_SEQUENCE = re.compile(
+    r'\\u00({}{{2}})'.format(utilities.HEXADECIMAL_NUMBER),
+)
+_ASCII_HEXADECIMAL_ESCAPE_SEQUENCE = re.compile(HEXADECIMAL_ESCAPE_SEQUENCE)
 
 def quote(string):
-    return json.dumps(string)
+    string = json.dumps(string)
+    # replace Unicode hexadecimal escape sequences to ASCII hexadecimal escape
+    # sequences (after a JSON encoding)
+    return _UNICODE_HEXADECIMAL_ESCAPE_SEQUENCE.sub(
+        lambda matches: r'\x{}'.format(matches.group(1)),
+        string,
+    )
 
 def unquote(string):
     # force a wrapping of a string to double quotes
     string = '"{}"'.format(string[1:-1])
     # replace ASCII hexadecimal escape sequences to Unicode hexadecimal escape
-    # sequences (for a JSON decoding)
-    string = _HEXADECIMAL_ESCAPE_SEQUENCE.sub(
+    # sequences (before a JSON decoding)
+    string = _ASCII_HEXADECIMAL_ESCAPE_SEQUENCE.sub(
         lambda matches: r'\u00{}'.format(matches.group(1)),
         string,
     )
