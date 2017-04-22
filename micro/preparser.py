@@ -149,7 +149,7 @@ def _process_list(name, node):
 def _process_alias(name, node, item=1):
     node[0] = ast_node.AstNode(
         name,
-        value=node[item] if len(node) == item+1 else '',
+        value=node[item] if len(node) > item else '',
     )
 
 def _set_offset(node):
