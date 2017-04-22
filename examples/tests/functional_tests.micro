@@ -5,13 +5,13 @@ let ANSI_CODES
 {};
 
 fn ansi(code text)
-	[+] "\x1b[" [+] . code ANSI_CODES [+] "m" [+] text "\x1b[m"
+	+ "\x1b[" + . code ANSI_CODES + "m" + text "\x1b[m"
 ;
 
 fn test(name result)
 	outln
-		[+] ansi "bold" name
-		[+] " "
+		+ ansi "bold" name
+		+ " "
 		if result
 			fn() ansi "green" "[SUCCESS]";
 			fn() ansi "red" "[FAILURE]";
