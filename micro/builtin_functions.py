@@ -147,6 +147,25 @@ BUILTIN_FUNCTIONS = {
             string_utilities.get_string_list_representation(x),
         ),
     ),
+    'strh': function_type.make_type(
+        [1],
+        handler=lambda x: string_utilities.make_list_from_string(
+            string_utilities.get_hash_representation(
+                x,
+                string_utilities.get_string_representation,
+            ),
+        ),
+    ),
+    'strhh': function_type.make_type(
+        [1],
+        handler=lambda x: string_utilities.make_list_from_string(
+            string_utilities.get_hash_representation(
+                x,
+                string_utilities.get_string_representation,
+                string_utilities.get_string_representation,
+            ),
+        ),
+    ),
     'env': function_type.make_type(
         [1],
         handler=options.get_environment_variable,

@@ -43,11 +43,11 @@ def get_representation(value):
 
     return representation
 
+def get_string_representation(pair):
+    return quote(make_string_from_list(pair))
+
 def get_string_list_representation(string_list):
-    return _get_list_representation(
-        string_list,
-        lambda item: quote(make_string_from_list(item)),
-    )
+    return _get_list_representation(string_list, get_string_representation)
 
 def get_hash_representation(
     hash_,
