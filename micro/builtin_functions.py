@@ -11,6 +11,7 @@ import function_type
 import list_utilities
 import input_utilities
 import bitwise_operations
+import utilities
 
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
@@ -162,8 +163,9 @@ BUILTIN_FUNCTIONS = {
     'exit': function_type.make_type([1], handler=lambda x: sys.exit(int(x))),
 }
 _NOT_TRAMPOLINED_FUNCTIONS = ['if', '>@']
+_CLOSURE_TRAMPOLINE_WRAPPER = utilities.make_arguments_processor(
+    trampoline.closure_trampoline,
+)
 for name, entity_type in BUILTIN_FUNCTIONS.items():
     if name not in _NOT_TRAMPOLINED_FUNCTIONS and entity_type.arity > 0:
-        entity_type.handler = trampoline.make_closure_trampoline_wrapper(
-            entity_type.handler,
-        )
+        entity_type.handler = _CLOSURE_TRAMPOLINE_WRAPPER(entity_type.handler)
