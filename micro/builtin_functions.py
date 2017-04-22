@@ -101,6 +101,26 @@ BUILTIN_FUNCTIONS = {
     '[+]': function_type.make_type([2], handler=list_utilities.concatenate),
     'head': function_type.make_type([1], handler=lambda x: x[0]),
     'tail': function_type.make_type([1], handler=lambda x: x[1]),
+    '{}': function_type.make_type([], handler=lambda: {}),
+    '#': function_type.make_type(
+        [3],
+        handler=lambda new_key, new_value, hash_: {
+            **hash_,
+            new_key: new_value,
+        } if new_value is not None else {
+            key: value
+            for key, value in hash_.items()
+            if key != new_key
+        },
+    ),
+    '.': function_type.make_type(
+        [2],
+        handler=lambda key, hash_: hash_.get(key),
+    ),
+    'keys': function_type.make_type(
+        [1],
+        handler=lambda hash_: list_utilities.reduce_list(list(hash_.keys())),
+    ),
     'if': function_type.make_type(
         [3],
         handler=lambda condition, true, false: \
