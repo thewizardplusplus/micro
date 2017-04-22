@@ -1,0 +1,36 @@
+let ANSI_CODES
+	#"bold" "1"
+	#"red" "31"
+	#"green" "32"
+{};
+
+fn ansi(code text)
+	[+] "\x1b[" [+] . code ANSI_CODES [+] "m" [+] text "\x1b[m"
+;
+
+fn test(name result)
+	outln
+		[+] ansi "bold" name
+		[+] " "
+		if result
+			fn() ansi "green" "[SUCCESS]";
+			fn() ansi "red" "[FAILURE]";
+;
+
+test "applying of a closure" fn()
+	== 5 apply fn(x y) + x y; ,2,3[]
+;
+
+test "use of a hash as an object" fn()
+	let adder
+		#"sum" 0
+		#"add" fn(this number)
+			let sum + ."sum"this number;
+			#"sum" sum this
+		;
+	{};
+
+	let added_two as(."add"adder):2 adder 2;
+	let added_three as(."add"adder):2 added_two 3;
+	== 5 ."sum"added_three
+;
