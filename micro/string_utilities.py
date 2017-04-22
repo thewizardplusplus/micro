@@ -32,6 +32,8 @@ def get_representation(value):
         representation = _get_number_representation(value)
     elif type_utilities.is_list(value):
         representation = _get_list_representation(value, get_representation)
+    elif isinstance(value, dict):
+        representation = get_hash_representation(value)
     elif type_utilities.is_pack(value):
         representation = _get_pack_representation(value)
     elif type_utilities.is_closure(value):
@@ -46,6 +48,16 @@ def get_string_list_representation(string_list):
         string_list,
         lambda item: quote(make_string_from_list(item)),
     )
+
+def get_hash_representation(
+    hash_,
+    key_handler=get_representation,
+    value_handler=get_representation,
+):
+    return '{{{}}}'.format(', '.join([
+        '{}: {}'.format(key_handler(key), value_handler(value))
+        for key, value in hash_.items()
+    ]))
 
 def make_list_from_string(string):
     return list_utilities.reduce_list(string, lambda symbol: float(ord(symbol)))
