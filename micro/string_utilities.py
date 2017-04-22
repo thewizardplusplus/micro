@@ -39,15 +39,16 @@ def get_representation(value):
     if value is None:
         representation = 'nil'
     elif isinstance(value, float):
-        representation = _get_number_representation(value)
+        # must not combine a stripping
+        representation = str(value).rstrip('0').rstrip('.')
     elif type_utilities.is_list(value):
         representation = get_list_representation(value)
     elif isinstance(value, dict):
         representation = get_hash_representation(value)
     elif type_utilities.is_pack(value):
-        representation = _get_pack_representation(value)
+        representation = '({})'.format(get_representation(value[0]))
     elif type_utilities.is_closure(value):
-        representation = _get_closure_representation(value)
+        representation = '<closure {:#x}>'.format(id(value))
     else:
         raise Exception('the unknown type {}'.format(value.__class__.__name__))
 
@@ -76,13 +77,3 @@ def make_string_from_list(pair):
     return ''.join(
         list_utilities.map_list(pair, lambda symbol: chr(int(symbol))),
     )
-
-def _get_number_representation(number):
-    # must not combine a stripping
-    return str(number).rstrip('0').rstrip('.')
-
-def _get_pack_representation(pack):
-    return '({})'.format(get_representation(pack[0]))
-
-def _get_closure_representation(function):
-    return '<closure {:#x}>'.format(id(function))
