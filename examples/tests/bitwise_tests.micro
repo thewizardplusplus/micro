@@ -1,14 +1,20 @@
+let ANSI_CODES
+	#"bold" "1"
+	#"red" "31"
+	#"green" "32"
+{};
+
 fn ansi(code text)
-	[+] "\x1b[" [+] code [+] "m" [+] text "\x1b[m"
+	[+] "\x1b[" [+] . code ANSI_CODES [+] "m" [+] text "\x1b[m"
 ;
 
 fn test(name result)
 	outln
-		[+] ansi "1" name
+		[+] ansi "bold" name
 		[+] " "
 		if result
-			fn() ansi "32" "[SUCCESS]";
-			fn() ansi "31" "[FAILURE]";
+			fn() ansi "green" "[SUCCESS]";
+			fn() ansi "red" "[FAILURE]";
 ;
 
 test "bitwise AND" fn()
