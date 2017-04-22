@@ -7,6 +7,10 @@
 	* `&&(x: any, y: any): bool` &mdash; конъюнкция;
 	* `||(x: any, y: any): bool` &mdash; дизъюнкция;
 	* `if(condition: bool, true_value: any, false_value: any): bool` &mdash; выбор: если `condition` истинно, возвращает `true_value`, иначе &mdash; `false_value`;
+	* `+(x: num|list<any>|hash<any, any>, y: num|list<any>|hash<any, any>): num|list<any>|hash<any, any>` &mdash; возвращает результат комбинирования переданных аргументов:
+		* если оба аргумента имеют тип `num`, то функция возвращает результат их сложения;
+		* если оба аргумента имеют тип `list<any>`, то функция возвращает результат их конкатенации;
+		* если оба аргумента имеют тип `hash<any, any>`, то функция возвращает результат их слияния;
 	* функции для работы с типами:
 		* `nil(): nil` &mdash; возвращает значение нулевого типа;
 		* `false(): bool` &mdash; возвращает ложное логическое значение (число 0);
@@ -21,7 +25,6 @@
 	* `>=(x: num, y: num): bool` &mdash; больше или равно;
 	* `_(x: num): num` &mdash; унарный минус;
 	* `++(x: num): num` &mdash; инкремент;
-	* `+(x: num, y: num): num` &mdash; сложение;
 	* `--(x: num): num` &mdash; декремент;
 	* `-(x: num, y: num): num` &mdash; вычитание;
 	* `*(x: num, y: num): num` &mdash; умножение;
@@ -57,7 +60,6 @@
 * функции для работы со списками:
 	* `[](): list<any>` &mdash; возвращает пустой список;
 	* `,(head: any, tail: list<any>): list<any>` &mdash; конструирует новый список из переданных головы и хвоста;
-	* `[+](list_1: list<any>, list_2: list<any>): list<any>` &mdash; возвращает результат конкатенации двух переданных списков;
 	* `head(list: list<any>): any` &mdash; возвращает голову переданного списка;
 	* `tail(list: list<any>): list<any>` &mdash; возвращает хвост переданного списка;
 * функции для работы со строками:
