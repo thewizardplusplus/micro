@@ -31,7 +31,7 @@ def get_representation(value):
     elif isinstance(value, float):
         representation = _get_number_representation(value)
     elif type_utilities.is_list(value):
-        representation = _get_list_representation(value, get_representation)
+        representation = get_list_representation(value)
     elif isinstance(value, dict):
         representation = get_hash_representation(value)
     elif type_utilities.is_pack(value):
@@ -46,8 +46,8 @@ def get_representation(value):
 def get_string_representation(pair):
     return quote(make_string_from_list(pair))
 
-def get_string_list_representation(string_list):
-    return _get_list_representation(string_list, get_string_representation)
+def get_list_representation(pair, item_handler=get_representation):
+    return '[{}]'.format(', '.join(list_utilities.map_list(pair, item_handler)))
 
 def get_hash_representation(
     hash_,
@@ -66,9 +66,6 @@ def make_string_from_list(pair):
     return ''.join(
         list_utilities.map_list(pair, lambda symbol: chr(int(symbol))),
     )
-
-def _get_list_representation(pair, handler):
-    return '[{}]'.format(', '.join(list_utilities.map_list(pair, handler)))
 
 def _get_number_representation(number):
     # must not combine a stripping

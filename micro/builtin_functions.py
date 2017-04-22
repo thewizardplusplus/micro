@@ -144,7 +144,10 @@ BUILTIN_FUNCTIONS = {
     'strl': function_type.make_type(
         [1],
         handler=lambda x: string_utilities.make_list_from_string(
-            string_utilities.get_string_list_representation(x),
+            string_utilities.get_list_representation(
+                x,
+                string_utilities.get_string_representation,
+            ),
         ),
     ),
     'strh': function_type.make_type(
