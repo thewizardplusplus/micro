@@ -21,6 +21,8 @@ def get_type_name(value):
         name = 'num'
     elif is_list(value):
         name = 'list'
+    elif isinstance(value, dict):
+        name = 'hash'
     elif is_pack(value):
         name = 'pack'
     elif is_closure(value):
