@@ -50,7 +50,6 @@ BUILTIN_FUNCTIONS = {
     '>=': function_type.make_type([2], handler=lambda x, y: float(x >= y)),
     '_': function_type.make_type([1], handler=lambda x: -x),
     '++': function_type.make_type([1], handler=lambda x: x + 1),
-    '+': function_type.make_type([2], handler=lambda x, y: x + y),
     '--': function_type.make_type([1], handler=lambda x: x - 1),
     '-': function_type.make_type([2], handler=lambda x, y: x - y),
     '*': function_type.make_type([2], handler=lambda x, y: x * y),
@@ -98,7 +97,6 @@ BUILTIN_FUNCTIONS = {
     'random': function_type.make_type([], handler=random.random),
     '[]': function_type.make_type([], handler=lambda: ()),
     ',': function_type.make_type([2], handler=lambda x, y: (x, y)),
-    '[+]': function_type.make_type([2], handler=list_utilities.concatenate),
     'head': function_type.make_type([1], handler=lambda x: x[0]),
     'tail': function_type.make_type([1], handler=lambda x: x[1]),
     '{}': function_type.make_type([], handler=lambda: {}),
@@ -126,6 +124,7 @@ BUILTIN_FUNCTIONS = {
         handler=lambda condition, true, false: \
             true if trampoline.closure_trampoline(condition) else false,
     ),
+    '+': function_type.make_type([2], handler=type_utilities.combine),
     '>@': function_type.make_type([1], handler=lambda value: (value,)),
     '<@': function_type.make_type([1], handler=lambda value: value[0]),
     '<<@': function_type.make_type([1], handler=trampoline.pack_trampoline),
