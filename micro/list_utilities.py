@@ -15,5 +15,13 @@ def map_list(some_pair, handler=None, base_list=[]):
 
     return items
 
+def get_list_size(some_pair):
+    size = 0
+    while len(some_pair) > 0:
+        _, some_pair = some_pair
+        size += 1
+
+    return size
+
 def _handle_item(item, handler):
     return handler(item) if handler is not None else item

@@ -54,5 +54,22 @@ def combine(value_1, value_2):
 
     return result
 
+def get_size(value):
+    size = ''
+    if is_list(value):
+        size = float(list_utilities.get_list_size(value))
+    elif isinstance(value, dict):
+        size = float(len(value))
+    elif is_pack(value):
+        size = 1.0
+    else:
+        raise Exception(
+            'unable to get a size of the type {}'.format(
+                value.__class__.__name__,
+            ),
+        )
+
+    return size
+
 def _match_tuple(value, allowed_lengths):
     return isinstance(value, tuple) and len(value) in allowed_lengths
