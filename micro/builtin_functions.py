@@ -185,6 +185,10 @@ BUILTIN_FUNCTIONS = {
             datetime.datetime.now(datetime.timezone.utc).timestamp(),
     ),
     'in': function_type.make_type([1], handler=input_utilities.read_input),
+    'inln': function_type.make_type(
+        [1],
+        handler=input_utilities.read_input_line,
+    ),
     'out': function_type.make_type(
         [1],
         handler=lambda x: print(
