@@ -41,6 +41,10 @@ def make_type(value, handler=_default_handler):
         arities = [int(arity_node.value) for arity_node in value.children]
     elif isinstance(value, list):
         arities = value
+    else:
+        raise Exception(
+            'the incorrect type descriptor {}'.format(value.__class__.__name__),
+        )
 
     return _make_type_from_raw_array(_simplify_type(arities), handler)
 
