@@ -47,7 +47,7 @@
 	}
 	{
 		'comment': 'Built-in functions (it should be described before functions)'
-		'match': '\\b(nil|false|true|num|type|arity|apply|_|floor|ceil|trunc|round|sin|cos|tn|arcsin|arccos|arctn|angle|pow|sqrt|exp|ln|lg|abs|random|head|tail|keys|if|size|str|strb|strs|strl|strh|strhh|args|env|time|in|out|outln|err|errln|exit)\\b'
+		'match': '\\b(nil|false|true|num|type|arity|apply|_|floor|ceil|trunc|round|sin|cos|tn|arcsin|arccos|arctn|angle|pow|sqrt|exp|ln|lg|abs|random|head|tail|keys|if|size|str|strb|strs|strl|strh|strhh|args|env|time|in|inln|out|outln|err|errln|exit)\\b'
 		'name': 'variable.function.micro'
 	}
 	{
