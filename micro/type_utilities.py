@@ -55,9 +55,11 @@ def combine(value_1, value_2):
     return result
 
 def get_size(value):
-    size = ''
+    size = 0.0
     if is_list(value):
-        size = float(list_utilities.get_list_size(value))
+        while len(value) > 0:
+            _, value = value
+            size += 1.0
     elif isinstance(value, dict):
         size = float(len(value))
     elif is_pack(value):
