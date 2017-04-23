@@ -34,7 +34,7 @@ def get_type_name(value):
     return name
 
 def combine(value_1, value_2):
-    result = ''
+    result = None
     if isinstance(value_1, float) and isinstance(value_2, float):
         result = value_1 + value_2
     elif is_list(value_1) and is_list(value_2):
