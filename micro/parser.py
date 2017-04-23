@@ -38,8 +38,7 @@ class Parser:
             return None, rest_entities
 
         parameters = []
-        arity = entity_type.arity
-        while arity > 0 and len(rest_entities) > 0:
+        while len(parameters) < entity_type.arity and len(rest_entities) > 0:
             call, rest_entities = self._make_call(
                 rest_entities[0],
                 rest_entities[1:],
@@ -49,8 +48,7 @@ class Parser:
                 continue
 
             parameters.append(call)
-            arity -= 1
-        if arity > 0:
+        if len(parameters) < entity_type.arity:
             self._errors.append(
                 error.Error(
                     'not enough arguments for the call {}'.format(first_entity),
@@ -70,8 +68,11 @@ class Parser:
 
             return first_entity, rest_entities
         else:
-            call = _make_call_node(first_entity, entity_type, parameters)
-            return self._make_call(call, rest_entities, functions)
+            return self._make_call(
+                _make_call_node(first_entity, entity_type, parameters),
+                rest_entities,
+                functions,
+            )
 
     def _get_type(self, entity, functions):
         entity_type = function_type.make_type([])
@@ -117,18 +118,15 @@ class Parser:
         self._transform_entity_list(entity.children[0], functions.copy())
 
 def _make_call_node(entity, entity_type, parameters):
-    inner_call_node = ast_node.AstNode('inner_call', children=[entity])
-    type_node = entity_type.get_result().to_ast()
-    result_node = ast_node.AstNode('result', children=[type_node])
-    inner_function_node = ast_node.AstNode(
-        'inner_function',
-        children=[inner_call_node, result_node],
-    )
-    parameters_node = ast_node.AstNode('parameter_list', children=parameters)
-    call_node = ast_node.AstNode(
-        'call',
-        children=[inner_function_node, parameters_node],
-    )
+    call_node = ast_node.AstNode('call', children=[
+        ast_node.AstNode('inner_function', children=[
+            ast_node.AstNode('inner_call', children=[entity]),
+            ast_node.AstNode('result', children=[
+                entity_type.get_result().to_ast(),
+            ]),
+        ]),
+        ast_node.AstNode('parameter_list', children=parameters),
+    ])
     call_node.set_offset(entity.offset)
 
     return call_node
