@@ -4,6 +4,9 @@ import utilities
 import trampoline
 
 def evaluate(ast, functions={}):
+    return _evaluate_entity_list(ast, functions.copy())
+
+def _evaluate_entity_list(ast, functions):
     result = None
     for entity in ast.children:
         result = _evaluate_entity(entity, functions)
@@ -50,7 +53,7 @@ def _make_function_handler(function_node, functions):
 
             functions[argument.children[0].value] = entity_type
 
-        return evaluate(function_node.children[1], functions)
+        return _evaluate_entity_list(function_node.children[1], functions)
 
     return handler
 
@@ -62,14 +65,14 @@ def _evaluate_assignment(entity, functions):
 
     entity_type = utilities.extract_and_add_assignment(entity, functions)
     entity_type.handler = _make_value_wrapper(
-        evaluate(entity.children[1], new_functions),
+        _evaluate_entity_list(entity.children[1], new_functions),
         entity_type,
     )
 
     return entity_type
 
 def _evaluate_cast(entity, functions):
-    return evaluate(entity.children[0], functions.copy())
+    return _evaluate_entity_list(entity.children[0], functions.copy())
 
 def _evaluate_call(call, functions):
     inner_function = _evaluate_entity(
