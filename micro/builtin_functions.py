@@ -12,6 +12,7 @@ import list_utilities
 import input_utilities
 import bitwise_operations
 import utilities
+import error
 
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
@@ -206,7 +207,7 @@ BUILTIN_FUNCTIONS = {
             string_utilities.make_string_from_list(x) + '\n',
         ),
     ),
-    'exit': function_type.make_type([1], handler=lambda x: sys.exit(int(x))),
+    'exit': function_type.make_type([1], handler=error.exit),
 }
 _NOT_TRAMPOLINED_FUNCTIONS = ['if', '>@']
 _CLOSURE_TRAMPOLINE_WRAPPER = utilities.make_arguments_processor(
