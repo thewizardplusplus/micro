@@ -4,9 +4,9 @@
 	* `==(x: any, y: any): bool` &mdash; равенство;
 	* `!=(x: any, y: any): bool` &mdash; неравенство;
 	* `!(x: any): bool` &mdash; логическое отрицание;
-	* `&&(x: any, y: any): bool` &mdash; конъюнкция;
-	* `||(x: any, y: any): bool` &mdash; дизъюнкция;
-	* `if(condition: bool, true_value: any, false_value: any): bool` &mdash; выбор: если `condition` истинно, возвращает `true_value`, иначе &mdash; `false_value`;
+	* `&&(x: any, y: any): bool` &mdash; конъюнкция; функция является ленивой &mdash; `y` вычисляется только при необходимости (то есть когда `x` истинен);
+	* `||(x: any, y: any): bool` &mdash; дизъюнкция; функция является ленивой &mdash; `y` вычисляется только при необходимости (то есть когда `x` ложен);
+	* `if(condition: bool, true_value: any, false_value: any): bool` &mdash; выбор: если `condition` истинно, возвращает `true_value`, иначе &mdash; `false_value`; функция является ленивой &mdash; вычисляется только возвращаемое значение;
 	* `+(x: num|list<any>|hash<any, any>, y: num|list<any>|hash<any, any>): num|list<any>|hash<any, any>` &mdash; возвращает результат комбинирования переданных аргументов:
 		* если оба аргумента имеют тип `num`, то функция возвращает результат их сложения;
 		* если оба аргумента имеют тип `list<any>`, то функция возвращает результат их конкатенации;
