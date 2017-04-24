@@ -111,8 +111,10 @@ class Parser:
         self._transform_entity_list(entity.children[1], new_functions)
 
     def _transform_assignment(self, entity, functions):
+        new_functions = functions.copy()
         utilities.extract_and_add_assignment(entity, functions)
-        self._transform_entity_list(entity.children[1], functions.copy())
+
+        self._transform_entity_list(entity.children[1], new_functions)
 
     def _transform_cast(self, entity, functions):
         self._transform_entity_list(entity.children[0], functions.copy())
