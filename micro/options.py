@@ -61,7 +61,7 @@ def add_args_function(functions, options):
         string_utilities.make_list_from_string,
     )
     return {
-        **functions.copy(),
+        **functions,
         'args': function_type.make_type(
             [],
             handler=lambda: arguments,
