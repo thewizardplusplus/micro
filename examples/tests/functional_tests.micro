@@ -20,9 +20,14 @@ fn test(name result)
 test "use of a hash as an object" fn()
 	let adder
 		#"sum" 0
+
+		#"set_sum" fn(this sum)
+			#"sum" sum this
+		;
+
 		#"add" fn(this number)
 			let sum + ."sum"this number;
-			#"sum" sum this
+			as(."set_sum"this):2 this sum
 		;
 	{};
 
