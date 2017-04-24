@@ -17,10 +17,6 @@ fn test(name result)
 			fn() ansi "red" "[FAILURE]";
 ;
 
-test "applying of a closure" fn()
-	== 5 apply fn(x y) + x y; ,2,3[]
-;
-
 test "use of a hash as an object" fn()
 	let adder
 		#"sum" 0

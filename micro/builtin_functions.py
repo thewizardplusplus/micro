@@ -33,12 +33,6 @@ BUILTIN_FUNCTIONS = {
             list(map(float, x.to_array())),
         ),
     ),
-    'apply': function_type.make_type(
-        [2],
-        handler=lambda closure, arguments: closure(
-            *list_utilities.map_list(arguments),
-        ),
-    ),
     '!': function_type.make_type([1], handler=lambda x: float(not x)),
     '&&': function_type.make_type([2], handler=lambda x, y: x and y),
     '||': function_type.make_type([2], handler=lambda x, y: x or y),
