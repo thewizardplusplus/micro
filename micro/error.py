@@ -1,4 +1,5 @@
 import sys
+import os.path
 
 import type_utilities
 import string_utilities
@@ -24,7 +25,7 @@ class Error:
         return 'error({}): {}'.format(error_mark, self._description)
 
     def set_filename(self, filename):
-        self._filename = filename
+        self._filename = os.path.relpath(filename)
 
     def detect_position(self, code):
         right_code = code[0:self._offset]
