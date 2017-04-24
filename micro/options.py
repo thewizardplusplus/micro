@@ -55,13 +55,12 @@ def process_options():
 def get_script_name(filename):
     return filename if filename != '-' else 'stdin'
 
-def add_args_function(functions, options):
+def make_args_function(options):
     arguments = list_utilities.reduce_list(
         [get_script_name(options.script)] + options.args,
         string_utilities.make_list_from_string,
     )
     return {
-        **functions,
         'args': function_type.make_type(
             [],
             handler=lambda: arguments,

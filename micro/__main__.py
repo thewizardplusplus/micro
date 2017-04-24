@@ -7,10 +7,10 @@ import loading
 processed_options = options.process_options()
 result, errors = loading.load_file(
     processed_options.script,
-    options.add_args_function(
-        builtin_functions.BUILTIN_FUNCTIONS,
-        processed_options,
-    ),
+    {
+        **builtin_functions.BUILTIN_FUNCTIONS,
+        **options.make_args_function(processed_options),
+    },
     processed_options.target,
 )
 if processed_options.target != 'evaluation':
