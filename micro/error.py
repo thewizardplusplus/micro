@@ -4,6 +4,7 @@ import copy
 
 import type_utilities
 import string_utilities
+import options
 
 class Error:
     def __init__(self, description, offset):
@@ -36,7 +37,7 @@ class Error:
     def _has_attributes(self, attributes):
         return all(hasattr(self, attribute) for attribute in attributes)
 
-def update_errors(errors, code, filename):
+def update_errors(errors, code, filename=None):
     return (_update_error(error, code, filename) for error in errors)
 
 def exit(status):
@@ -54,9 +55,10 @@ def exit(status):
 
     sys.exit(status)
 
-def _update_error(error, code, filename):
+def _update_error(error, code, filename=None):
     updated_error = copy.copy(error)
     updated_error.detect_position(code)
-    updated_error.set_filename(filename)
+    if filename is not None:
+        updated_error.set_filename(options.get_script_name(filename))
 
     return updated_error

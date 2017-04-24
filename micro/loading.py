@@ -13,27 +13,19 @@ def load_file(filename='-', functions={}, target='evaluation'):
         return specific_lexer.tokenize(code), error.update_errors(
             specific_lexer.get_errors(),
             code,
-            options.get_script_name(filename),
+            filename,
         )
 
     specific_preparser = preparser.Preparser(specific_lexer)
     preast = specific_preparser.preparse(code)
     errors = specific_lexer.get_errors() + specific_preparser.get_errors()
     if target == 'preast':
-        return preast, error.update_errors(
-            errors,
-            code,
-            options.get_script_name(filename),
-        )
+        return preast, error.update_errors(errors, code, filename)
 
     specific_parser = parser.Parser()
     ast = specific_parser.parse(preast, functions)
     errors += specific_parser.get_errors()
     if target == 'ast' or len(errors) != 0:
-        return ast, error.update_errors(
-            errors,
-            code,
-            options.get_script_name(filename),
-        )
+        return ast, error.update_errors(errors, code, filename)
 
     return evaluate.evaluate(ast, functions), (_ for _ in ())
