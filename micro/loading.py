@@ -27,8 +27,11 @@ def load_code(code, functions={}, target='evaluation', filename=None):
     if target == 'ast' or len(errors) != 0:
         return ast, error.update_errors(errors, code, filename)
 
-    return evaluate.evaluate(ast, functions), (_ for _ in ())
+    return evaluate.evaluate(ast, functions), _make_empty_generator()
 
 def load_file(filename='-', functions={}, target='evaluation'):
     code = input_utilities.read_code(filename)
     return load_code(code, functions, target, filename)
+
+def _make_empty_generator():
+    return (_ for _ in ())
