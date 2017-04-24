@@ -26,7 +26,7 @@ test "use of a hash as an object" fn()
 		;
 	{};
 
-	let added_two as(."add"adder):2 adder 2;
-	let added_three as(."add"adder):2 added_two 3;
-	== 5 ."sum"added_three
+	let adder as(."add"adder):2 adder 2;
+	let adder as(."add"adder):2 adder 3;
+	== 5 ."sum"adder
 ;

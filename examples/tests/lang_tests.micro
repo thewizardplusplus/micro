@@ -84,21 +84,24 @@ test "recursion" fn()
 ;
 
 test "assignment" fn()
-	let number
-		+ 2 3
-	;
+	let number + 2 3;
 
 	== 5 number
 ;
 
 test "assignment of a closure" fn()
-	let add:2
-		fn(x y)
-			+ x y
-		;
-	;
+	let add:2 fn(x y)
+		+ x y
+	;;
 
 	== 5 add 2 3
+;
+
+test "reassignment" fn()
+	let number 2;
+	let number + number 3;
+
+	== 5 number
 ;
 
 test "cast" fn()
