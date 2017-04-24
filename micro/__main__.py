@@ -19,7 +19,7 @@ if processed_options.target == 'tokens':
     error.process_errors(
         specific_lexer.get_errors(),
         code,
-        options.get_script_name(processed_options),
+        options.get_script_name(processed_options.script),
     )
     sys.exit()
 
@@ -32,7 +32,7 @@ if processed_options.target == 'preast':
     error.process_errors(
         errors,
         code,
-        options.get_script_name(processed_options),
+        options.get_script_name(processed_options.script),
     )
     sys.exit()
 
@@ -49,9 +49,13 @@ if processed_options.target == 'ast':
     error.process_errors(
         errors,
         code,
-        options.get_script_name(processed_options),
+        options.get_script_name(processed_options.script),
     )
     sys.exit()
 
-error.process_errors(errors, code, options.get_script_name(processed_options))
+error.process_errors(
+    errors,
+    code,
+    options.get_script_name(processed_options.script),
+)
 evaluate.evaluate(ast, functions)
