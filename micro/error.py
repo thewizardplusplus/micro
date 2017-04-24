@@ -1,5 +1,6 @@
 import sys
 import os.path
+import copy
 
 import type_utilities
 import string_utilities
@@ -35,6 +36,9 @@ class Error:
     def _has_attributes(self, attributes):
         return all(hasattr(self, attribute) for attribute in attributes)
 
+def update_errors(errors, code, filename):
+    return (_update_error(error, code, filename) for error in errors)
+
 def exit(status):
     if status is None:
         # zero equivalent
@@ -50,12 +54,9 @@ def exit(status):
 
     sys.exit(status)
 
-def process_errors(errors, code, filename):
-    for some_error in errors:
-        some_error.detect_position(code)
-        some_error.set_filename(filename)
+def _update_error(error, code, filename):
+    updated_error = copy.copy(error)
+    updated_error.detect_position(code)
+    updated_error.set_filename(filename)
 
-        sys.stderr.write(str(some_error) + '\n')
-
-    if len(errors) != 0:
-        sys.exit(1)
+    return updated_error
