@@ -35,8 +35,14 @@ BUILTIN_FUNCTIONS = {
         ),
     ),
     '!': function_type.make_type([1], handler=lambda x: float(not x)),
-    '&&': function_type.make_type([2], handler=lambda x, y: x and y),
-    '||': function_type.make_type([2], handler=lambda x, y: x or y),
+    '&&': function_type.make_type(
+        [2],
+        handler=lambda x, y: trampoline.closure_trampoline(x) and y,
+    ),
+    '||': function_type.make_type(
+        [2],
+        handler=lambda x, y: trampoline.closure_trampoline(x) or y,
+    ),
     '==': function_type.make_type([2], handler=lambda x, y: float(x == y)),
     '!=': function_type.make_type([2], handler=lambda x, y: float(x != y)),
     '<': function_type.make_type([2], handler=lambda x, y: float(x < y)),
@@ -209,7 +215,7 @@ BUILTIN_FUNCTIONS = {
     ),
     'exit': function_type.make_type([1], handler=error.exit),
 }
-_NOT_TRAMPOLINED_FUNCTIONS = ['if', '>@']
+_NOT_TRAMPOLINED_FUNCTIONS = ['&&', '||', 'if', '>@']
 _CLOSURE_TRAMPOLINE_WRAPPER = utilities.make_arguments_processor(
     trampoline.closure_trampoline,
 )
