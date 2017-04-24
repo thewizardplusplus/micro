@@ -1,3 +1,5 @@
+import sys
+
 import input_utilities
 import lexer
 import preparser
@@ -32,6 +34,20 @@ def load_code(code, functions={}, target='evaluation', filename=None):
 def load_file(filename='-', functions={}, target='evaluation'):
     code = input_utilities.read_code(filename)
     return load_code(code, functions, target, filename)
+
+def try_load_file(filename='-', functions={}, target='evaluation'):
+    result, errors = load_file(filename, functions, target)
+    if target != 'evaluation':
+        print(result)
+
+    has_errors = False
+    for error in errors:
+        has_errors = True
+        sys.stderr.write(str(error) + '\n')
+    if has_errors:
+        sys.exit(1)
+
+    return result
 
 def _make_empty_generator():
     return (_ for _ in ())
