@@ -6,8 +6,7 @@ import evaluate
 import error
 import options
 
-def load_file(filename='-', functions={}, target='evaluation'):
-    code = input_utilities.read_code(filename)
+def load_code(code, functions={}, target='evaluation', filename=None):
     specific_lexer = lexer.Lexer()
     if target == 'tokens':
         return specific_lexer.tokenize(code), error.update_errors(
@@ -29,3 +28,7 @@ def load_file(filename='-', functions={}, target='evaluation'):
         return ast, error.update_errors(errors, code, filename)
 
     return evaluate.evaluate(ast, functions), (_ for _ in ())
+
+def load_file(filename='-', functions={}, target='evaluation'):
+    code = input_utilities.read_code(filename)
+    return load_code(code, functions, target, filename)
