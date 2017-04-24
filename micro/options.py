@@ -52,9 +52,12 @@ def process_options():
 
     return parser.parse_args()
 
+def get_script_name(options):
+    return options.script if options.script != '-' else 'stdin'
+
 def add_args_function(functions, options):
     arguments = list_utilities.reduce_list(
-        [options.script if options.script != '-' else 'stdin'] + options.args,
+        [get_script_name(options)] + options.args,
         string_utilities.make_list_from_string,
     )
     return {
