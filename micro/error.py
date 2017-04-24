@@ -9,19 +9,30 @@ class Error:
         self._offset = offset
 
     def __str__(self):
-        try:
-            return 'error({}; {}): {}'.format(
+        error_mark = ''
+        if self._has_attributes(['_filename', '_line', '_column']):
+            error_mark = '{}; {}; {}'.format(
+                self._filename,
                 self._line,
                 self._column,
-                self._description,
             )
-        except AttributeError:
-            return 'error({}): {}'.format(self._offset, self._description)
+        elif self._has_attributes(['_line', '_column']):
+            error_mark = '{}; {}'.format(self._line, self._column)
+        else:
+            error_mark = str(self._offset)
+
+        return 'error({}): {}'.format(error_mark, self._description)
+
+    def set_filename(self, filename):
+        self._filename = filename
 
     def detect_position(self, code):
         right_code = code[0:self._offset]
         self._line = right_code.count('\n') + 1
         self._column = self._offset - right_code.rfind('\n')
+
+    def _has_attributes(self, attributes):
+        return all(hasattr(self, attribute) for attribute in attributes)
 
 def exit(status):
     if status is None:
@@ -38,9 +49,11 @@ def exit(status):
 
     sys.exit(status)
 
-def process_errors(errors, code):
+def process_errors(errors, code, filename):
     for some_error in errors:
         some_error.detect_position(code)
+        some_error.set_filename(filename)
+
         sys.stderr.write(str(some_error) + '\n')
 
     if len(errors) != 0:

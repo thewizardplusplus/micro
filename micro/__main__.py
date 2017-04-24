@@ -16,7 +16,11 @@ specific_lexer = lexer.Lexer()
 if processed_options.target == 'tokens':
     print(specific_lexer.tokenize(code))
 
-    error.process_errors(specific_lexer.get_errors(), code)
+    error.process_errors(
+        specific_lexer.get_errors(),
+        code,
+        options.get_script_name(processed_options),
+    )
     sys.exit()
 
 specific_preparser = preparser.Preparser(specific_lexer)
@@ -25,7 +29,11 @@ errors = specific_lexer.get_errors() + specific_preparser.get_errors()
 if processed_options.target == 'preast':
     print(preast)
 
-    error.process_errors(errors, code)
+    error.process_errors(
+        errors,
+        code,
+        options.get_script_name(processed_options),
+    )
     sys.exit()
 
 specific_parser = parser.Parser()
@@ -38,8 +46,12 @@ errors += specific_parser.get_errors()
 if processed_options.target == 'ast':
     print(ast)
 
-    error.process_errors(errors, code)
+    error.process_errors(
+        errors,
+        code,
+        options.get_script_name(processed_options),
+    )
     sys.exit()
 
-error.process_errors(errors, code)
+error.process_errors(errors, code, options.get_script_name(processed_options))
 evaluate.evaluate(ast, functions)
