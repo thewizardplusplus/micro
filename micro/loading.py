@@ -83,12 +83,14 @@ def _make_load_function(base_path, filename, functions):
     return {
         'load': function_type.make_type(
             [1],
-            handler=lambda filename: string_utilities.make_list_from_string(
+            handler=lambda filename: try_load_file(
                 _select_file(
                     base_path,
                     local_base_path,
                     string_utilities.make_string_from_list(filename),
                 ),
+                functions,
+                base_path=base_path,
             ),
         ),
     }
