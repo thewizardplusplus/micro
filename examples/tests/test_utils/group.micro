@@ -1,4 +1,4 @@
-let ansi load "ansi";
+let ansi:2 load "ansi";
 
 let LINE_WIDTH 80;
 
@@ -27,8 +27,8 @@ fn count(number numbers)
 
 fn format_results(results)
 	+ "total: " + str size results + "  "
-	+ as(ansi):2 "green" + "success: " str count 1 results + "  "
-	as(ansi):2 "red" + "failure: " str count 0 results
+	+ ansi "green" + "success: " str count 1 results + "  "
+	ansi "red" + "failure: " str count 0 results
 ;
 
 fn group(name tests)
@@ -36,7 +36,7 @@ fn group(name tests)
 		fn()
 			outln
 				+ repeat '=' LINE_WIDTH + "\n"
-				+ as(ansi):2 "bold" name + "\n"
+				+ ansi "bold" name + "\n"
 				repeat '-' LINE_WIDTH
 		;
 		fn();

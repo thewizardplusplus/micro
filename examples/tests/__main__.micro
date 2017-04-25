@@ -1,6 +1,6 @@
-let utils load "test_utils";
+let group:2 load "test_utils/group";
 
-as(."group"utils):2 "" fn()
+group "" fn()
 	+ load "lang_tests"
 	+ load "bitwise_tests"
 	+ load "functional_tests"

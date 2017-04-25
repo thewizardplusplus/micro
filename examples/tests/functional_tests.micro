@@ -1,7 +1,8 @@
-let utils load "test_utils";
+let test:2 load "test_utils/test";
+let group:2 load "test_utils/group";
 
-as(."group"utils):2 "functional tests" fn()
-	,as(."test"utils):2 "use of a hash as an object" fn()
+group "functional tests" fn()
+	,test "use of a hash as an object" fn()
 		let adder
 			#"sum" 0
 

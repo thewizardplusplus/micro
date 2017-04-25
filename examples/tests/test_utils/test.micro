@@ -1,13 +1,13 @@
-let ansi load "ansi";
+let ansi:2 load "ansi";
 
 fn test(name test)
 	let result test;
 	outln
-		+ as(ansi):2 "bold" name
+		+ ansi "bold" name
 		+ " "
 		if result
-			fn() as(ansi):2 "green" "[SUCCESS]";
-			fn() as(ansi):2 "red" "[FAILURE]";
+			fn() ansi "green" "[SUCCESS]";
+			fn() ansi "red" "[FAILURE]";
 
 	if result 1 0
 ;

@@ -1,35 +1,36 @@
-let utils load "test_utils";
+let test:2 load "test_utils/test";
+let group:2 load "test_utils/group";
 
-as(."group"utils):2 "bitwise tests" fn()
-	,as(."test"utils):2 "bitwise AND" fn()
+group "bitwise tests" fn()
+	,test "bitwise AND" fn()
 		== 8 & 14 9
 	;
 
-	,as(."test"utils):2 "bitwise OR" fn()
+	,test "bitwise OR" fn()
 		== 15 | 14 9
 	;
 
-	,as(."test"utils):2 "bitwise XOR" fn()
+	,test "bitwise XOR" fn()
 		== 7 ^ 14 9
 	;
 
-	,as(."test"utils):2 "bitwise left shift" fn()
+	,test "bitwise left shift" fn()
 		== 36 << 9 2
 	;
 
-	,as(."test"utils):2 "bitwise arithmetic right shift" fn()
+	,test "bitwise arithmetic right shift" fn()
 		&&
 			== 2 >> 9 2
 			== _3 >> _9 2
 	;
 
-	,as(."test"utils):2 "bitwise logical right shift" fn()
+	,test "bitwise logical right shift" fn()
 		&&
 			== 2 >>> 9 2
 			== 1073741821 >>> _9 2
 	;
 
-	,as(."test"utils):2 "bitwise NOT" fn()
+	,test "bitwise NOT" fn()
 		== _10 ~ 9
 	;
 [];
