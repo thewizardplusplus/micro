@@ -1,18 +1,10 @@
-let ANSI_CODES
-	#"bold" "1"
-	#"red" "31"
-	#"green" "32"
-{};
-
-fn ansi(code text)
-	+ "\x1b[" + . code ANSI_CODES + "m" + text "\x1b[m"
-;
+let ansi load "ansi";
 
 fn test(name result)
 	outln
-		+ ansi "bold" name
+		+ as(ansi):2 "bold" name
 		+ " "
 		if result
-			fn() ansi "green" "[SUCCESS]";
-			fn() ansi "red" "[FAILURE]";
+			fn() as(ansi):2 "green" "[SUCCESS]";
+			fn() as(ansi):2 "red" "[FAILURE]";
 ;

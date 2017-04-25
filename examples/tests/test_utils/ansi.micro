@@ -1,0 +1,9 @@
+let ANSI_CODES
+	#"bold" "1"
+	#"red" "31"
+	#"green" "32"
+{};
+
+fn ansi(code text)
+	+ "\x1b[" + . code ANSI_CODES + "m" + text "\x1b[m"
+;
