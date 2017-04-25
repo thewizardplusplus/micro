@@ -53,7 +53,10 @@ def _make_function_handler(function_node, functions):
 
             functions[argument.children[0].value] = entity_type
 
-        return _evaluate_entity_list(function_node.children[1], functions)
+        return _evaluate_entity_list(
+            function_node.children[1],
+            functions.copy(),
+        )
 
     return handler
 
