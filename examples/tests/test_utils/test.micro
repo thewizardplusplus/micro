@@ -16,9 +16,3 @@ fn test(name result)
 			fn() ansi "green" "[SUCCESS]";
 			fn() ansi "red" "[FAILURE]";
 ;
-
-let exports
-	#"test" fn(name result)
-		test name result
-	;
-{};
