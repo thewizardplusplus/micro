@@ -1,4 +1,5 @@
 import sys
+import os
 
 import input_utilities
 import lexer
@@ -10,6 +11,8 @@ import options
 import function_type
 import string_utilities
 import utilities
+
+_SCRIPT_EXTENSION = '.micro'
 
 def load_code(code, functions={}, target='evaluation', filename=None):
     specific_lexer = lexer.Lexer()
@@ -81,11 +84,27 @@ def _make_load_function(base_path, filename, functions):
             [1],
             handler=lambda filename: string_utilities.make_list_from_string(
                 str({
-                    "local_base_path": local_base_path,
-                    "filename": string_utilities.make_string_from_list(
-                        filename,
+                    "local_base_path": _try_select_file(local_base_path),
+                    "filename": _try_select_file(
+                        string_utilities.make_string_from_list(
+                            filename,
+                        ),
                     ),
                 }),
             ),
         ),
     }
+
+def _try_select_file(path):
+    if os.path.splitext(path)[1] == _SCRIPT_EXTENSION and os.path.isfile(path):
+        return path
+
+    full_path = path + _SCRIPT_EXTENSION
+    if os.path.isfile(full_path):
+        return full_path
+
+    full_path = os.path.join(path, '__main__' + _SCRIPT_EXTENSION)
+    if os.path.isfile(full_path):
+        return full_path
+
+    return None
