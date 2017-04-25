@@ -9,6 +9,7 @@ import error
 import options
 import function_type
 import string_utilities
+import utilities
 
 def load_code(code, functions={}, target='evaluation', filename=None):
     specific_lexer = lexer.Lexer()
@@ -74,13 +75,13 @@ def _make_empty_generator():
     return (_ for _ in ())
 
 def _make_load_function(base_path, filename, functions):
-    local_filename = filename
+    local_base_path = utilities.get_base_path(filename)
     return {
         'load': function_type.make_type(
             [1],
             handler=lambda filename: string_utilities.make_list_from_string(
                 str({
-                    "local_filename": local_filename,
+                    "local_base_path": local_base_path,
                     "filename": string_utilities.make_string_from_list(
                         filename,
                     ),
