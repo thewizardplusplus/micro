@@ -10,4 +10,5 @@ loading.try_load_file(
         **options.make_args_function(processed_options),
     },
     processed_options.target,
+    options.get_script_base_path(processed_options.script),
 )

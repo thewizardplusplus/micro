@@ -31,7 +31,13 @@ def load_code(code, functions={}, target='evaluation', filename=None):
 
     return evaluate.evaluate(ast, functions), _make_empty_generator()
 
-def try_load_code(code, functions={}, target='evaluation', filename=None):
+def try_load_code(
+    code,
+    functions={},
+    target='evaluation',
+    filename=None,
+    base_path=None,
+):
     result, errors = load_code(code, functions, target, filename)
     if target != 'evaluation':
         print(result)
@@ -45,12 +51,18 @@ def try_load_code(code, functions={}, target='evaluation', filename=None):
 
     return result
 
-def try_load_file(filename='-', functions={}, target='evaluation'):
+def try_load_file(
+    filename='-',
+    functions={},
+    target='evaluation',
+    base_path=None,
+):
     return try_load_code(
         input_utilities.read_code(filename),
         functions,
         target,
         filename,
+        base_path,
     )
 
 def _make_empty_generator():
