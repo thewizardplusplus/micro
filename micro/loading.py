@@ -75,37 +75,7 @@ def try_load_file(
         base_path,
     )
 
-def _make_empty_generator():
-    return (_ for _ in ())
-
-def _make_load_function(base_path, filename, functions):
-    local_base_path = utilities.get_base_path(filename)
-    return {
-        'load': function_type.make_type(
-            [1],
-            handler=lambda filename: _load_file(
-                base_path,
-                local_base_path,
-                string_utilities.make_string_from_list(filename),
-                functions,
-            ),
-        ),
-    }
-
-def _load_file(base_path, local_base_path, filename, functions, file_cache={}):
-    result = None
-    filename = os.path.abspath(
-        _select_file(base_path, local_base_path, filename),
-    )
-    if filename not in file_cache:
-        result = try_load_file(filename, functions, base_path=base_path)
-        file_cache[filename] = result
-    else:
-        result = file_cache[filename]
-
-    return result
-
-def _select_file(base_path, local_base_path, filename):
+def try_select_path(base_path, local_base_path, filename):
     if local_base_path is not None:
         full_path = _try_select_file(os.path.join(local_base_path, filename))
         if full_path is not None:
@@ -126,6 +96,36 @@ def _select_file(base_path, local_base_path, filename):
             return full_path
 
     raise Exception('unable to load {}'.format(filename))
+
+def _make_empty_generator():
+    return (_ for _ in ())
+
+def _make_load_function(base_path, filename, functions):
+    local_base_path = utilities.get_base_path(filename)
+    return {
+        'load': function_type.make_type(
+            [1],
+            handler=lambda filename: _load_file(
+                base_path,
+                local_base_path,
+                string_utilities.make_string_from_list(filename),
+                functions,
+            ),
+        ),
+    }
+
+def _load_file(base_path, local_base_path, filename, functions, file_cache={}):
+    result = None
+    filename = os.path.abspath(
+        try_select_path(base_path, local_base_path, filename),
+    )
+    if filename not in file_cache:
+        result = try_load_file(filename, functions, base_path=base_path)
+        file_cache[filename] = result
+    else:
+        result = file_cache[filename]
+
+    return result
 
 def _try_select_file(path):
     if os.path.splitext(path)[1] == _SCRIPT_EXTENSION and os.path.isfile(path):
