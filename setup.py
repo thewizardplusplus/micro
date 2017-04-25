@@ -18,6 +18,9 @@ setuptools.setup(
     packages=[
         package_name,
     ],
+    install_requires=[
+        'ply >=3.10, <4.0',
+    ],
     entry_points={
         'console_scripts': [
             '{0} = {0}:main'.format(package_name),
