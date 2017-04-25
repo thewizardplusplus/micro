@@ -1,5 +1,30 @@
 # Micro
 
+The interpreter of the programming language Micro.
+
+## Installation
+
+Clone this repository:
+
+```
+$ git clone https://github.com/thewizardplusplus/micro.git
+$ cd micro
+```
+
+Then install the interpreter with [pip](https://pip.pypa.io/) tool:
+
+```
+$ sudo -H python3.5 -m pip install .
+```
+
+`sudo` command is required to install `micro` console script. If it's not required, `sudo` command can be omitted:
+
+```
+$ python3.5 -m pip install .
+```
+
+But then the interpreter should be started as `python3.5 -m micro`.
+
 ## Usage
 
 ```
