@@ -1,5 +1,5 @@
-import function_type
-import list_utilities
+from . import function_type
+from . import list_utilities
 
 # it shouldn't be recursive
 def is_list(value):

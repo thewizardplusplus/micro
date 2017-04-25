@@ -2,9 +2,9 @@ import sys
 import os.path
 import copy
 
-import type_utilities
-import string_utilities
-import options
+from . import type_utilities
+from . import string_utilities
+from . import options
 
 class Error:
     def __init__(self, description, offset):

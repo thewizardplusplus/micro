@@ -1,16 +1,16 @@
 import sys
 import os
 
-import input_utilities
-import lexer
-import preparser
-import parser
-import evaluate
-import error
-import options
-import function_type
-import string_utilities
-import utilities
+from . import input_utilities
+from . import lexer
+from . import preparser
+from . import parser
+from . import evaluate
+from . import error
+from . import options
+from . import function_type
+from . import string_utilities
+from . import utilities
 
 _SCRIPT_EXTENSION = '.micro'
 _LIBRARY_VARIABLE = 'MICRO_LIBRARY'

@@ -3,16 +3,16 @@ import random
 import sys
 import datetime
 
-import trampoline
-import type_utilities
-import string_utilities
-import options
-import function_type
-import list_utilities
-import input_utilities
-import bitwise_operations
-import utilities
-import error
+from . import trampoline
+from . import type_utilities
+from . import string_utilities
+from . import options
+from . import function_type
+from . import list_utilities
+from . import input_utilities
+from . import bitwise_operations
+from . import utilities
+from . import error
 
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),

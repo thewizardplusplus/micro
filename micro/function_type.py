@@ -1,4 +1,4 @@
-import ast_node
+from . import ast_node
 
 def _default_handler(*args):
     raise Exception('an attempt to call the default handler')

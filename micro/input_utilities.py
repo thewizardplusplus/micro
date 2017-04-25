@@ -1,7 +1,7 @@
 import fileinput
 import sys
 
-import string_utilities
+from . import string_utilities
 
 def read_code(filename='-'):
     return ''.join(line for line in fileinput.input(filename))

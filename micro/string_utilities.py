@@ -1,9 +1,9 @@
 import json
 import re
 
-import type_utilities
-import list_utilities
-import utilities
+from . import type_utilities
+from . import list_utilities
+from . import utilities
 
 HEXADECIMAL_ESCAPE_SEQUENCE = r'\\x({}{{2}})'.format(
     utilities.HEXADECIMAL_NUMBER,

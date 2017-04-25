@@ -1,4 +1,4 @@
-import utilities
+from . import utilities
 
 @utilities.make_arguments_processor(int)
 def bitwise_and(number_1, number_2):

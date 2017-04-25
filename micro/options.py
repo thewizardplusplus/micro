@@ -1,9 +1,9 @@
 import argparse
 import os
 
-import string_utilities
-import list_utilities
-import function_type
+from . import string_utilities
+from . import list_utilities
+from . import function_type
 
 class HelpFormatter(
     argparse.RawTextHelpFormatter,

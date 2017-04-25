@@ -1,7 +1,7 @@
-import function_type
-import string_utilities
-import utilities
-import trampoline
+from . import function_type
+from . import string_utilities
+from . import utilities
+from . import trampoline
 
 def evaluate(ast, functions={}):
     return _evaluate_entity_list(ast, functions.copy())

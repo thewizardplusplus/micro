@@ -1,4 +1,4 @@
-import type_utilities
+from . import type_utilities
 
 def closure_trampoline(value):
     while type_utilities.is_nullary_closure(value):

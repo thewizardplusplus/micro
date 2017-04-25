@@ -3,10 +3,10 @@ import re
 
 import ply.lex
 
-import string_utilities
-import ast_token
-import error
-import utilities
+from . import string_utilities
+from . import ast_token
+from . import error
+from . import utilities
 
 class Lexer:
     _keywords = {

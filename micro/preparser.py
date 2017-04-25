@@ -1,8 +1,8 @@
 import ply.yacc
 
-import ast_node
-import ast_token
-import error
+from . import ast_node
+from . import ast_token
+from . import error
 
 def _rule(grammar):
     def set_doc(function):

@@ -1,6 +1,6 @@
 import os.path
 
-import function_type
+from . import function_type
 
 HEXADECIMAL_NUMBER = '[A-Fa-f0-9]'
 

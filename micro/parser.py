@@ -1,8 +1,8 @@
-import error
-import function_type
-import string_utilities
-import utilities
-import ast_node
+from . import error
+from . import function_type
+from . import string_utilities
+from . import utilities
+from . import ast_node
 
 class Parser:
     _errors = []
