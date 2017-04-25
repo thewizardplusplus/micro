@@ -1,7 +1,7 @@
 let utils load "test_utils";
 
 as(."group"utils):2 "functional tests" fn()
-	as(."test"utils):2 "use of a hash as an object" fn()
+	,as(."test"utils):2 "use of a hash as an object" fn()
 		let adder
 			#"sum" 0
 
@@ -19,4 +19,4 @@ as(."group"utils):2 "functional tests" fn()
 		let adder as(."add"adder):2 adder 3;
 		== 5 ."sum"adder
 	;
-;
+[];
