@@ -1,0 +1,22 @@
+let ansi load "ansi";
+
+let LINE_WIDTH 80;
+
+fn repeat(symbol number)
+	<<@ as(fn _repeat(number string)
+		if < 0 number
+			>@fn() _repeat -- number , symbol string;
+			fn() string;
+	;):2 number []
+;
+
+fn group(name tests)
+	outln
+		+ repeat '=' LINE_WIDTH + "\n"
+		+ as(ansi):2 "bold" name + "\n"
+		repeat '-' LINE_WIDTH
+
+	tests
+
+	outln + repeat '=' LINE_WIDTH "\n"
+;

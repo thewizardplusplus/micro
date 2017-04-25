@@ -1,20 +1,22 @@
 let utils load "test_utils";
 
-as(."test"utils):2 "use of a hash as an object" fn()
-	let adder
-		#"sum" 0
+as(."group"utils):2 "functional tests" fn()
+	as(."test"utils):2 "use of a hash as an object" fn()
+		let adder
+			#"sum" 0
 
-		#"set_sum" fn(this sum)
-			#"sum" sum this
-		;
+			#"set_sum" fn(this sum)
+				#"sum" sum this
+			;
 
-		#"add" fn(this number)
-			let sum + ."sum"this number;
-			as(."set_sum"this):2 this sum
-		;
-	{};
+			#"add" fn(this number)
+				let sum + ."sum"this number;
+				as(."set_sum"this):2 this sum
+			;
+		{};
 
-	let adder as(."add"adder):2 adder 2;
-	let adder as(."add"adder):2 adder 3;
-	== 5 ."sum"adder
+		let adder as(."add"adder):2 adder 2;
+		let adder as(."add"adder):2 adder 3;
+		== 5 ."sum"adder
+	;
 ;

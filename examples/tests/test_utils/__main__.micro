@@ -1,5 +1,7 @@
 let test load "test";
+let group load "group";
 
 let exports
 	#"test" test
+	#"group" group
 {};
