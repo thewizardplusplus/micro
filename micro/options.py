@@ -55,6 +55,9 @@ def process_options():
 def get_script_name(filename):
     return filename if filename != '-' else 'stdin'
 
+def get_script_base_path(filename):
+    return os.path.dirname(filename) if filename != '-' else None
+
 def make_args_function(options):
     arguments = list_utilities.reduce_list(
         [get_script_name(options.script)] + options.args,
