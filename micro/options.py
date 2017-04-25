@@ -14,7 +14,7 @@ class HelpFormatter(
 
 def process_options():
     parser = argparse.ArgumentParser(
-        prog='micro',
+        prog=__package__,
         add_help=False,
         formatter_class=HelpFormatter,
     )
