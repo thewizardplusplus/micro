@@ -1,27 +1,10 @@
-let ANSI_CODES
-	#"bold" "1"
-	#"red" "31"
-	#"green" "32"
-{};
+let utils load "test_utils";
 
-fn ansi(code text)
-	+ "\x1b[" + . code ANSI_CODES + "m" + text "\x1b[m"
-;
-
-fn test(name result)
-	outln
-		+ ansi "bold" name
-		+ " "
-		if result
-			fn() ansi "green" "[SUCCESS]";
-			fn() ansi "red" "[FAILURE]";
-;
-
-test "call" fn()
+as(."test"utils):2 "call" fn()
 	== 5 + 2 3
 ;
 
-test "closure" fn()
+as(."test"utils):2 "closure" fn()
 	fn add(x y)
 		+ x y
 	;
@@ -29,7 +12,7 @@ test "closure" fn()
 	== 5 add 2 3
 ;
 
-test "closure argument" fn()
+as(."test"utils):2 "closure argument" fn()
 	fn apply(operation:2 x y)
 		operation x y
 	;
@@ -37,7 +20,7 @@ test "closure argument" fn()
 	== 5 apply fn(x y) + x y; 2 3
 ;
 
-test "currying" fn()
+as(."test"utils):2 "currying" fn()
 	fn add(x):1
 		fn(y)
 			+ x y
@@ -47,7 +30,7 @@ test "currying" fn()
 	== 5 add 2 3
 ;
 
-test "cyclic call" fn()
+as(."test"utils):2 "cyclic call" fn()
 	fn answer()
 		fn()
 			42
@@ -57,7 +40,7 @@ test "cyclic call" fn()
 	== 42 answer
 ;
 
-test "cyclic call of a closure" fn()
+as(."test"utils):2 "cyclic call of a closure" fn()
 	fn add():0:2
 		fn():2
 			fn(x y)
@@ -71,7 +54,7 @@ test "cyclic call of a closure" fn()
 	== 5 add 2 3
 ;
 
-test "recursion" fn()
+as(."test"utils):2 "recursion" fn()
 	fn sum(start end)
 		<<@ as(fn _sum(number limit result)
 			if < number limit
@@ -83,13 +66,13 @@ test "recursion" fn()
 	== 8572599 sum 1234 4321
 ;
 
-test "assignment" fn()
+as(."test"utils):2 "assignment" fn()
 	let number + 2 3;
 
 	== 5 number
 ;
 
-test "assignment of a closure" fn()
+as(."test"utils):2 "assignment of a closure" fn()
 	let add:2 fn(x y)
 		+ x y
 	;;
@@ -97,13 +80,13 @@ test "assignment of a closure" fn()
 	== 5 add 2 3
 ;
 
-test "reassignment" fn()
+as(."test"utils):2 "reassignment" fn()
 	let number 2;
 	let number + number 3;
 
 	== 5 number
 ;
 
-test "cast" fn()
+as(."test"utils):2 "cast" fn()
 	== 5 as(fn(x y) + x y;):2 2 3
 ;

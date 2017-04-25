@@ -1,0 +1,3 @@
+load "lang_tests"
+load "bitwise_tests"
+load "functional_tests"

@@ -1,50 +1,33 @@
-let ANSI_CODES
-	#"bold" "1"
-	#"red" "31"
-	#"green" "32"
-{};
+let utils load "test_utils";
 
-fn ansi(code text)
-	+ "\x1b[" + . code ANSI_CODES + "m" + text "\x1b[m"
-;
-
-fn test(name result)
-	outln
-		+ ansi "bold" name
-		+ " "
-		if result
-			fn() ansi "green" "[SUCCESS]";
-			fn() ansi "red" "[FAILURE]";
-;
-
-test "bitwise AND" fn()
+as(."test"utils):2 "bitwise AND" fn()
 	== 8 & 14 9
 ;
 
-test "bitwise OR" fn()
+as(."test"utils):2 "bitwise OR" fn()
 	== 15 | 14 9
 ;
 
-test "bitwise XOR" fn()
+as(."test"utils):2 "bitwise XOR" fn()
 	== 7 ^ 14 9
 ;
 
-test "bitwise left shift" fn()
+as(."test"utils):2 "bitwise left shift" fn()
 	== 36 << 9 2
 ;
 
-test "bitwise arithmetic right shift" fn()
+as(."test"utils):2 "bitwise arithmetic right shift" fn()
 	&&
 		== 2 >> 9 2
 		== _3 >> _9 2
 ;
 
-test "bitwise logical right shift" fn()
+as(."test"utils):2 "bitwise logical right shift" fn()
 	&&
 		== 2 >>> 9 2
 		== 1073741821 >>> _9 2
 ;
 
-test "bitwise NOT" fn()
+as(."test"utils):2 "bitwise NOT" fn()
 	== _10 ~ 9
 ;

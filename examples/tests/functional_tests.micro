@@ -1,23 +1,6 @@
-let ANSI_CODES
-	#"bold" "1"
-	#"red" "31"
-	#"green" "32"
-{};
+let utils load "test_utils";
 
-fn ansi(code text)
-	+ "\x1b[" + . code ANSI_CODES + "m" + text "\x1b[m"
-;
-
-fn test(name result)
-	outln
-		+ ansi "bold" name
-		+ " "
-		if result
-			fn() ansi "green" "[SUCCESS]";
-			fn() ansi "red" "[FAILURE]";
-;
-
-test "use of a hash as an object" fn()
+as(."test"utils):2 "use of a hash as an object" fn()
 	let adder
 		#"sum" 0
 
