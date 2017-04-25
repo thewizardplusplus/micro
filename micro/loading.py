@@ -83,17 +83,27 @@ def _make_load_function(base_path, filename, functions):
     return {
         'load': function_type.make_type(
             [1],
-            handler=lambda filename: try_load_file(
-                _select_file(
-                    base_path,
-                    local_base_path,
-                    string_utilities.make_string_from_list(filename),
-                ),
+            handler=lambda filename: _load_file(
+                base_path,
+                local_base_path,
+                string_utilities.make_string_from_list(filename),
                 functions,
-                base_path=base_path,
             ),
         ),
     }
+
+def _load_file(base_path, local_base_path, filename, functions, file_cache={}):
+    result = None
+    filename = os.path.abspath(
+        _select_file(base_path, local_base_path, filename),
+    )
+    if filename not in file_cache:
+        result = try_load_file(filename, functions, base_path=base_path)
+        file_cache[filename] = result
+    else:
+        result = file_cache[filename]
+
+    return result
 
 def _select_file(base_path, local_base_path, filename):
     if local_base_path is not None:
