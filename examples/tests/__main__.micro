@@ -1,3 +1,7 @@
-load "lang_tests"
-load "bitwise_tests"
-load "functional_tests"
+let utils load "test_utils";
+
+as(."group"utils):2 "" fn()
+	+ load "lang_tests"
+	+ load "bitwise_tests"
+	+ load "functional_tests"
+[];

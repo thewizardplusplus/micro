@@ -32,14 +32,19 @@ fn format_results(results)
 ;
 
 fn group(name tests)
-	outln
-		+ repeat '=' LINE_WIDTH + "\n"
-		+ as(ansi):2 "bold" name + "\n"
-		repeat '-' LINE_WIDTH
+	if != "" name
+		fn()
+			outln
+				+ repeat '=' LINE_WIDTH + "\n"
+				+ as(ansi):2 "bold" name + "\n"
+				repeat '-' LINE_WIDTH
+		;
+		fn();
 
 	let results tests;
 	outln
 		+ repeat '-' LINE_WIDTH + "\n"
-		+ format_results results + "\n"
-		+ repeat '=' LINE_WIDTH "\n"
+		format_results results
+
+	results
 ;
