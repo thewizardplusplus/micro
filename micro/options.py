@@ -4,6 +4,7 @@ import os
 from . import string_utilities
 from . import list_utilities
 from . import function_type
+from . import utilities
 
 class HelpFormatter(
     argparse.RawTextHelpFormatter,
@@ -24,7 +25,7 @@ def process_options():
         '--version',
         action='version',
         help='- show the version message and exit',
-        version='Micro interpreter, v2.1\n' \
+        version='Micro interpreter, v{}\n'.format(utilities.MICRO_VERSION) \
             + 'Copyright (c) 2016, 2017 thewizardplusplus',
     )
     parser.add_argument(

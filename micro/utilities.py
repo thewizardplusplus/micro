@@ -2,6 +2,7 @@ import os.path
 
 from . import function_type
 
+MICRO_VERSION = '2.1'
 HEXADECIMAL_NUMBER = '[A-Fa-f0-9]'
 
 def extract_and_add_function(entity, functions):
