@@ -7,6 +7,8 @@ import parser
 import evaluate
 import error
 import options
+import function_type
+import string_utilities
 
 def load_code(code, functions={}, target='evaluation', filename=None):
     specific_lexer = lexer.Lexer()
@@ -38,7 +40,10 @@ def try_load_code(
     filename=None,
     base_path=None,
 ):
-    result, errors = load_code(code, functions, target, filename)
+    result, errors = load_code(code, {
+        **functions,
+        **_make_load_function(base_path, filename, functions),
+    }, target, filename)
     if target != 'evaluation':
         print(result)
 
@@ -67,3 +72,19 @@ def try_load_file(
 
 def _make_empty_generator():
     return (_ for _ in ())
+
+def _make_load_function(base_path, filename, functions):
+    local_filename = filename
+    return {
+        'load': function_type.make_type(
+            [1],
+            handler=lambda filename: string_utilities.make_list_from_string(
+                str({
+                    "local_filename": local_filename,
+                    "filename": string_utilities.make_string_from_list(
+                        filename,
+                    ),
+                }),
+            ),
+        ),
+    }
