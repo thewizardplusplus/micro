@@ -1,3 +1,5 @@
+import os.path
+
 import function_type
 
 HEXADECIMAL_NUMBER = '[A-Fa-f0-9]'
@@ -29,6 +31,13 @@ def make_arguments_processor(argument_handler):
     return lambda function: \
         lambda *arguments: \
             function(*list(map(argument_handler, arguments)))
+
+def get_base_path(filename):
+    base_path = None
+    if filename is not None and filename != '-':
+        base_path = os.path.dirname(filename)
+
+    return base_path
 
 def _add_to_functions(functions, entity_name, entity_type):
     if entity_name != '':
