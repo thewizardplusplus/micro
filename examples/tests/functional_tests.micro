@@ -3,8 +3,8 @@ let group:2 load "../libs/test-utils/group";
 
 group "functional tests" fn()
 	,test "use of a hash as an object" fn()
-		let adder
-			#"sum" 0
+		fn Adder(sum)
+			#"sum" sum
 
 			#"set_sum" fn(this sum)
 				#"sum" sum this
@@ -16,7 +16,7 @@ group "functional tests" fn()
 			;
 		{};
 
-		let adder as(."add"adder):2 adder 2;
+		let adder Adder 2;
 		let adder as(."add"adder):2 adder 3;
 		== 5 ."sum"adder
 	;
