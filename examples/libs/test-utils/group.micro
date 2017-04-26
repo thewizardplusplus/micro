@@ -1,27 +1,13 @@
 let ansi:2 load "ansi";
 let generate:2 load "../list-utils/generate";
+let count:2 load "../list-utils/count";
 
 let LINE_WIDTH 80;
 
-fn count(number numbers)
-	<<@ as(fn _count(numbers result)
-		if != [] numbers
-			fn()
-				let result
-					if == number head numbers
-						++ result
-						result
-				;
-				>@fn() _count tail numbers result;
-			;
-			fn() result;
-	;):2 numbers 0
-;
-
 fn format_results(results)
 	+ "total: " + str size results + "  "
-	+ ansi "green" + "success: " str count 1 results + "  "
-	ansi "red" + "failure: " str count 0 results
+	+ ansi "green" + "success: " str count results true + "  "
+	ansi "red" + "failure: " str count results false
 ;
 
 fn group(name tests)

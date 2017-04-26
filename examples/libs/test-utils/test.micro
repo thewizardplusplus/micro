@@ -9,5 +9,5 @@ fn test(name test)
 			fn() ansi "green" "[SUCCESS]";
 			fn() ansi "red" "[FAILURE]";
 
-	if result 1 0
+	if result true false
 ;
