@@ -45,21 +45,24 @@ def try_load_code(
     filename=None,
     base_path=None,
 ):
-    result, errors = load_code(code, {
-        **functions,
-        **_make_load_function(base_path, filename, functions),
-    }, target, filename)
-    if target != 'evaluation':
-        print(result)
+    try:
+        result, errors = load_code(code, {
+            **functions,
+            **_make_load_function(base_path, filename, functions),
+        }, target, filename)
+        if target != 'evaluation':
+            print(result)
 
-    has_errors = False
-    for error in errors:
-        has_errors = True
-        sys.stderr.write(str(error) + '\n')
-    if has_errors:
-        sys.exit(1)
+        has_errors = False
+        for some_error in errors:
+            has_errors = True
+            sys.stderr.write(str(some_error) + '\n')
+        if has_errors:
+            sys.exit(1)
 
-    return result
+        return result
+    except error.Error as exception:
+        raise error.update_error(exception, code, filename)
 
 def try_load_file(
     filename='-',
