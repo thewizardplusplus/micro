@@ -1,15 +1,6 @@
 nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 
-fn generate(size)
-	<<@ as(fn _generate(size field)
-		if < 0 size
-			fn()
-				let cell > 0.5 random;
-				>@fn() _generate -- size , cell field;
-			;
-			fn() field;
-	;):2 size []
-;
+let generate:2 load "libs/list-utils/generate";
 
 fn populate_cell(previous_cell current_cell next_cell)
 	let neighbours + previous_cell next_cell;
@@ -114,5 +105,7 @@ fn iterate_populations(field)
 	;):2 [] field
 ;
 
-let field generate 80;
+let field generate 80 fn()
+	> random 0.5
+;;
 iterate_populations field

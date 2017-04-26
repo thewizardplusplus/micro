@@ -1,14 +1,7 @@
 let ansi:2 load "ansi";
+let generate:2 load "../list-utils/generate";
 
 let LINE_WIDTH 80;
-
-fn repeat(symbol number)
-	<<@ as(fn _repeat(number string)
-		if < 0 number
-			>@fn() _repeat -- number , symbol string;
-			fn() string;
-	;):2 number []
-;
 
 fn count(number numbers)
 	<<@ as(fn _count(numbers result)
@@ -35,15 +28,15 @@ fn group(name tests)
 	if != "" name
 		fn()
 			outln
-				+ repeat '=' LINE_WIDTH + "\n"
+				+ generate LINE_WIDTH '=' + "\n"
 				+ ansi "bold" name + "\n"
-				repeat '-' LINE_WIDTH
+				generate LINE_WIDTH '-'
 		;
 		fn();
 
 	let results tests;
 	outln
-		+ repeat '-' LINE_WIDTH + "\n"
+		+ generate LINE_WIDTH '-' + "\n"
 		format_results results
 
 	results
