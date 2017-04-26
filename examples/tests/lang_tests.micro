@@ -1,5 +1,5 @@
-let test:2 load "test_utils/test";
-let group:2 load "test_utils/group";
+let test:2 load "test-utils/test";
+let group:2 load "test-utils/group";
 
 group "lang tests" fn()
 	,test "call" fn()
