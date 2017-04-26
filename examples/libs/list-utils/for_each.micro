@@ -1,0 +1,11 @@
+fn for_each(list handler:1)
+	<<@ as(fn _for_each(list)
+		if != [] list
+			fn()
+				handler head list
+
+				>@fn() _for_each tail list;
+			;
+			fn();
+	;):1 list
+;

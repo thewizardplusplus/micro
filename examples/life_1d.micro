@@ -3,12 +3,13 @@ nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 let generate:2 load "libs/list-utils/generate";
 let last:1 load "libs/list-utils/last";
 let reverse:1 load "libs/list-utils/reverse";
+let for_each:2 load "libs/list-utils/for_each";
 
 fn populate_cell(previous_cell current_cell next_cell)
 	let neighbours + previous_cell next_cell;
 	if current_cell
-		== 1 neighbours
-		== 2 neighbours
+		fn() == 1 neighbours;
+		fn() == 2 neighbours;
 ;
 
 fn populate(field)
@@ -44,34 +45,28 @@ fn populate(field)
 	;):4 front_cell field back_cell []
 ;
 
-fn print(field)
-	<<@ as(fn _print(field)
-		if != [] field
-			fn()
-				out
-					if head field
-						"#"
-						"."
-				>@fn() _print tail field;
-			;
-			fn();
-	;):1 field
-
-	out "\n"
-;
-
-fn iterate_populations(field)
+fn iterate_populations(field handler:1)
 	<<@ as(fn _iterate_populations(previous_field field)
 		if != previous_field field
 			fn()
-				print field
+				handler field
+
 				>@fn() _iterate_populations field populate field;
 			;
 			fn();
 	;):2 [] field
 ;
 
-let field generate 80 fn()
+let start_field generate 80 fn()
 	> random 0.5
 ;;
-iterate_populations field
+iterate_populations start_field fn(field)
+	for_each field fn(cell)
+		out
+			if cell
+				fn() "#";
+				fn() ".";
+	;
+
+	outln ""
+;
