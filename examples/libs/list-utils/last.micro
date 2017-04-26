@@ -1,0 +1,7 @@
+fn last(list)
+	<<@ as(fn _last(list)
+		if != [] tail list
+			>@fn() _last tail list;
+			fn() head list;
+	;):1 list
+;
