@@ -6,7 +6,7 @@ from . import type_utilities
 from . import string_utilities
 from . import options
 
-class Error:
+class Error(Exception):
     def __init__(self, description, offset):
         self._description = description
         self._offset = offset
@@ -27,18 +27,28 @@ class Error:
         return 'error({}): {}'.format(error_mark, self._description)
 
     def set_filename(self, filename):
-        self._filename = os.path.relpath(filename)
+        if not hasattr(self, '_filename'):
+            self._filename = os.path.relpath(filename)
 
     def detect_position(self, code):
-        right_code = code[0:self._offset]
-        self._line = right_code.count('\n') + 1
-        self._column = self._offset - right_code.rfind('\n')
+        if not self._has_attributes(['_line', '_column']):
+            right_code = code[0:self._offset]
+            self._line = right_code.count('\n') + 1
+            self._column = self._offset - right_code.rfind('\n')
 
     def _has_attributes(self, attributes):
         return all(hasattr(self, attribute) for attribute in attributes)
 
+def update_error(error, code, filename=None):
+    updated_error = copy.copy(error)
+    updated_error.detect_position(code)
+    if filename is not None:
+        updated_error.set_filename(options.get_script_name(filename))
+
+    return updated_error
+
 def update_errors(errors, code, filename=None):
-    return (_update_error(error, code, filename) for error in errors)
+    return (update_error(error, code, filename) for error in errors)
 
 def exit(status):
     if status is None:
@@ -54,11 +64,3 @@ def exit(status):
         )
 
     sys.exit(status)
-
-def _update_error(error, code, filename=None):
-    updated_error = copy.copy(error)
-    updated_error.detect_position(code)
-    if filename is not None:
-        updated_error.set_filename(options.get_script_name(filename))
-
-    return updated_error
