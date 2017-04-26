@@ -5,6 +5,7 @@ from . import options
 from . import builtin_functions
 from . import loading
 from . import utilities
+from . import error
 
 def main():
     try:
@@ -17,5 +18,7 @@ def main():
             **builtin_functions.BUILTIN_FUNCTIONS,
             **options.make_args_function(processed_options),
         }, processed_options.target, utilities.get_base_path(filename))
+    except error.Error as exception:
+        sys.exit(exception)
     except Exception as exception:
         sys.exit('error: {}'.format(exception))
