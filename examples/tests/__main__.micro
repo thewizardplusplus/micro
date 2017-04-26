@@ -1,4 +1,4 @@
-let group:2 load "test-utils/group";
+let group:2 load "../libs/test-utils/group";
 
 group "" fn()
 	+ load "lang_tests"
