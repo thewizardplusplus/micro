@@ -2,20 +2,13 @@ nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 
 let generate:2 load "libs/list-utils/generate";
 let last:1 load "libs/list-utils/last";
+let reverse:1 load "libs/list-utils/reverse";
 
 fn populate_cell(previous_cell current_cell next_cell)
 	let neighbours + previous_cell next_cell;
 	if current_cell
 		== 1 neighbours
 		== 2 neighbours
-;
-
-fn reverse(field)
-	<<@ as(fn _reverse(old_field new_field)
-		if != [] old_field
-			>@fn() _reverse tail old_field , head old_field new_field;
-			fn() new_field;
-	;):2 field []
 ;
 
 fn populate(field)

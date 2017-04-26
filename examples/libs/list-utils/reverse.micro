@@ -1,0 +1,7 @@
+fn reverse(list)
+	<<@ as(fn _reverse(list result)
+		if != [] list
+			>@fn() _reverse tail list , head list result;
+			fn() result;
+	;):2 list []
+;
