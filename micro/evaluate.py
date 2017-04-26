@@ -2,6 +2,7 @@ from . import function_type
 from . import string_utilities
 from . import utilities
 from . import trampoline
+from . import error
 
 def evaluate(ast, functions={}):
     return _evaluate_entity_list(ast, functions.copy())
@@ -9,9 +10,20 @@ def evaluate(ast, functions={}):
 def _evaluate_entity_list(ast, functions):
     result = None
     for entity in ast.children:
-        result = _evaluate_entity(entity, functions)
+        result = _try_evaluate_entity(entity, functions)
 
     return result
+
+def _try_evaluate_entity(entity, functions):
+    try:
+        return _evaluate_entity(entity, functions)
+    except error.Error as exception:
+        raise exception
+    except Exception as exception:
+        if hasattr(entity, 'offset'):
+            raise error.Error(str(exception), entity.offset)
+        else:
+            raise exception
 
 def _evaluate_entity(entity, functions):
     if entity.name == 'INTEGRAL_NUMBER' or entity.name == 'REAL_NUMBER':
@@ -78,12 +90,12 @@ def _evaluate_cast(entity, functions):
     return _evaluate_entity_list(entity.children[0], functions.copy())
 
 def _evaluate_call(call, functions):
-    inner_function = _evaluate_entity(
+    inner_function = _try_evaluate_entity(
         call.children[0].children[0].children[0],
         functions,
     )
     parameters = [
-        _evaluate_entity(parameter, functions)
+        _try_evaluate_entity(parameter, functions)
         for parameter in call.children[1].children
     ]
     return trampoline.closure_trampoline(inner_function(*parameters))
