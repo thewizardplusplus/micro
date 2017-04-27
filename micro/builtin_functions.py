@@ -112,10 +112,6 @@ BUILTIN_FUNCTIONS = {
             if key != new_key
         },
     ),
-    '.': function_type.make_type(
-        [2],
-        handler=lambda key, hash_: hash_.get(key),
-    ),
     'keys': function_type.make_type(
         [1],
         handler=lambda hash_: list_utilities.reduce_list(list(hash_.keys())),
@@ -127,6 +123,21 @@ BUILTIN_FUNCTIONS = {
     ),
     '+': function_type.make_type([2], handler=type_utilities.combine),
     'size': function_type.make_type([1], handler=type_utilities.get_size),
+    '.': function_type.make_type(
+        [2],
+        handler=lambda index, collection: type_utilities.get_item(
+            collection,
+            index,
+        ),
+    ),
+    '.?': function_type.make_type(
+        [3],
+        handler=lambda index, collection, default: type_utilities.get_item(
+            collection,
+            index,
+            default,
+        ),
+    ),
     '>@': function_type.make_type([1], handler=lambda value: (value,)),
     '<@': function_type.make_type([1], handler=lambda value: value[0]),
     '<<@': function_type.make_type([1], handler=trampoline.pack_trampoline),
