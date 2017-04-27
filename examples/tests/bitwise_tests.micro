@@ -1,5 +1,5 @@
-let test:2 load "../libs/test-utils/test";
-let group:2 load "../libs/test-utils/group";
+let test:2 load "../libs/test/test";
+let group:2 load "../libs/test/group";
 
 group "bitwise tests" fn()
 	,test "bitwise AND" fn()
