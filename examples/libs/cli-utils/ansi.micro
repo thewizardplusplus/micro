@@ -18,6 +18,13 @@ let ANSI_CODES
 	#"gray" "90"
 {};
 
-fn ansi(code text)
-	+ "\x1b[" + . code ANSI_CODES + "m" + text "\x1b[m"
+fn ansi(name text)
+	let code . name ANSI_CODES;
+	let code
+		if !code
+			fn() name;
+			fn() code;
+	;
+
+	+ "\x1b[" + code + "m" + text "\x1b[m"
 ;
