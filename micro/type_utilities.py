@@ -68,28 +68,18 @@ def get_size(value):
 
     return float(size)
 
-def get_item(collection, index, default=None):
+def get_item(value, index, default=None):
     item = default
-    if is_list(collection):
-        if index < 0:
-            index = get_size(collection) + index
-
-        found_item = default
-        while len(collection) > 0 and index >= 0:
-            found_item, collection = collection
-            index -= 1
-
-        if index == -1:
-            item = found_item
-    elif isinstance(collection, dict):
-        item = collection.get(index, default)
-    elif is_pack(collection):
-        if index == 0 or index == -1:
-            item = collection[0]
+    if is_list(value):
+        item = list_utilities.get_list_item(value, index, default)
+    elif isinstance(value, dict):
+        item = value.get(index, default)
+    elif is_pack(value):
+        item = value[0] if index == 0 or index == -1 else default
     else:
         raise Exception(
             'unable to get an item of the type {}'.format(
-                collection.__class__.__name__,
+                value.__class__.__name__,
             ),
         )
 

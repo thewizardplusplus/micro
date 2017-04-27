@@ -26,5 +26,15 @@ def get_list_size(some_pair):
 
     return size
 
+def get_list_item(some_pair, index, default=None):
+    item = default
+    if index < 0:
+        index = get_list_size(some_pair) + index
+    while len(some_pair) > 0 and index >= 0:
+        item, some_pair = some_pair
+        index -= 1
+
+    return item if index == -1 else default
+
 def _handle_item(item, handler):
     return handler(item) if handler is not None else item
