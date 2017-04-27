@@ -52,15 +52,13 @@ def combine(value_1, value_2):
     return result
 
 def get_size(value):
-    size = 0.0
+    size = 0
     if is_list(value):
-        while len(value) > 0:
-            _, value = value
-            size += 1.0
+        size = list_utilities.get_list_size(value)
     elif isinstance(value, dict):
-        size = float(len(value))
+        size = len(value)
     elif is_pack(value):
-        size = 1.0
+        size = 1
     else:
         raise Exception(
             'unable to get a size of the type {}'.format(
@@ -68,7 +66,7 @@ def get_size(value):
             ),
         )
 
-    return size
+    return float(size)
 
 def get_item(collection, index, default=None):
     item = default
