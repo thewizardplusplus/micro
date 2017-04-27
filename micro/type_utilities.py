@@ -66,12 +66,12 @@ def get_size(value):
             ),
         )
 
-    return float(size)
+    return size
 
 def get_item(value, index, default=None):
     item = default
     if is_list(value):
-        item = list_utilities.get_list_item(value, index, default)
+        item = list_utilities.get_list_item(value, int(index), default)
     elif isinstance(value, dict):
         item = value.get(index, default)
     elif is_pack(value):

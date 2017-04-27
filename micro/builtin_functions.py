@@ -122,7 +122,10 @@ BUILTIN_FUNCTIONS = {
             true if trampoline.closure_trampoline(condition) else false,
     ),
     '+': function_type.make_type([2], handler=type_utilities.combine),
-    'size': function_type.make_type([1], handler=type_utilities.get_size),
+    'size': function_type.make_type(
+        [1],
+        handler=lambda value: float(type_utilities.get_size(value)),
+    ),
     '.': function_type.make_type(
         [2],
         handler=lambda index, collection: type_utilities.get_item(
