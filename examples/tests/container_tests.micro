@@ -1,7 +1,21 @@
 let test:2 load "../libs/test/test";
 let group:2 load "../libs/test/group";
 
-group "indexing tests" fn()
+group "container tests" fn()
+	,test "size of an array" fn()
+		&& == 0 size []
+		== 5 size ,1,2,3,4,5[]
+	;
+
+	,test "size of a hash table" fn()
+		&& == 0 size {}
+		== 2 size #"one"1#"two"2{}
+	;
+
+	,test "size of a pack" fn()
+		== 1 size >@5
+	;
+
 	,test "indexing of an empty array" fn()
 		&& == nil . 0 []
 		&& == nil . 1 []
