@@ -1,17 +1,9 @@
-fn count(list filter)
-	let filter:1
-		if != "closure" type filter
-			fn() fn(item)
-				== item filter
-			;;
-			fn() filter;
-	;
-
+fn count(list item)
 	<<@ as(fn _count(list result)
 		if != [] list
 			fn()
 				let result
-					if filter head list
+					if == item head list
 						fn() ++ result;
 						fn() result;
 				;
