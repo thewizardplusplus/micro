@@ -3,5 +3,6 @@ let group:2 load "../libs/test/group";
 group "" fn()
 	+ load "lang_tests"
 	+ load "bitwise_tests"
+	+ load "indexing_tests"
 	+ load "functional_tests"
 [];

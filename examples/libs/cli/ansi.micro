@@ -19,12 +19,6 @@ let ANSI_CODES
 {};
 
 fn ansi(name text)
-	let code . name ANSI_CODES;
-	let code
-		if !code
-			fn() name;
-			fn() code;
-	;
-
+	let code .? name ANSI_CODES name;
 	+ "\x1b[" + code + "m" + text "\x1b[m"
 ;

@@ -2,7 +2,7 @@ let test:2 load "../libs/test/test";
 let group:2 load "../libs/test/group";
 
 group "functional tests" fn()
-	,test "use of a hash as an object" fn()
+	,test "use of a hash table as an object" fn()
 		fn Adder(sum)
 			#"sum" sum
 

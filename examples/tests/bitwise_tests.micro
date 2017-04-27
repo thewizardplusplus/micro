@@ -19,15 +19,13 @@ group "bitwise tests" fn()
 	;
 
 	,test "bitwise arithmetic right shift" fn()
-		&&
-			== 2 >> 9 2
-			== _3 >> _9 2
+		&& == 2 >> 9 2
+		== _3 >> _9 2
 	;
 
 	,test "bitwise logical right shift" fn()
-		&&
-			== 2 >>> 9 2
-			== 1073741821 >>> _9 2
+		&& == 2 >>> 9 2
+		== 1073741821 >>> _9 2
 	;
 
 	,test "bitwise NOT" fn()
