@@ -1,6 +1,6 @@
 let ansi:2 load "../cli/ansi";
-let generate:2 load "../list-utils/generate";
-let count:2 load "../list-utils/count";
+let generate:2 load "../list/generate";
+let count:2 load "../list/count";
 
 let LINE_WIDTH 80;
 
