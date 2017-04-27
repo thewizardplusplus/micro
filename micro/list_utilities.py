@@ -15,5 +15,8 @@ def map_list(some_pair, handler=None, base_list=[]):
 
     return items
 
+def combine_lists(some_pair_1, some_pair_2):
+    return reduce_list(map_list(some_pair_1), base_pair=some_pair_2)
+
 def _handle_item(item, handler):
     return handler(item) if handler is not None else item

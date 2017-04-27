@@ -38,10 +38,7 @@ def combine(value_1, value_2):
     if isinstance(value_1, float) and isinstance(value_2, float):
         result = value_1 + value_2
     elif is_list(value_1) and is_list(value_2):
-        result = list_utilities.reduce_list(
-            list_utilities.map_list(value_1),
-            base_pair=value_2,
-        )
+        result = list_utilities.combine_lists(value_1, value_2)
     elif isinstance(value_1, dict) and isinstance(value_2, dict):
         result = {**value_1, **value_2}
     else:
