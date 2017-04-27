@@ -1,4 +1,4 @@
-let ansi:2 load "../cli-utils/ansi";
+let ansi:2 load "../cli/ansi";
 
 fn test(name test)
 	let result test;
