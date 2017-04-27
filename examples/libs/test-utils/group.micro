@@ -1,4 +1,4 @@
-let ansi:2 load "ansi";
+let ansi:2 load "../cli-utils/ansi";
 let generate:2 load "../list-utils/generate";
 let count:2 load "../list-utils/count";
 
