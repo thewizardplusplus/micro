@@ -4,6 +4,7 @@ let generate:2 load "libs/list-utils/generate";
 let last:1 load "libs/list-utils/last";
 let reverse:1 load "libs/list-utils/reverse";
 let for_each:2 load "libs/list-utils/for_each";
+let ansi:2 load "libs/cli-utils/ansi";
 
 fn populate_cell(previous_cell current_cell next_cell)
 	let neighbours + previous_cell next_cell;
@@ -64,8 +65,8 @@ iterate_populations start_field fn(field)
 	for_each field fn(cell)
 		out
 			if cell
-				fn() "#";
-				fn() ".";
+				fn() ansi "bold" ansi "white" "#";
+				fn() ansi "black" ".";
 	;
 
 	outln ""
