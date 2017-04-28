@@ -122,6 +122,10 @@ BUILTIN_FUNCTIONS = {
         [1],
         handler=lambda hash_: list_utilities.reduce_list(list(hash_.keys())),
     ),
+    '?': function_type.make_type(
+        [2],
+        handler=lambda value, default: value if value is not None else default,
+    ),
     'if': function_type.make_type(
         [3],
         handler=lambda condition, true, false: \
