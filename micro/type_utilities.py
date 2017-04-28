@@ -68,14 +68,14 @@ def get_size(value):
 
     return size
 
-def get_item(value, index, default=None):
-    item = default
+def get_item(value, index):
+    item = None
     if is_list(value):
-        item = list_utilities.get_list_item(value, int(index), default)
+        item = list_utilities.get_list_item(value, int(index))
     elif isinstance(value, dict):
-        item = value.get(index, default)
+        item = value.get(index)
     elif is_pack(value):
-        item = value[0] if index == 0 or index == -1 else default
+        item = value[0] if index == 0 or index == -1 else None
     else:
         raise Exception(
             'unable to get an item of the type {}'.format(

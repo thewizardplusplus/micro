@@ -139,14 +139,6 @@ BUILTIN_FUNCTIONS = {
             index,
         ),
     ),
-    '.?': function_type.make_type(
-        [3],
-        handler=lambda index, collection, default: type_utilities.get_item(
-            collection,
-            index,
-            default,
-        ),
-    ),
     '>@': function_type.make_type([1], handler=lambda value: (value,)),
     '<@': function_type.make_type([1], handler=lambda value: value[0]),
     '<<@': function_type.make_type([1], handler=trampoline.pack_trampoline),
