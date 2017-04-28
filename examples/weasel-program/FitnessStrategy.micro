@@ -1,0 +1,30 @@
+let zip:3 load "../libs/list/zip";
+let count:2 load "../libs/list/count";
+
+fn FitnessStrategy(target)
+	#"target" target
+
+	nb returns a score for an individual;
+	nb gives one point to for each correct gene
+	#"get_score" fn(this individual)
+		nb compare genes lists by element
+		let diff zip ."target"this individual fn(gene_i gene_ii)
+			!= gene_i gene_ii
+		;;
+
+		nb count a number of discrepancies
+		count diff true
+	;
+
+	nb returns true if score_i is better (i.e. more fit) then score_ii
+	#"is_fitter" fn(this score_i score_ii)
+		nb lower scores are better
+		<= score_i score_ii
+	;
+
+	nb returns true if score is acceptable (i.e. we have successfully converged)
+	#"is_acceptable" fn(this score)
+		nb we have matched the target
+		== 0 score
+	;
+{};
