@@ -98,8 +98,14 @@ BUILTIN_FUNCTIONS = {
     'random': function_type.make_type([], handler=random.random),
     '[]': function_type.make_type([], handler=lambda: ()),
     ',': function_type.make_type([2], handler=lambda x, y: (x, y)),
-    'head': function_type.make_type([1], handler=lambda x: x[0]),
-    'tail': function_type.make_type([1], handler=lambda x: x[1]),
+    'head': function_type.make_type(
+        [1],
+        handler=lambda value: value[0] if value != () else None,
+    ),
+    'tail': function_type.make_type(
+        [1],
+        handler=lambda value: value[1] if value != () else None,
+    ),
     '{}': function_type.make_type([], handler=lambda: {}),
     '#': function_type.make_type(
         [3],
