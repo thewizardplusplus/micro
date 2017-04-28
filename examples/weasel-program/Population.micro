@@ -1,0 +1,19 @@
+let generate:2 load "../libs/list/generate";
+
+nb holds and spawns a new population
+fn Population(length generator)
+	#"length" length
+	#"generator" generator
+	nb build an initial population
+	#"population" generate length fn()
+		as(."spawn"generator):1 generator
+	;
+
+	#"spawn" fn(this parent)
+		let population generate ."length"this fn()
+			as(."mutate"."generator"this):2 ."generator"this parent
+		;;
+
+		#"population" population
+	this;
+{};
