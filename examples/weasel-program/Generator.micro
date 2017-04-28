@@ -1,0 +1,23 @@
+let generate:2 load "../libs/list/generate";
+let map:2 load "../libs/list/map";
+
+nb generates a fixed length gene sequence via a generation strategy object
+fn Generator(length rate strategy)
+	#"length" length
+	#"rate" rate
+	#"strategy" strategy
+
+	#"spawn" fn(this)
+		generate ."length"this fn()
+			as(."create"."strategy"this):1 ."strategy"this
+		;
+	;
+
+	#"mutate" fn(this parent)
+		map parent fn(gene)
+			if < random ."rate"this
+				fn() as(."mutate"."strategy"this):2 ."strategy"this gene;
+				fn() gene;
+		;
+	;
+{};
