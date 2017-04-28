@@ -1,0 +1,17 @@
+fn GenerationStrategy(genes)
+	nb allowed genes
+	#"genes" genes
+
+	nb returns a new gene
+	#"create" fn(this)
+		nb pick a random gene from allowed genes
+		let index * size ."genes"this random;
+		. index ."genes"this
+	;
+
+	nb returns a mutation of an existing gene
+	#"mutate" fn(this gene)
+		nb this mutation strategy is to simply get a random gene
+		as(."create"this):1 this
+	;
+{};
