@@ -1,0 +1,40 @@
+nb https://en.wikipedia.org/wiki/Weasel_program
+nb http://rosettacode.org/wiki/Evolutionary_algorithm
+
+let zip:3 load "../libs/list/zip";
+let ansi:2 load "../libs/cli/ansi";
+let reduce:3 load "../libs/list/reduce";
+
+let GenerationStrategy:1 load "GenerationStrategy";
+let Generator:3 load "Generator";
+let FitnessStrategy:1 load "FitnessStrategy";
+let Evolver:3 load "Evolver";
+
+let ALLOWED_GENES ? env "ALLOWED_GENES" "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+let TARGET ? env "TARGET" "METHINKS IT IS LIKE A WEASEL";
+let MUTATION_RATE num ? env "MUTATION_RATE" "0.05";
+let POPULATION_SIZE num ? env "POPULATION_SIZE" "50";
+let OUTPUT_RATE num ? env "OUTPUT_RATE" "10";
+
+let generation_strategy GenerationStrategy ALLOWED_GENES;
+let generator Generator size TARGET MUTATION_RATE generation_strategy;
+let fitness_strategy FitnessStrategy TARGET;
+let evolver Evolver POPULATION_SIZE generator fitness_strategy;
+as(."run"evolver):3 evolver OUTPUT_RATE fn(generation_number fittest)
+	let marked_genes
+		zip ."individual"fittest TARGET fn(gene_i gene_ii)
+			if == gene_i gene_ii
+				fn() ansi "green" ,gene_i[];
+				fn() ansi "blue" ,gene_i[];
+		;
+	;
+	let individual
+		reduce marked_genes "" fn(result marked_gene)
+			+ result marked_gene
+		;
+	;
+	outln
+		+ "generation: " + str generation_number + "\t "
+		+ "best: \"" + individual + "\"  "
+		+ "fitness: " str ."score"fittest
+;
