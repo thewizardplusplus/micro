@@ -6,6 +6,7 @@
 	* `!(x: any): bool` &mdash; логическое отрицание;
 	* `&&(x: any, y: any): bool` &mdash; конъюнкция; функция является ленивой &mdash; `y` вычисляется только при необходимости (то есть когда `x` истинен);
 	* `||(x: any, y: any): bool` &mdash; дизъюнкция; функция является ленивой &mdash; `y` вычисляется только при необходимости (то есть когда `x` ложен);
+	* `?(value: any, default: any): any` &mdash; возвращает `value`, если оно не равно `nil`; в противном случае возвращается `default`;
 	* `if(condition: bool, true_value: any, false_value: any): bool` &mdash; выбор: если `condition` истинно, возвращает `true_value`, иначе &mdash; `false_value`; функция является ленивой &mdash; вычисляется только возвращаемое значение;
 	* `+(x: num|list<any>|hash<any, any>, y: num|list<any>|hash<any, any>): num|list<any>|hash<any, any>` &mdash; возвращает результат комбинирования переданных аргументов:
 		* если оба аргумента имеют тип `num`, то функция возвращает результат их сложения;
