@@ -7,8 +7,8 @@ group "functional tests" fn()
 			#"sum" sum
 
 			#"set_sum" fn(this sum)
-				#"sum" sum this
-			;
+				#"sum" sum
+			this;
 
 			#"add" fn(this number)
 				let sum + ."sum"this number;
