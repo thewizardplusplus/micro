@@ -47,7 +47,12 @@
 	}
 	{
 		'comment': 'Built-in functions (it should be described before functions)'
-		'match': '\\b(load|nil|false|true|num|type|arity|_|floor|ceil|trunc|round|sin|cos|tn|arcsin|arccos|arctn|angle|pow|sqrt|exp|ln|lg|abs|random|head|tail|keys|if|size|str|strb|strs|strl|strh|strhh|args|env|time|in|inln|out|outln|err|errln|exit)\\b'
+		'match': '\\b(load|nil|false|true|num|type|arity|floor|ceil|trunc|round|sin|cos|tn|arcsin|arccos|arctn|angle|pow|sqrt|exp|ln|lg|abs|random|head|tail|keys|if|size|str|strb|strs|strl|strh|strhh|args|env|time|in|inln|out|outln|err|errln|exit)\\b'
+		'name': 'variable.function.micro'
+	}
+	{
+		'comment': 'Unary minus (it should be described before functions)'
+		'match': '\\b_(?![A-Za-z_])'
 		'name': 'variable.function.micro'
 	}
 	{
