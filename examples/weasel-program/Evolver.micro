@@ -1,0 +1,69 @@
+let reduce:3 load "../libs/list/reduce";
+
+let Population:2 load "Population";
+
+nb attempts to converge a population based a fitness strategy object
+fn Evolver(length generator strategy)
+	#"is_acceptable" false
+	#"fittest" []
+	#"strategy" strategy
+	#"population" Population length generator
+
+	#"run" fn(this handle_rate handler:2)
+		<<@ as(fn _run(this generation_number)
+			if ! ."is_acceptable"this
+				fn()
+					let this as(."do_generation"this):1 this;
+					if == 0 % generation_number handle_rate
+						fn() handler generation_number ."fittest"this;
+						fn();
+
+					>@fn() _run this ++ generation_number;
+				;
+				fn()
+					handler generation_number ."fittest"this
+				this;
+		;):2 this 0
+	;
+
+	#"do_generation" fn(this)
+		let fittest as(."get_fittest"this):1 this;
+		let is_acceptable
+			as(."is_acceptable"."strategy"this):2
+				."strategy"this
+				."score"fittest
+		;
+		let population
+			if !is_acceptable
+				fn()
+					as(."spawn"."population"this):2
+						."population"this
+						."individual"fittest
+				;
+				fn() ."population"this;
+		;
+
+		#"is_acceptable" is_acceptable
+		#"fittest" fittest
+		#"population" population
+	this;
+
+	#"get_fittest" fn(this)
+		reduce ."population"."population"this nil fn(best individual)
+			let current_score
+				as(."get_score"."strategy"this):2 ."strategy"this individual
+			;
+			if || == nil best fn()
+				as(."is_fitter"."strategy"this):3
+					."strategy"this
+					current_score
+					."score"best
+			;
+				fn()
+					#"score" current_score
+					#"individual" individual
+				{};
+				fn() best;
+		;
+	;
+{};
