@@ -20,3 +20,9 @@
 	'list':
 		'prefix': ','
 		'body': ',$1[]$2'
+	'hash getter':
+		'prefix': '.'
+		'body': '."$1"$2'
+	'hash setter':
+		'prefix': '#'
+		'body': '#"$1" $2 $3'
