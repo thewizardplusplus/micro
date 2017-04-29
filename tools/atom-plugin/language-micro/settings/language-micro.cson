@@ -11,5 +11,8 @@
 		'
 		'decreaseIndentPattern': '(?x)
 			^\\s*;
+			| ^\\s*\\[\\];
+			| ^\\s*\\{\\};
+			| ^\\s*this;
 			| ^\\s*\\)
 		'
