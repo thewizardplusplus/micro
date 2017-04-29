@@ -26,3 +26,9 @@
 	'hash setter':
 		'prefix': '#'
 		'body': '#"$1" $2 $3'
+	'class constructor':
+		'prefix': 'cl'
+		'body': 'fn $1($2)\n\t$3\n{};$4'
+	'class method':
+		'prefix': 'me'
+		'body': '#"$1" fn(this $2)\n\t$3\n;$4'
