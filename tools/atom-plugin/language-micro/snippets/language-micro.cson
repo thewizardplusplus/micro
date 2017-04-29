@@ -32,3 +32,17 @@
 	'class method':
 		'prefix': 'me'
 		'body': '#"$1" fn(this $2)\n\t$3\n;$4'
+	'list loop':
+		'prefix': 'll'
+		'body': '''
+			fn $1(list)
+				<<@ as(fn ${2:_loop}(list result)
+					if != [] list
+						fn()
+							let result result;
+							>@fn() ${2:_loop} tail list result;
+						;
+						fn() result;
+				;):2 list nil
+			;$3
+		'''
