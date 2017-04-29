@@ -25,6 +25,7 @@ if | a condition (a call of `if` function)
 \# | a hash setter (a call of `#` function with a string first argument)
 cl | a class constructor (a function that returns a hash table)
 me | a class method (a hash table pair with a function in its value)
+ll | a code for a passage through a list
 
 ## License
 
