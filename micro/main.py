@@ -22,3 +22,6 @@ def main():
         sys.exit(exception)
     except Exception as exception:
         sys.exit('error: {}'.format(exception))
+    except KeyboardInterrupt:
+        # output a line break after the ^C symbol in a terminal
+        print('')
