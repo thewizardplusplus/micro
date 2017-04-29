@@ -23,6 +23,8 @@ if | a condition (a call of `if` function)
 , | a list construction (a call of `,` function with `[]` as a second argument)
 . | a hash getter (a call of `.` function with a string first argument)
 \# | a hash setter (a call of `#` function with a string first argument)
+cl | a class constructor (a function that returns a hash table)
+me | a class method (a hash table pair with a function in its value)
 
 ## License
 
