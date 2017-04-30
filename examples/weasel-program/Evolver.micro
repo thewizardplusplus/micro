@@ -1,29 +1,29 @@
 let reduce:3 load "../libs/list/reduce";
+let while:3 load "../libs/while";
 
 let Population:2 load "Population";
 
 nb attempts to converge a population based a fitness strategy object
 fn Evolver(length generator strategy)
 	#"is_acceptable" false
-	#"fittest" []
+	#"fittest" nil
 	#"strategy" strategy
 	#"population" Population length generator
 
-	#"run" fn(this handle_rate handler:2)
-		<<@ as(fn _run(this generation_number)
-			if ! ."is_acceptable"this
-				fn()
-					let this as(."do_generation"this):1 this;
-					if == 0 % generation_number handle_rate
-						fn() handler generation_number ."fittest"this;
-						fn();
+	#"run" fn(this handler:2)
+		fn iteration_result(generation_number this)
+			#"generation_number" generation_number
+			#"this" this
+		{};
 
-					>@fn() _run this ++ generation_number;
-				;
-				fn()
-					handler generation_number ."fittest"this
-				this;
-		;):2 this 0
+		."this" while iteration_result 0 this fn(result)
+			! ."is_acceptable"."this"result
+		; fn(result)
+			let this as(."do_generation"."this"result):1 ."this"result;
+			handler ."generation_number"result this
+
+			iteration_result ++ ."generation_number"result this
+		;
 	;
 
 	#"do_generation" fn(this)

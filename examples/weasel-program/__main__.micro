@@ -20,21 +20,25 @@ let generation_strategy GenerationStrategy ALLOWED_GENES;
 let generator Generator size TARGET MUTATION_RATE generation_strategy;
 let fitness_strategy FitnessStrategy TARGET;
 let evolver Evolver POPULATION_SIZE generator fitness_strategy;
-as(."run"evolver):3 evolver OUTPUT_RATE fn(generation_number fittest)
-	let marked_genes
-		zip ."individual"fittest TARGET fn(gene_i gene_ii)
-			if == gene_i gene_ii
-				fn() ansi "green" ,gene_i[];
-				fn() ansi "blue" ,gene_i[];
+as(."run"evolver):2 evolver fn(generation_number evolver)
+	if || ."is_acceptable"evolver == 0 % generation_number OUTPUT_RATE
+		fn()
+			let marked_genes
+				zip ."individual"."fittest"evolver TARGET fn(gene_i gene_ii)
+					if == gene_i gene_ii
+						fn() ansi "green" ,gene_i[];
+						fn() ansi "blue" ,gene_i[];
+				;
+			;
+			let individual
+				reduce marked_genes "" fn(result marked_gene)
+					+ result marked_gene
+				;
+			;
+			outln
+				+ "generation: " + str generation_number + "\t "
+				+ "best: \"" + individual + "\"  "
+				+ "fitness: " str ."score"."fittest"evolver
 		;
-	;
-	let individual
-		reduce marked_genes "" fn(result marked_gene)
-			+ result marked_gene
-		;
-	;
-	outln
-		+ "generation: " + str generation_number + "\t "
-		+ "best: \"" + individual + "\"  "
-		+ "fitness: " str ."score"fittest
+		fn();
 ;
