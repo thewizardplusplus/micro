@@ -1,7 +1,7 @@
 '.source.micro':
 	'function':
 		'prefix': 'fn'
-		'body': 'fn $1($2) $3; $4'
+		'body': 'fn$1($2) $3; $4'
 	'assignment':
 		'prefix': 'le'
 		'body': 'let $1 $2; $3'
