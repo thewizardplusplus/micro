@@ -5,6 +5,7 @@ let last:1 load "libs/list/last";
 let reverse:1 load "libs/list/reverse";
 let for_each:2 load "libs/list/for_each";
 let ansi:2 load "libs/cli/ansi";
+let while:3 load "libs/while";
 
 fn populate_cell(previous_cell current_cell next_cell)
 	let neighbours + previous_cell next_cell;
@@ -47,15 +48,17 @@ fn populate(field)
 ;
 
 fn iterate_populations(field handler:1)
-	<<@ as(fn _iterate_populations(previous_field field)
-		if != previous_field field
-			fn()
-				handler field
+	fn iteration_result(previous current)
+		#"previous" previous
+		#"current" current
+	{};
 
-				>@fn() _iterate_populations field populate field;
-			;
-			fn();
-	;):2 [] field
+	while iteration_result [] field fn(result)
+		!= ."previous"result ."current"result
+	; fn(result)
+		handler ."current"result
+		iteration_result ."current"result populate ."current"result
+	;
 ;
 
 let start_field generate 80 fn()
