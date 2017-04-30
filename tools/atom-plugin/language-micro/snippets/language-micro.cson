@@ -1,10 +1,10 @@
 '.source.micro':
 	'function':
 		'prefix': 'fn'
-		'body': 'fn $1($2) $3;$4'
+		'body': 'fn $1($2) $3; $4'
 	'assignment':
 		'prefix': 'le'
-		'body': 'let $1 $2;$3'
+		'body': 'let $1 $2; $3'
 	'cast':
 		'prefix': 'as'
 		'body': 'as($1):$2 $3'
@@ -13,17 +13,18 @@
 		'body': '''
 			if $1
 				fn() $2;
-				fn() $3;$4
+				fn() $3;
+			$4
 		'''
 	'pack':
 		'prefix': '>'
-		'body': '>@fn() $1;$2'
+		'body': '>@fn() $1; $2'
 	'unpack':
 		'prefix': '<'
-		'body': '<<@$1'
+		'body': '<<@ $1 $2'
 	'list':
 		'prefix': ','
-		'body': ',$1[]$2'
+		'body': ',$1[] $2'
 	'hash getter':
 		'prefix': '.'
 		'body': '."$1"$2'
@@ -35,14 +36,16 @@
 		'body': '''
 			fn $1($2)
 				$3
-			{};$4
+			{};
+			$4
 		'''
 	'class method':
 		'prefix': 'me'
 		'body': '''
 			#"$1" fn(this $2)
 				$3
-			;$4
+			;
+			$4
 		'''
 	'list loop':
 		'prefix': 'll'
@@ -56,5 +59,6 @@
 						;
 						fn() result;
 				;):2 list nil
-			;$3
+			;
+			$3
 		'''
