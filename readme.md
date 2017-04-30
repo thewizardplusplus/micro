@@ -1,6 +1,6 @@
 # Micro
 
-The interpreter of the programming language Micro.
+Interpreter of the Micro programming language.
 
 ## Installation
 
@@ -43,9 +43,9 @@ $ sudo chown "$USER:$USER" /usr/local/lib/python3.5/dist-packages/micro/parsetab
 ## Usage
 
 ```
-$ python3 micro -v | --version
-$ python3 micro -h | --help
-$ python3 micro [-t TARGET | --target TARGET] [<script>] [<args>...]
+$ micro -v | --version
+$ micro -h | --help
+$ micro [-t TARGET | --target TARGET] [<script>] [<args>...]
 ```
 
 Options:
