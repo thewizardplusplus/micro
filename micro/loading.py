@@ -1,6 +1,7 @@
 import sys
 import os
 import itertools
+import inspect
 
 from . import input_utilities
 from . import lexer
@@ -102,6 +103,16 @@ def try_select_path(base_path, local_base_path, filename):
         )
         if full_path is not None:
             return full_path
+
+    full_path = _try_select_file(
+        os.path.join(
+            os.path.dirname(inspect.getfile(sys.modules[__name__])),
+            'data',
+            filename,
+        ),
+    )
+    if full_path is not None:
+        return full_path
 
     raise Exception('unable to load {}'.format(filename))
 
