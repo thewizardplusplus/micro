@@ -22,6 +22,9 @@ setuptools.setup(
     packages=[
         package_name,
     ],
+    package_data={
+        package_name: ['data/**/*.micro'],
+    },
     install_requires=[
         'ply >=3.10, <4.0',
     ],
