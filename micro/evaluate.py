@@ -5,7 +5,7 @@ from . import trampoline
 from . import error
 
 def evaluate(ast, functions={}):
-    return _evaluate_entity_list(ast, functions.copy())
+    return _evaluate_entity_list(ast, functions)
 
 def _evaluate_entity_list(ast, functions):
     result = None

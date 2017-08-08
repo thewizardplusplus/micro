@@ -8,7 +8,7 @@ class Parser:
     _errors = []
 
     def parse(self, preast, functions={}):
-        self._transform_entity_list(preast, functions.copy())
+        self._transform_entity_list(preast, functions)
         return preast
 
     def get_errors(self):

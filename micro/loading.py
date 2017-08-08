@@ -32,7 +32,7 @@ def load_code(code, functions={}, target='evaluation', filename=None):
         return preast, error.update_errors(errors, code, filename)
 
     specific_parser = parser.Parser()
-    ast = specific_parser.parse(preast, functions)
+    ast = specific_parser.parse(preast, functions.copy())
     errors += specific_parser.get_errors()
     if target == 'ast' or len(errors) != 0:
         return ast, error.update_errors(errors, code, filename)
