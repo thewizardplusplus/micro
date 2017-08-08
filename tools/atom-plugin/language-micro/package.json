@@ -1,7 +1,7 @@
 {
   "name": "language-micro",
   "description": "Micro language support in Atom",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "author": "thewizardplusplus <thewizardplusplus@yandex.ru>",
   "repository": "https://github.com/thewizardplusplus/micro"
