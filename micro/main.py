@@ -18,8 +18,6 @@ def main():
             **builtin_functions.BUILTIN_FUNCTIONS,
             **options.make_args_function(processed_options),
         }, processed_options.target, utilities.get_base_path(filename))
-    except error.Error as exception:
-        sys.exit(exception)
     except Exception as exception:
         sys.exit('error: {}'.format(exception))
     except KeyboardInterrupt:

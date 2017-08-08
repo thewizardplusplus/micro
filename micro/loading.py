@@ -1,5 +1,6 @@
 import sys
 import os
+import itertools
 
 from . import input_utilities
 from . import lexer
@@ -36,7 +37,14 @@ def load_code(code, functions={}, target='evaluation', filename=None):
     if target == 'ast' or len(errors) != 0:
         return ast, error.update_errors(errors, code, filename)
 
-    return evaluate.evaluate(ast, functions), _make_empty_generator()
+    try:
+        return evaluate.evaluate(ast, functions), _make_empty_generator()
+    except error.Error as exception:
+        return None, error.update_errors(
+            itertools.repeat(exception, 1),
+            code,
+            filename,
+        )
 
 def try_load_code(
     code,
@@ -45,24 +53,21 @@ def try_load_code(
     filename=None,
     base_path=None,
 ):
-    try:
-        result, errors = load_code(code, {
-            **functions,
-            **_make_load_function(base_path, filename, functions),
-        }, target, filename)
-        if target != 'evaluation':
-            print(result)
+    result, errors = load_code(code, {
+        **functions,
+        **_make_load_function(base_path, filename, functions),
+    }, target, filename)
+    if target != 'evaluation':
+        print(result)
 
-        has_errors = False
-        for some_error in errors:
-            has_errors = True
-            sys.stderr.write(str(some_error) + '\n')
-        if has_errors:
-            sys.exit(1)
+    has_errors = False
+    for some_error in errors:
+        has_errors = True
+        sys.stderr.write(str(some_error) + '\n')
+    if has_errors:
+        sys.exit(1)
 
-        return result
-    except error.Error as exception:
-        raise error.update_error(exception, code, filename)
+    return result
 
 def try_load_file(
     filename='-',
