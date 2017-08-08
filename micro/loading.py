@@ -98,11 +98,10 @@ def try_select_path(base_path, local_base_path, filename):
             return full_path
 
     if os.getenv(_LIBRARY_VARIABLE) is not None:
-        full_path = _try_select_file(
-            os.path.join(os.getenv(_LIBRARY_VARIABLE), filename),
-        )
-        if full_path is not None:
-            return full_path
+        for library_path in os.getenv(_LIBRARY_VARIABLE).split(':'):
+            full_path = _try_select_file(os.path.join(library_path, filename))
+            if full_path is not None:
+                return full_path
 
     full_path = _try_select_file(
         os.path.join(
