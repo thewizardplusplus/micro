@@ -9,6 +9,23 @@ Micro language support in Atom.
 	* a comment start;
 	* indent patterns.
 
+## Installation
+
+Clone this repository:
+
+```
+$ git clone https://github.com/thewizardplusplus/micro.git
+$ cd micro
+```
+
+Create a symbolic link to the package directory:
+
+```
+$ ln -s "`pwd`/tools/atom-plugin/language-micro/" ~/.atom/packages/
+```
+
+Restart Atom.
+
 ## License
 
 The MIT License (MIT)
