@@ -1,14 +1,14 @@
 '.source.micro':
-	'editor':
-		'commentStart': 'nb ',
-		'increaseIndentPattern': '(?x)
-			\\bfn\\b[^(]*\\([^)]*\\)[^;]*$
-			| \\blet\\b[^;]*$
-			| \\bas\\b[^(]*\\([^)]*\\).*$
-			| \\(\\s*$
-			| ^\\s*\\)
-		'
-		'decreaseIndentPattern': '(?x)
-			^\\s*;
-			| ^\\s*\\)
-		'
+  'editor':
+    'commentStart': 'nb ',
+    'increaseIndentPattern': '(?x)
+      \\bfn\\b[^(]*\\([^)]*\\)[^;]*$
+      | \\blet\\b[^;]*$
+      | \\bas\\b[^(]*\\([^)]*\\).*$
+      | \\(\\s*$
+      | ^\\s*\\)
+    '
+    'decreaseIndentPattern': '(?x)
+      ^\\s*;
+      | ^\\s*\\)
+    '

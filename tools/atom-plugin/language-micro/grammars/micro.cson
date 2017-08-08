@@ -2,67 +2,121 @@
 'scopeName': 'source.micro'
 'fileTypes': ['micro']
 'patterns': [
-	{
-		'comment': 'Singleline comments'
-		'match': '\\bnb(?!:)\\b.*'
-		'name': 'comment.line.micro'
-	}
-	{
-		'comment': 'Multiline comments'
-		'begin': '\\bnb:'
-		'end': '\\bnb;'
-		'name': 'comment.block.micro'
-	}
-	{
-		'comment': 'Numbers (a subgroups order is significant)'
-		'match': '(0x[A-Fa-f0-9]+)|(\\d+(\\.\\d+)?(e-?\\d+)?)'
-		'name': 'constant.numeric.micro'
-	}
-	{
-		'comment': 'Symbols'
-		'match': "'(?:((\\\\.)|(\\\\x[A-Fa-f0-9]{2}))|[^'])'"
-		'captures':
-			'0':
-				'name': 'string.quoted.single.micro'
-			'1':
-				'name': 'constant.character.escape.micro'
-	}
-	{
-		'comment': 'Strings'
-		'begin': '\"'
-		'end': '\"'
-		'name': 'string.quoted.double.micro'
-		'patterns': [
-			{
-				'comment': 'Escaped symbol (a subgroups order is significant)'
-				'match': '(\\\\x[A-Fa-f0-9]{2})|(\\\\.)'
-				'name': 'constant.character.escape.micro'
-			}
-		]
-	}
-	{
-		'comment': 'Keywords (it should be described before functions)'
-		'match': '\\b(fn|let|as)\\b'
-		'name': 'keyword.control.statement.micro'
-	}
-	{
-		'comment': 'Built-in functions (it should be described before functions)'
-		'match': '\\b(load|nil|false|true|num|type|arity|floor|ceil|trunc|round|sin|cos|tn|arcsin|arccos|arctn|angle|pow|sqrt|exp|ln|lg|abs|random|head|tail|keys|if|size|str|strb|strs|strl|strh|strhh|args|env|time|in|inln|out|outln|err|errln|exit)\\b'
-		'name': 'variable.function.micro'
-	}
-	{
-		'comment': 'Unary minus (it should be described before functions)'
-		'match': '\\b_(?![A-Za-z_])'
-		'name': 'variable.function.micro'
-	}
-	{
-		'comment': 'Operators'
-		'match': '\\(|\\)|:|;|[!#$%&*+,\\-.\\/<=>?@\\[\\\\\\]^`{|}~]+'
-		'name': 'keyword.operator.micro'
-	}
-	{
-		'comment': 'Functions'
-		'match': '[A-Za-z_]+'
-		'name': 'entity.name.function.micro'
-	}
+  # singleline comments
+  {
+    'match': '\\bnb(?!:)\\b.*'
+    'name': 'comment.line.micro'
+  }
+
+  # multiline comments
+  {
+    'begin': '\\bnb:'
+    'end': '\\bnb;'
+    'name': 'comment.block.micro'
+  }
+
+  # numbers (subgroups order is significant)
+  {
+    'match': '(0x[A-Fa-f0-9]+)|(\\d+(\\.\\d+)?(e-?\\d+)?)'
+    'name': 'constant.numeric.micro'
+  }
+
+  # symbols
+  {
+    'match': "'(?:((\\\\.)|(\\\\x[A-Fa-f0-9]{2}))|[^'])'"
+    'captures':
+      '0':
+        'name': 'string.quoted.single.micro'
+      '1':
+        'name': 'constant.character.escape.micro'
+  }
+
+  # strings
+  {
+    'begin': '\"'
+    'end': '\"'
+    'name': 'string.quoted.double.micro'
+    'patterns': [{
+      # escaped symbol (subgroups order is significant)
+      'match': '(\\\\x[A-Fa-f0-9]{2})|(\\\\.)'
+      'name': 'constant.character.escape.micro'
+    }]
+  }
+
+  # keywords (it should be described before functions)
+  {
+    'match': '\\b(fn|let|as)\\b'
+    'name': 'keyword.control.statement.micro'
+  }
+
+  # built-in functions (it should be described before functions)
+  {
+    'match': '(?x)\\b(
+      load
+      | nil
+      | false
+      | true
+      | num
+      | type
+      | arity
+      | floor
+      | ceil
+      | trunc
+      | round
+      | sin
+      | cos
+      | tn
+      | arcsin
+      | arccos
+      | arctn
+      | angle
+      | pow
+      | sqrt
+      | exp
+      | ln
+      | lg
+      | abs
+      | random
+      | head
+      | tail
+      | keys
+      | if
+      | size
+      | str
+      | strb
+      | strs
+      | strl
+      | strh
+      | strhh
+      | args
+      | env
+      | time
+      | in
+      | inln
+      | out
+      | outln
+      | err
+      | errln
+      | exit
+    )\\b'
+    'name': 'variable.function.micro'
+  }
+
+  # unary minus (it should be described before functions)
+  {
+    'match': '\\b_(?![A-Za-z_])'
+    'name': 'variable.function.micro'
+  }
+
+  # operators
+  {
+    'match': '\\(|\\)|:|;|[!#$%&*+,\\-.\\/<=>?@\\[\\\\\\]^`{|}~]+'
+    'name': 'keyword.operator.micro'
+  }
+
+  # functions
+  {
+    'match': '[A-Za-z_]+'
+    'name': 'entity.name.function.micro'
+  }
 ]
