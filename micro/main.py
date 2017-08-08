@@ -19,7 +19,9 @@ def main():
             **options.make_args_function(processed_options),
         }, processed_options.target, utilities.get_base_path(filename))
     except Exception as exception:
-        sys.exit('error: {}'.format(exception))
+        sys.exit('error: ' + str(exception))
     except KeyboardInterrupt:
         # output a line break after the ^C symbol in a terminal
         print('')
+
+        sys.exit(1)
