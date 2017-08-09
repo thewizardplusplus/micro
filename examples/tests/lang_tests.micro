@@ -1,5 +1,5 @@
-let test:2 load "../libs/test/test";
-let group:2 load "../libs/test/group";
+let test:2 load "std/test/test";
+let group:2 load "std/test/group";
 
 group "lang tests" fn()
 	,test "call" fn()

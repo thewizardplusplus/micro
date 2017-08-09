@@ -1,4 +1,4 @@
-let reduce:3 load "../libs/list/reduce";
+let reduce:3 load "std/list/reduce";
 
 let Population:2 load "Population";
 

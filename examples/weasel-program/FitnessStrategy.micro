@@ -1,5 +1,5 @@
-let zip:3 load "../libs/list/zip";
-let count:2 load "../libs/list/count";
+let zip:3 load "std/list/zip";
+let count:2 load "std/list/count";
 
 fn FitnessStrategy(target)
 	#"target" target

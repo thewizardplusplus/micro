@@ -1,9 +1,9 @@
 nb https://en.wikipedia.org/wiki/Weasel_program
 nb http://rosettacode.org/wiki/Evolutionary_algorithm
 
-let zip:3 load "../libs/list/zip";
-let ansi:2 load "../libs/cli/ansi";
-let reduce:3 load "../libs/list/reduce";
+let zip:3 load "std/list/zip";
+let ansi:2 load "std/cli/ansi";
+let reduce:3 load "std/list/reduce";
 
 let GenerationStrategy:1 load "GenerationStrategy";
 let Generator:3 load "Generator";
