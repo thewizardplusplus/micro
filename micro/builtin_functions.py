@@ -18,6 +18,7 @@ BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
     'false': function_type.make_type([], handler=lambda: 0.0),
     'true': function_type.make_type([], handler=lambda: 1.0),
+    'bool': function_type.make_type([1], handler=lambda x: 1.0 if x else 0.0),
     'num': function_type.make_type(
         [1],
         handler=lambda x: float(string_utilities.make_string_from_list(x)),
