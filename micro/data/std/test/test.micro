@@ -1,7 +1,7 @@
 let ansi:2 load "../cli/ansi";
 
 fn test(name test)
-	let result test;
+	let result bool test;
 	outln
 		+ ansi "bold" name
 		+ " "
@@ -9,5 +9,5 @@ fn test(name test)
 			fn() ansi "green" "[SUCCESS]";
 			fn() ansi "red" "[FAILURE]";
 
-	if result true false
+	result
 ;
