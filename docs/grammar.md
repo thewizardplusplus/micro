@@ -1,4 +1,4 @@
-### Грамматика
+### ![](logo/logo.png) Грамматика
 
 ```
 program = entity list;

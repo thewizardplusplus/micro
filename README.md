@@ -1,4 +1,4 @@
-# Micro
+# ![](docs/logo/logo.png) Micro
 
 Interpreter of the Micro programming language.
 
