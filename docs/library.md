@@ -1,6 +1,5 @@
 ### Библиотека
 
-* `while(initial: any, checker: closure(result: any): bool, handler: closure(result: any): any): any`;
 * функции для работы с CLI:
 	* `ansi(name: str, text: str): str` &mdash; возвращает строку `text`, обёрнутую в [управляющую последовательность ANSI](https://ru.wikipedia.org/wiki/Управляющие_последовательности_ANSI); выбор конкретной последовательности осуществляется на основе имени `name`:
 		* стили:

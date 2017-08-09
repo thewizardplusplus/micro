@@ -1,5 +1,4 @@
 let reduce:3 load "../libs/list/reduce";
-let while:3 load "../libs/while";
 
 let Population:2 load "Population";
 
@@ -11,19 +10,16 @@ fn Evolver(length generator strategy)
 	#"population" Population length generator
 
 	#"run" fn(this handler:2)
-		fn iteration_result(generation_number this)
-			#"generation_number" generation_number
-			#"this" this
-		{};
+		<<@ as(fn _run(this generation_number)
+			if ! ."is_acceptable"this
+				fn()
+					let this as(."do_generation"this):1 this;
+					handler generation_number this
 
-		."this" while iteration_result 0 this fn(result)
-			! ."is_acceptable"."this"result
-		; fn(result)
-			let this as(."do_generation"."this"result):1 ."this"result;
-			handler ."generation_number"result this
-
-			iteration_result ++ ."generation_number"result this
-		;
+					>@fn() _run this ++ generation_number;
+				;
+				fn() this;
+		;):2 this 0
 	;
 
 	#"do_generation" fn(this)

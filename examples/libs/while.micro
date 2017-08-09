@@ -1,7 +1,0 @@
-fn while(initial checker:1 handler:1)
-	<<@ as(fn _while(result)
-		if checker result
-			>@fn() _while handler result;
-			fn() result;
-	;):1 initial
-;
