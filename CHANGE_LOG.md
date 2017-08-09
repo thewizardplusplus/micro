@@ -1,5 +1,38 @@
 # Change Log
 
+## [v2.2](https://github.com/thewizardplusplus/micro/tree/v2.2) (2017-08-09)
+
+- Удалить из примеров тесты [\#83](https://github.com/thewizardplusplus/micro/issues/83)
+- Перевести имена служебных файлов в верхний регистр [\#97](https://github.com/thewizardplusplus/micro/issues/97)
+- Возвращать код завершения 1 при перехвате исключения KeyboardInterrupt \(<kbd>Ctrl+C</kbd>\) [\#101](https://github.com/thewizardplusplus/micro/issues/101)
+* Потенциальная поддержка REPL:
+	- Скорректировать обработку исключений во время вычислений [\#78](https://github.com/thewizardplusplus/micro/issues/78)
+	- Поддерживать повторные вычисления с тем же списком функций [\#79](https://github.com/thewizardplusplus/micro/issues/79)
+* Рантайм:
+	- Добавить в рантайм функцию bool [\#70](https://github.com/thewizardplusplus/micro/issues/70)
+	- Удалить функцию рантайма arity [\#85](https://github.com/thewizardplusplus/micro/issues/85)
+	- Добавить в рантайм поддержку NaN и infinity [\#92](https://github.com/thewizardplusplus/micro/issues/92)
+	- Добавить в рантайм константы pi и e [\#93](https://github.com/thewizardplusplus/micro/issues/93)
+* Библиотека:
+	- Удалить функцию while из библиотеки [\#69](https://github.com/thewizardplusplus/micro/issues/69)
+	- Включить библиотеку в pip-пакет [\#73](https://github.com/thewizardplusplus/micro/issues/73)
+	- Добавить место установки pip-пакета как путь для поиска скриптов после переменной MICRO\_LIBRARY [\#74](https://github.com/thewizardplusplus/micro/issues/74)
+	- Поддерживать указание нескольких путей в переменной MICRO\_LIBRARY [\#77](https://github.com/thewizardplusplus/micro/issues/77)
+	- Упростить функцию библиотеки ansi [\#89](https://github.com/thewizardplusplus/micro/issues/89)
+* pip-пакет:
+	- Указать в setup.py требуемую версию Python [\#75](https://github.com/thewizardplusplus/micro/issues/75)
+	- Рефакторинг парсинга версии pip-пакета [\#100](https://github.com/thewizardplusplus/micro/issues/100)
+* Плагин для редактора Atom:
+	- Удалить поддержку сниппетов из плагина для редактора Atom [\#80](https://github.com/thewizardplusplus/micro/issues/80)
+	- Упростить обработку отступов в плагине для редактора Atom [\#81](https://github.com/thewizardplusplus/micro/issues/81)
+	- Добавить описание установки в плагин для редактора Atom [\#82](https://github.com/thewizardplusplus/micro/issues/82)
+	- Улучшить стиль кода в плагине для редактора Atom [\#86](https://github.com/thewizardplusplus/micro/issues/86)
+* Документация:
+	- Упростить регулярные выражения для пунктуационных идентификаторов в документации [\#87](https://github.com/thewizardplusplus/micro/issues/87)
+	- Добавить логотип языка [\#90](https://github.com/thewizardplusplus/micro/issues/90)
+	- Добавить оглавление к документации [\#96](https://github.com/thewizardplusplus/micro/issues/96)
+	- Изменить в документации описание типизации со слабой на сильную [\#99](https://github.com/thewizardplusplus/micro/issues/99)
+
 ## [v2.1](https://github.com/thewizardplusplus/micro/tree/v2.1) (2017-04-30)
 
 * Добавить преобразование типов [\#1](https://github.com/thewizardplusplus/micro/issues/1)
