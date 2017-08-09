@@ -29,12 +29,6 @@ BUILTIN_FUNCTIONS = {
             type_utilities.get_type_name(x),
         ),
     ),
-    'arity': function_type.make_type(
-        [1],
-        handler=lambda x: list_utilities.reduce_list(
-            list(map(float, x.to_array())),
-        ),
-    ),
     '!': function_type.make_type([1], handler=lambda x: float(not x)),
     '&&': function_type.make_type(
         [2],

@@ -59,7 +59,6 @@
       | bool
       | num
       | type
-      | arity
       | floor
       | ceil
       | trunc
