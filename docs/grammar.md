@@ -15,7 +15,8 @@ entity = INTEGRAL NUMBER
 	| function definition
 	| function call;
 key words = "fn" | "let" | "as";
-identifier = (ALPHABETIC IDENTIFIER - key words) | PUNCTUATION IDENTIFIER;
+identifier = (ALPHABETIC IDENTIFIER - key words)
+	| (PUNCTUATION IDENTIFIER - ? /['"_():;]/ ?);
 assignment = "let", [identifier], type,
 		entity list,
 	";";
@@ -34,5 +35,5 @@ REAL NUMBER = ? /\d+(((\.\d+)(e-?\d+))|(\.\d+)|(e-?\d+))/ ?;
 CHARACTER = ? /'(\\.|\\x[A-Fa-f0-9]{2}|[^'])'/ ?;
 STRING = ? /"(\\.|\\x[A-Fa-f0-9]{2}|[^"])*"/ ?;
 ALPHABETIC IDENTIFIER = ? /[a-z_]+/i ?;
-PUNCTUATION IDENTIFIER = ? /[!#$%&*+,\-.\/<=>?@[\\\]^`{|}~]+/ ?;
+PUNCTUATION IDENTIFIER = ? /[[:punct:]]+/ ?;
 ```
