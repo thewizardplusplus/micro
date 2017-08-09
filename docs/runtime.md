@@ -47,6 +47,8 @@
 		* математические константы:
 			* `nan(): num`;
 			* `inf(): num`;
+			* `pi(): num`;
+			* `e(): num`;
 		* `floor(x: num): num`;
 		* `ceil(x: num): num`;
 		* `trunc(x: num): num`;

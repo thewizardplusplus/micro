@@ -79,6 +79,8 @@
       | nan
       | inf
       | is_nan
+      | pi
+      | e
       | random
       | head
       | tail
