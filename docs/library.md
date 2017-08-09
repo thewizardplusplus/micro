@@ -5,7 +5,6 @@
 	* `ansi(name: str, text: str): str` &mdash; возвращает строку `text`, обёрнутую в [управляющую последовательность ANSI](https://ru.wikipedia.org/wiki/Управляющие_последовательности_ANSI); выбор конкретной последовательности осуществляется на основе имени `name`:
 		* стили:
 			* `"bold"`;
-			* `"dim"`;
 			* `"italic"`;
 			* `"underline"`;
 			* `"strikethrough"`;
@@ -18,7 +17,6 @@
 			* `"magenta"`;
 			* `"cyan"`;
 			* `"white"`;
-			* `"gray"`;
 * функции для работы со списками:
 	* `generate(number: num, generator: any|closure(): any): list<any>`;
 	* `for_each(list: list<any>, handler: closure(item: any): nil): nil`;
