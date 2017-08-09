@@ -1,4 +1,4 @@
-### Grammar
+### Грамматика
 
 ```
 program = entity list;

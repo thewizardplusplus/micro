@@ -69,11 +69,7 @@ Arguments:
 
 ## Docs
 
-* [Brief](docs/brief.md) (ru).
-* [Description](docs/description.md) (ru).
-* [Grammar](docs/grammar.md).
-* [Runtime](docs/runtime.md) (ru).
-* [Library](docs/library.md) (ru).
+[Docs](docs/) (ru).
 
 ## License
 
