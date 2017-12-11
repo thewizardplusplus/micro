@@ -40,6 +40,7 @@ setuptools.setup(
     },
     install_requires=[
         'ply >=3.10, <4.0',
+        'python-dotenv >=0.7.1, <1.0',
     ],
     python_requires='>=3.5, <4.0',
     entry_points={

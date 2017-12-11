@@ -1,6 +1,8 @@
 import argparse
 import os
 
+import dotenv
+
 from . import string_utilities
 from . import list_utilities
 from . import function_type
@@ -67,6 +69,9 @@ def make_args_function(options):
             handler=lambda: arguments,
         ),
     }
+
+def initialize_environment_variables():
+    dotenv.load_dotenv(dotenv.find_dotenv(usecwd=True))
 
 def get_environment_variable(name):
     value = os.getenv(string_utilities.make_string_from_list(name))

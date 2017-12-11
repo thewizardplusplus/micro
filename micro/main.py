@@ -9,6 +9,8 @@ from . import error
 
 def main():
     try:
+        options.initialize_environment_variables()
+
         processed_options = options.process_options()
         filename = processed_options.script
         if filename != '-':
