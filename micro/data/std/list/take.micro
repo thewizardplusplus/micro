@@ -1,0 +1,9 @@
+let reverse:1 load "reverse";
+
+fn take(number list)
+	reverse <<@ as(fn _take(number list result)
+		if && < 0 number != [] list
+			>@fn() _take -- number tail list , head list result;
+			fn() result;
+	;):3 trunc number list []
+;
