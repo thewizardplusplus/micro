@@ -1,0 +1,13 @@
+let reverse:1 load "reverse";
+
+fn init(list)
+	if != [] list
+		fn()
+			reverse <<@ as(fn _init(list result)
+				if != [] tail list
+					>@fn() _init tail list , head list result;
+					fn() result;
+			;):2 list []
+		;
+		fn() nil;
+;
