@@ -1,0 +1,18 @@
+let reverse:1 load "reverse";
+
+fn filter(list filter:1)
+	reverse <<@ as(fn _filter(list result)
+		if != [] list
+			fn()
+				let item head list;
+				>@fn()
+					_filter
+						tail list
+						if filter item
+							fn() , item result;
+							fn() result;
+				;
+			;
+			fn() result;
+	;):2 list []
+;
