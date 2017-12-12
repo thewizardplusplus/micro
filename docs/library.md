@@ -26,6 +26,7 @@
 	* `last(list: list<any>): any`;
 	* `count(list: list<any>, item: any): num`;
 	* `find(list: list<any>, comparator: closure(item: any): bool): nil|num`;
+	* `find_last(list: list<any>, comparator: closure(item: any): bool): nil|num`;
 * функции для юнит-тестирования:
 	* `test(name: str, test: closure(): bool): bool`;
 	* `group(name: str, tests: closure(): list<bool>): list<bool>`.

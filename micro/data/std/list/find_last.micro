@@ -1,0 +1,14 @@
+fn find_last(list comparator:1)
+	<<@ as(fn _find_last(list index last_index)
+		if != [] list
+			fn()
+				let last_index
+					if comparator head list
+						fn() index;
+						fn() last_index;
+				;
+				>@fn() _find_last tail list ++ index last_index;
+			;
+			fn() last_index;
+	;):3 list 0 nil
+;
