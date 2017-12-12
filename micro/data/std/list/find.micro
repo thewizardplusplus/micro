@@ -1,0 +1,11 @@
+fn find(list comparator:1)
+	<<@ as(fn _find(list index)
+		if != [] list
+			fn()
+				if ! comparator head list
+					>@fn() _find tail list ++ index;
+					fn() index;
+			;
+			fn() nil;
+	;):2 list 0
+;
