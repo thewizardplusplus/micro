@@ -1,0 +1,7 @@
+fn drop(number list)
+	<<@ as(fn _drop(number list)
+		if && < 0 number != [] list
+			>@fn() _drop -- number tail list;
+			fn() list;
+	;):2 trunc number list
+;
