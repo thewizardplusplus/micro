@@ -1,6 +1,6 @@
 ### ![](logo/logo.png) Библиотека
 
-* функции для работы с CLI:
+* `std/cli/` &mdash; модуль для работы с CLI:
 	* `ansi(name: str, text: str): str` &mdash; возвращает строку `text`, обёрнутую в [управляющую последовательность ANSI](https://ru.wikipedia.org/wiki/Управляющие_последовательности_ANSI); выбор конкретной последовательности осуществляется на основе имени `name`:
 		* стили:
 			* `"bold"`;
@@ -16,7 +16,7 @@
 			* `"magenta"`;
 			* `"cyan"`;
 			* `"white"`;
-* функции для работы со списками:
+* `std/list/` &mdash; модуль для работы со списками:
 	* `generate(number: num, generator: any|closure(): any): list<any>`;
 	* `for_each(list: list<any>, handler: closure(item: any): nil): nil`;
 	* `map(list: list<any>, handler: closure(item: any): any): list<any>`;
@@ -32,6 +32,6 @@
 	* `find_last(list: list<any>, comparator: closure(item: any): bool): nil|num`;
 	* `take(number: num, list: list<any>): list<any>`;
 	* `drop(number: num, list: list<any>): list<any>`;
-* функции для юнит-тестирования:
+* `std/test/` &mdash; модуль для юнит-тестирования:
 	* `test(name: str, test: closure(): bool): bool`;
 	* `group(name: str, tests: closure(): list<bool>): list<bool>`.
