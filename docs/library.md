@@ -22,6 +22,7 @@
 	* `map(list: list<any>, handler: closure(item: any): any): list<any>`;
 	* `filter(list: list<any>, filter: closure(item: any): bool): list<any>`;
 	* `reduce(list: list<any>, initial: any, handler: closure(result: any, item: any): any): any`;
+	* `reduce_right(list: list<any>, initial: any, handler: closure(result: any, item: any): any): any`;
 	* `zip(list_i: list<any>, list_ii: list<any>, handler: closure(item_i: any, item_ii: any): any): list<any>`;
 	* `reverse(list: list<any>): list<any>`;
 	* `last(list: list<any>): any`;

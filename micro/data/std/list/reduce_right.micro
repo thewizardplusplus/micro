@@ -1,0 +1,6 @@
+let reverse:1 load "reverse";
+let reduce:3 load "reduce";
+
+fn reduce_right(list initial handler)
+	reduce reverse list initial handler
+;
