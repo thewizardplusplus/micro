@@ -2,6 +2,12 @@
 'scopeName': 'source.micro'
 'fileTypes': ['micro']
 'patterns': [
+  # shebang
+  {
+    'match': '^#!.*'
+    'name': 'comment.line.micro'
+  }
+
   # singleline comments
   {
     'match': '\\bnb(?!:)\\b.*'
