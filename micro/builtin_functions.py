@@ -2,6 +2,7 @@ import math
 import random
 import sys
 import datetime
+import time
 
 from . import trampoline
 from . import type_utilities
@@ -201,6 +202,7 @@ BUILTIN_FUNCTIONS = {
         handler=lambda: \
             datetime.datetime.now(datetime.timezone.utc).timestamp(),
     ),
+    'sleep': function_type.make_type([1], handler=lambda x: time.sleep(x)),
     'in': function_type.make_type([1], handler=input_utilities.read_input),
     'inln': function_type.make_type(
         [1],

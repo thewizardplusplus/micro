@@ -96,6 +96,7 @@
       | args
       | env
       | time
+      | sleep
       | in
       | inln
       | out
