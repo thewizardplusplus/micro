@@ -18,6 +18,7 @@ _SCRIPT_EXTENSION = '.micro'
 _LIBRARY_VARIABLE = 'MICRO_LIBRARY'
 
 def load_code(code, functions={}, target='evaluation', filename=None):
+    code = input_utilities.remove_shebang(code)
     specific_lexer = lexer.Lexer()
     if target == 'tokens':
         return specific_lexer.tokenize(code), error.update_errors(
