@@ -27,7 +27,6 @@
 	* `reverse(list: list<any>): list<any>`;
 	* `last(list: list<any>): any`;
 	* `init(list: list<any>): nil|list<any>`;
-	* `count(list: list<any>, item: any): num`;
 	* `find(list: list<any>, comparator: closure(item: any): bool): nil|num`;
 	* `find_last(list: list<any>, comparator: closure(item: any): bool): nil|num`;
 	* `take(number: num, list: list<any>): list<any>`;

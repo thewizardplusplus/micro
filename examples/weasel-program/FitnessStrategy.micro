@@ -1,5 +1,5 @@
 let zip:3 load "std/list/zip";
-let count:2 load "std/list/count";
+let reduce:3 load "std/list/reduce";
 
 fn FitnessStrategy(target)
 	#"target" target
@@ -13,7 +13,9 @@ fn FitnessStrategy(target)
 		;;
 
 		nb count a number of discrepancies
-		count diff true
+		reduce diff 0 fn(number is_different)
+			+ number is_different
+		;
 	;
 
 	nb returns true if score_i is better (i.e. more fit) then score_ii
