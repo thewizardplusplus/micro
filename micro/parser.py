@@ -8,7 +8,8 @@ from . import preparser
 from . import ast_node
 
 class Parser:
-    _errors = []
+    def __init__(self):
+        self._errors = []
 
     def parse(self, preast, functions={}):
         self._transform_entity_list(preast, functions)

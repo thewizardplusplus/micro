@@ -41,10 +41,10 @@ class Lexer:
         ord(character): None
         for character in '\'"_' + literals
     })
-    _errors = []
 
     def __init__(self):
         self._lexer = ply.lex.lex(module=self)
+        self._errors = []
 
     def input(self, code):
         self._lexer.input(code)

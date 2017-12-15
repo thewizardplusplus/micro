@@ -12,12 +12,11 @@ def _rule(grammar):
     return set_doc
 
 class Preparser:
-    _errors = []
-
     def __init__(self, lexer):
         self.tokens = lexer.tokens
         self._lexer = lexer
         self._preparser = ply.yacc.yacc(module=self, debug=False)
+        self._errors = []
 
     def preparse(self, code):
         self._code = code
