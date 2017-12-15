@@ -4,8 +4,6 @@ import itertools
 import inspect
 
 from . import input_utilities
-from . import lexer
-from . import preparser
 from . import parser
 from . import evaluate
 from . import error
@@ -18,29 +16,16 @@ _SCRIPT_EXTENSION = '.micro'
 _LIBRARY_VARIABLE = 'MICRO_LIBRARY'
 
 def load_code(code, functions={}, target='evaluation', filename=None):
-    code = input_utilities.remove_shebang(code)
-    specific_lexer = lexer.Lexer()
-    if target == 'tokens':
-        return specific_lexer.tokenize(code), error.update_errors(
-            specific_lexer.get_errors(),
-            code,
-            filename,
-        )
-
-    specific_preparser = preparser.Preparser(specific_lexer)
-    preast = specific_preparser.preparse(code)
-    errors = specific_lexer.get_errors() + specific_preparser.get_errors()
-    if target == 'preast':
-        return preast, error.update_errors(errors, code, filename)
-
-    specific_parser = parser.Parser()
-    ast = specific_parser.parse(preast, functions.copy())
-    errors += specific_parser.get_errors()
-    if target == 'ast' or len(errors) != 0:
-        return ast, error.update_errors(errors, code, filename)
+    code, result, errors = parser.parse_code(
+        code,
+        functions.copy(),
+        target,
+    )
+    if target != 'evaluation' or len(errors) != 0:
+        return result, error.update_errors(errors, code, filename)
 
     try:
-        return evaluate.evaluate(ast, functions), _make_empty_generator()
+        return evaluate.evaluate(result, functions), _make_empty_generator()
     except error.Error as exception:
         return None, error.update_errors(
             itertools.repeat(exception, 1),
