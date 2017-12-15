@@ -232,6 +232,8 @@ BUILTIN_FUNCTIONS = {
         ),
     ),
     'exit': function_type.make_type([1], handler=error.exit),
+    'load': function_type.make_type([1]), # dummy
+    'args': function_type.make_type([]), # dummy
 }
 _NOT_TRAMPOLINED_FUNCTIONS = ['&&', '||', 'if', '>@']
 _CLOSURE_TRAMPOLINE_WRAPPER = utilities.make_arguments_processor(
