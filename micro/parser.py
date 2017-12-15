@@ -2,6 +2,9 @@ from . import error
 from . import function_type
 from . import string_utilities
 from . import utilities
+from . import input_utilities
+from . import lexer
+from . import preparser
 from . import ast_node
 
 class Parser:
@@ -118,6 +121,23 @@ class Parser:
 
     def _transform_cast(self, entity, functions):
         self._transform_entity_list(entity.children[0], functions.copy())
+
+def parse_code(code, functions={}, target='ast'):
+    code = input_utilities.remove_shebang(code)
+    specific_lexer = lexer.Lexer()
+    if target == 'tokens':
+        return code, specific_lexer.tokenize(code), specific_lexer.get_errors()
+
+    specific_preparser = preparser.Preparser(specific_lexer)
+    preast = specific_preparser.preparse(code)
+    errors = specific_lexer.get_errors() + specific_preparser.get_errors()
+    if target == 'preast':
+        return code, preast, errors
+
+    specific_parser = Parser()
+    return code, \
+        specific_parser.parse(preast, functions), \
+        errors + specific_parser.get_errors()
 
 def _make_call_node(entity, entity_type, parameters):
     call_node = ast_node.AstNode('call', children=[
