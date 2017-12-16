@@ -71,6 +71,10 @@ class Lexer:
     def t_SINGLE_LINE_COMMENT(self, token):
         pass
 
+    @ply.lex.TOKEN(r'^\#!.*?(\r\n|\n\r|\n|\r)')
+    def t_SHEBANG_COMMENT(self, token):
+        pass
+
     @ply.lex.TOKEN(r'{}+|[{}]+'.format(_letter, re.escape(_punctuation)))
     def t_IDENTIFIER(self, token):
         if token.value in self._keywords:
