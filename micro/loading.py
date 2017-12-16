@@ -36,16 +36,18 @@ def try_load_code(
     filename=None,
     base_path=None,
 ):
-    result, errors = load_code(code, {
+    result, errors = evaluate.evaluate_code(code, {
         **functions,
         **_make_load_function(base_path, filename, functions),
-    }, target, filename)
+    }, target)
     if target != 'evaluation':
         print(result)
 
     has_errors = False
     for some_error in errors:
         has_errors = True
+
+        some_error = error.update_error(some_error, code, filename)
         sys.stderr.write(str(some_error) + '\n')
     if has_errors:
         sys.exit(1)

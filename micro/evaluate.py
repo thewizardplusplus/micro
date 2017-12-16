@@ -3,9 +3,20 @@ from . import string_utilities
 from . import utilities
 from . import trampoline
 from . import error
+from . import parser
 
 def evaluate(ast, functions={}):
     return _evaluate_entity_list(ast, functions)
+
+def evaluate_code(code, functions={}, target='evaluation'):
+    result, errors = parser.parse_code(code, functions.copy(), target)
+    if target != 'evaluation' or len(errors) != 0:
+        return result, errors
+
+    try:
+        return _evaluate_entity_list(result, functions), []
+    except error.Error as exception:
+        return None, [exception]
 
 def _evaluate_entity_list(ast, functions):
     result = None
