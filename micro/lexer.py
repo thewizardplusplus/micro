@@ -33,7 +33,7 @@ class Lexer:
     t_STRING = r'"(\\.|{}|[^"])*"'.format(
         string_utilities.HEXADECIMAL_ESCAPE_SEQUENCE,
     )
-    t_ignore = ' \t\n\r'
+    t_ignore = ' \t\n'
     literals = '():;'
 
     _letter = '[A-Za-z_]'
@@ -71,7 +71,7 @@ class Lexer:
     def t_SINGLE_LINE_COMMENT(self, token):
         pass
 
-    @ply.lex.TOKEN(r'^\#!.*?(\r\n|\n\r|\n|\r)')
+    @ply.lex.TOKEN(r'^\#!.*')
     def t_SHEBANG_COMMENT(self, token):
         pass
 
