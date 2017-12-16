@@ -93,7 +93,10 @@ BUILTIN_FUNCTIONS = {
     'abs': function_type.make_type([1], handler=math.fabs),
     'nan': function_type.make_type([], handler=lambda: math.nan),
     'inf': function_type.make_type([], handler=lambda: math.inf),
-    'is_nan': function_type.make_type([1], handler=math.isnan),
+    'is_nan': function_type.make_type(
+        [1],
+        handler=lambda x: float(math.isnan(x)),
+    ),
     'pi': function_type.make_type([], handler=lambda: math.pi),
     'e': function_type.make_type([], handler=lambda: math.e),
     'random': function_type.make_type([], handler=random.random),
