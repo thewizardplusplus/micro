@@ -82,9 +82,6 @@ def try_select_path(base_path, local_base_path, filename):
 
     raise Exception('unable to load {}'.format(filename))
 
-def _make_empty_generator():
-    return (_ for _ in ())
-
 def _make_load_function(base_path, filename, functions):
     local_base_path = utilities.get_base_path(filename)
     return {
