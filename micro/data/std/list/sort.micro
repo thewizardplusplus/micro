@@ -1,0 +1,28 @@
+let filter:2 load "filter";
+
+fn sort(list lesser:2)
+	<<@ as(fn _sort(list continuation:1)
+			if != [] list
+				fn()
+					let list_head head list;
+					let list_tail tail list;
+					>@fn()
+						_sort filter list_tail fn(item)
+							lesser item list_head
+						; fn(left_part)
+							>@fn()
+								_sort filter list_tail fn(item)
+									! lesser item list_head
+								; fn(right_part)
+									>@fn()
+										continuation
+											+ left_part , list_head right_part
+									;
+								;
+							;
+						;
+					;
+				;
+				>@fn() continuation [];
+	;):2 list fn(list) list;
+;
