@@ -16,11 +16,7 @@ _SCRIPT_EXTENSION = '.micro'
 _LIBRARY_VARIABLE = 'MICRO_LIBRARY'
 
 def load_code(code, functions={}, target='evaluation', filename=None):
-    code, result, errors = parser.parse_code(
-        code,
-        functions.copy(),
-        target,
-    )
+    result, errors = parser.parse_code(code, functions.copy(), target)
     if target != 'evaluation' or len(errors) != 0:
         return result, error.update_errors(errors, code, filename)
 

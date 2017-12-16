@@ -125,17 +125,16 @@ class Parser:
 def parse_code(code, functions={}, target='ast'):
     specific_lexer = lexer.Lexer()
     if target == 'tokens':
-        return code, specific_lexer.tokenize(code), specific_lexer.get_errors()
+        return specific_lexer.tokenize(code), specific_lexer.get_errors()
 
     specific_preparser = preparser.Preparser(specific_lexer)
     preast = specific_preparser.preparse(code)
     errors = specific_lexer.get_errors() + specific_preparser.get_errors()
     if target == 'preast':
-        return code, preast, errors
+        return preast, errors
 
     specific_parser = Parser()
-    return code, \
-        specific_parser.parse(preast, functions), \
+    return specific_parser.parse(preast, functions), \
         errors + specific_parser.get_errors()
 
 def _make_call_node(entity, entity_type, parameters):
