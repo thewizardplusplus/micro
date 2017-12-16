@@ -47,9 +47,6 @@ def update_error(error, code, filename=None):
 
     return updated_error
 
-def update_errors(errors, code, filename=None):
-    return (update_error(error, code, filename) for error in errors)
-
 def exit(status):
     if status is None:
         # zero equivalent
