@@ -27,6 +27,7 @@ function definition = "fn", [identifier], "(", {identifier, type}, ")", type,
 type = {":", INTEGRAL NUMBER};
 function call = entity, entity, {entity};
 
+SHEBANG COMMENT = ? /^#!.*/ ?;
 SINGLE-LINE COMMENT = ? /(?<![A-Za-z_])nb(?![:A-Za-z_]).*/ ?;
 MULTILINE COMMENT = ? /(?<![A-Za-z_])nb:.*?(?<![A-Za-z_])nb;/s ?;
 INTEGRAL NUMBER = ? /\d+/ ?;
