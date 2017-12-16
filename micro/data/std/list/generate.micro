@@ -1,7 +1,7 @@
 fn generate(number generator)
 	<<@ as(fn _generate(number result)
-		if > number 0
+		if < 0 number
 			>@fn() _generate -- number , generator result;
 			fn() result;
-	;):2 number []
+	;):2 trunc number []
 ;
