@@ -2,7 +2,6 @@ from . import error
 from . import function_type
 from . import string_utilities
 from . import utilities
-from . import input_utilities
 from . import lexer
 from . import preparser
 from . import ast_node
@@ -124,7 +123,6 @@ class Parser:
         self._transform_entity_list(entity.children[0], functions.copy())
 
 def parse_code(code, functions={}, target='ast'):
-    code = input_utilities.remove_shebang(code)
     specific_lexer = lexer.Lexer()
     if target == 'tokens':
         return code, specific_lexer.tokenize(code), specific_lexer.get_errors()
