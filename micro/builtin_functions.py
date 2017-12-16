@@ -99,6 +99,7 @@ BUILTIN_FUNCTIONS = {
     ),
     'pi': function_type.make_type([], handler=lambda: math.pi),
     'e': function_type.make_type([], handler=lambda: math.e),
+    'seed': function_type.make_type([1], handler=random.seed),
     'random': function_type.make_type([], handler=random.random),
     '[]': function_type.make_type([], handler=lambda: ()),
     ',': function_type.make_type([2], handler=lambda x, y: (x, y)),

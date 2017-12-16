@@ -87,6 +87,7 @@
       | is_nan
       | pi
       | e
+      | seed
       | random
       | head
       | tail
