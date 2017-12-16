@@ -1,33 +1,16 @@
 import sys
 import os
-import itertools
 import inspect
 
 from . import input_utilities
-from . import parser
 from . import evaluate
 from . import error
-from . import options
 from . import function_type
 from . import string_utilities
 from . import utilities
 
 _SCRIPT_EXTENSION = '.micro'
 _LIBRARY_VARIABLE = 'MICRO_LIBRARY'
-
-def load_code(code, functions={}, target='evaluation', filename=None):
-    result, errors = parser.parse_code(code, functions.copy(), target)
-    if target != 'evaluation' or len(errors) != 0:
-        return result, error.update_errors(errors, code, filename)
-
-    try:
-        return evaluate.evaluate(result, functions), _make_empty_generator()
-    except error.Error as exception:
-        return None, error.update_errors(
-            itertools.repeat(exception, 1),
-            code,
-            filename,
-        )
 
 def try_load_code(
     code,
