@@ -37,7 +37,7 @@ In this case, you need to adjust permissions of the specified file:
 
 ```
 $ sudo touch /usr/local/lib/python3.5/dist-packages/micro/parsetab.py
-$ sudo chown "$USER:$USER" /usr/local/lib/python3.5/dist-packages/micro/parsetab.py
+$ sudo chown "$USER:" /usr/local/lib/python3.5/dist-packages/micro/parsetab.py
 ```
 
 ## Usage
