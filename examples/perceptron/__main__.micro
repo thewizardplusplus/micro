@@ -1,0 +1,58 @@
+nb https://en.wikipedia.org/wiki/Perceptron
+nb http://natureofcode.com/book/chapter-10-neural-networks/
+nb https://rosettacode.org/wiki/Perceptron
+
+let generate:2 load "std/list/generate";
+
+let Point:2 load "Point";
+let Rectangle:2 load "Rectangle";
+let make_point_displayer:1 load "make_point_displayer";
+let activate load "activate";
+let Perceptron:3 load "Perceptron";
+let make_perceptron_displayer:1 load "make_perceptron_displayer";
+
+let PERCEPTRON_SIZE 3;
+let FUNCTION
+	nb f(x) = 2x + 1
+	fn(point)
+		if > ."y"point + 1 * 2 ."x"point
+			fn() 1;
+			fn() _1;
+	;
+;
+
+let RECTANGLE_LEFT num ? env "RECTANGLE_LEFT" "-10";
+let RECTANGLE_TOP num ? env "RECTANGLE_TOP" "-5";
+let RECTANGLE_RIGHT num ? env "RECTANGLE_RIGHT" "10";
+let RECTANGLE_BOTTOM num ? env "RECTANGLE_BOTTOM" "5";
+let LEARNING_CONSTANT num ? env "LEARNING_CONSTANT" "0.01";
+let TRAINS_NUMBER num ? env "TRAINS_NUMBER" "100";
+
+let rectangle
+	Rectangle
+		Point RECTANGLE_LEFT RECTANGLE_TOP
+		Point RECTANGLE_RIGHT RECTANGLE_BOTTOM
+;
+outln "Target output for the function f(x) = 2x + 1:"
+as(."display"rectangle):2 rectangle make_point_displayer FUNCTION
+outln ""
+
+let perceptron Perceptron PERCEPTRON_SIZE LEARNING_CONSTANT activate;
+outln "Output from the untrained perceptron:"
+as(."display"rectangle):2 rectangle make_perceptron_displayer perceptron
+outln ""
+
+let training_inputs_set generate TRAINS_NUMBER fn()
+	let point as(."get_random_point"rectangle):1 rectangle;
+	as(."to_inputs"point):1 point
+;;
+let perceptron
+	as(."iterate_trains"perceptron):3 perceptron training_inputs_set fn(inputs)
+		as(FUNCTION):1 Point .0 inputs .1 inputs
+	;
+;
+outln
+	+ "Output from the perceptron after "
+	+ str TRAINS_NUMBER
+	" training runs:"
+as(."display"rectangle):2 rectangle make_perceptron_displayer perceptron
