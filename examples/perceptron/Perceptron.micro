@@ -1,0 +1,44 @@
+let generate:2 load "std/list/generate";
+let zip:3 load "std/list/zip";
+let reduce:3 load "std/list/reduce";
+
+fn Perceptron(size_ learning_constant activator)
+	#"weights" generate size_ fn()
+		- * 2 random 1
+	;
+	#"learning_constant" learning_constant
+	#"activator" activator
+
+	#"feedforward" fn(this inputs)
+		let products zip ."weights"this inputs fn(weight input)
+			* weight input
+		;;
+		let sum reduce products 0 fn(sum product)
+			+ sum product
+		;;
+		as(."activator"this):1 sum
+	;
+
+	#"train_once" fn(this inputs desired)
+		let guess as(."feedforward"this):2 this inputs;
+		let error - desired guess;
+		let weights zip ."weights"this inputs fn(weight input)
+			+ weight * ."learning_constant"this * error input
+		;;
+
+		#"weights" weights
+	this;
+
+	#"iterate_trains" fn(this inputs_set function:1)
+		<<@ as(fn _iterate_trains(this inputs_set)
+			if != [] inputs_set
+				fn()
+					let inputs head inputs_set;
+					let this as(."train_once"this):3 this inputs function inputs;
+
+					>@fn() _iterate_trains this tail inputs_set;
+				;
+				fn() this;
+		;):2 this inputs_set
+	;
+{};
