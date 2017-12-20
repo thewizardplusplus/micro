@@ -1,0 +1,18 @@
+let ansi:2 load "std/cli/ansi";
+
+fn make_point_displayer(function:1):1
+	fn(point)
+		out
+			if && != 0 ."x"point != 0 ."y"point
+				fn()
+					let color
+						if == 1 function point
+							fn() "green";
+							fn() "blue";
+					;
+
+					ansi color "o"
+				;
+				fn() ansi "white" "#";
+	;
+;
