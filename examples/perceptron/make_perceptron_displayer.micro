@@ -1,0 +1,7 @@
+let make_point_displayer:1 load "make_point_displayer";
+
+fn make_perceptron_displayer(perceptron):1
+	make_point_displayer fn(point)
+		as(."feedforward"perceptron):2 perceptron as(."to_inputs"point):1 point
+	;
+;
