@@ -1,0 +1,41 @@
+nb https://en.wikipedia.org/wiki/Mandelbrot_set
+nb https://rosettacode.org/wiki/Mandelbrot_set
+
+let Point:2 load "Point";
+let Rectangle:2 load "Rectangle";
+
+let WIDTH 59;
+let HEIGHT 21;
+let MINIMAL_RE _2;
+let MAXIMAL_RE 1;
+let MINIMAL_IM _1;
+let MAXIMAL_IM 1;
+let X_STEP / - MAXIMAL_RE MINIMAL_RE WIDTH;
+let Y_STEP / - MAXIMAL_IM MINIMAL_IM HEIGHT;
+
+let rectangle Rectangle Point 0 0 Point WIDTH HEIGHT;
+as(."display"rectangle):2 rectangle fn(origin_point)
+	let origin_point as(."scale"origin_point):2 origin_point Point X_STEP Y_STEP;
+	let origin_point
+		as(."translate"origin_point):2
+			origin_point
+			Point MINIMAL_RE MINIMAL_IM
+	;
+	let number
+		<<@ as(fn _count(number z_point)
+			let squared_z_point as(."scale"z_point):2 z_point z_point;
+			if && > 30 number >= 4 + ."x"squared_z_point ."y"squared_z_point
+				fn()
+					let z_point
+						Point
+							+ ."x"origin_point - ."x"squared_z_point ."y"squared_z_point
+							+ ."y"origin_point * 2 * ."x"z_point ."y"z_point
+					;
+					>@fn() _count ++ number z_point;
+				;
+				fn() number;
+		;):2 0 origin_point
+	;
+	let symbol - 62 number;
+	out ,symbol[]
+;
