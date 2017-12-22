@@ -1,0 +1,10 @@
+fn while(initial checker:1 handler:1)
+	<<@ as(fn _while(result)
+		if checker result
+			fn()
+				let result handler result;
+				>@fn() _while result;
+			;
+			fn() result;
+	;):1 initial
+;
