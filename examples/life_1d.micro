@@ -1,6 +1,6 @@
 nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 
-let generate:2 load "std/list/generate";
+let generate:3 load "std/list/generate";
 let last:1 load "std/list/last";
 let reverse:1 load "std/list/reverse";
 let for_each:2 load "std/list/for_each";
@@ -58,7 +58,7 @@ fn iterate_populations(field handler:1)
 	;):2 [] field
 ;
 
-let start_field generate 80 fn()
+let start_field tail generate nil ++ 80 fn()
 	> random 0.5
 ;;
 iterate_populations start_field fn(field)
