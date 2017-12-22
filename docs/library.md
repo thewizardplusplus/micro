@@ -33,4 +33,5 @@
 	* `find_last(list: list<any>, comparator: closure(item: any): bool): nil|num`;
 	* `take(number: num, list: list<any>): list<any>`;
 	* `drop(number: num, list: list<any>): list<any>`;
-	* `sort(list: list<any>, lesser: closure(item_i: any, item_ii: any): bool): list<any>`.
+	* `sort(list: list<any>, lesser: closure(item_i: any, item_ii: any): bool): list<any>`;
+* `while(initial: any, checker: closure(result: any): bool, handler: closure(result: any): any): any`.
