@@ -1,4 +1,4 @@
-let generate:2 load "std/list/generate";
+let generate:3 load "std/list/generate";
 let map:2 load "std/list/map";
 
 nb generates a fixed length gene sequence via a generation strategy object
@@ -8,7 +8,7 @@ fn Generator(length rate strategy)
 	#"strategy" strategy
 
 	#"spawn" fn(this)
-		generate ."length"this fn()
+		tail generate nil ++ ."length"this fn()
 			as(."create"."strategy"this):1 ."strategy"this
 		;
 	;
