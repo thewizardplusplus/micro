@@ -1,7 +1,12 @@
-fn generate(number generator)
-	<<@ as(fn _generate(number result)
+let reverse:1 load "reverse";
+
+fn generate(initial number generator:1)
+	reverse <<@ as(fn _generate(number result)
 		if < 0 number
-			>@fn() _generate -- number , generator result;
+			fn()
+				let item generator head result;
+				>@fn() _generate -- number , item result;
+			;
 			fn() result;
-	;):2 trunc number []
+	;):2 -- trunc number ,initial[]
 ;
