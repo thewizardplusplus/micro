@@ -1,9 +1,9 @@
-let generate:2 load "std/list/generate";
+let generate:3 load "std/list/generate";
 let zip:3 load "std/list/zip";
 let reduce:3 load "std/list/reduce";
 
 fn Perceptron(size_ learning_constant activator)
-	#"weights" generate size_ fn()
+	#"weights" tail generate nil ++ size_ fn()
 		- * 2 random 1
 	;
 	#"learning_constant" learning_constant

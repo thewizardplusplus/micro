@@ -2,7 +2,7 @@ nb https://en.wikipedia.org/wiki/Perceptron
 nb http://natureofcode.com/book/chapter-10-neural-networks/
 nb https://rosettacode.org/wiki/Perceptron
 
-let generate:2 load "std/list/generate";
+let generate:3 load "std/list/generate";
 
 let Point:2 load "Point";
 let Rectangle:2 load "Rectangle";
@@ -42,7 +42,7 @@ outln "Output from the untrained perceptron:"
 as(."display"rectangle):2 rectangle make_perceptron_displayer perceptron
 outln ""
 
-let training_inputs_set generate TRAINS_NUMBER fn()
+let training_inputs_set tail generate nil ++ TRAINS_NUMBER fn()
 	let point as(."get_random_point"rectangle):1 rectangle;
 	as(."to_inputs"point):1 point
 ;;
