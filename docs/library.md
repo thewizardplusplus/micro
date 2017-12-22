@@ -17,7 +17,7 @@
 			* `"cyan"`;
 			* `"white"`;
 * `std/list/` &mdash; модуль для работы со списками:
-	* `generate(number: num, generator: any|closure(): any): list<any>`;
+	* `generate(initial: any, number: num, generator: closure(result: any): any): list<any>`;
 	* `for_each(list: list<any>, handler: closure(item: any): nil): nil`;
 	* `map(list: list<any>, handler: closure(item: any): any): list<any>`;
 	* `filter(list: list<any>, filter: closure(item: any): bool): list<any>`;
