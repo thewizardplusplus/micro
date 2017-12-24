@@ -6,6 +6,7 @@ from . import builtin_functions
 from . import loading
 from . import utilities
 from . import error
+from . import file_selection
 
 def main():
     try:
@@ -14,7 +15,11 @@ def main():
         processed_options = options.process_options()
         filename = processed_options.script
         if filename != '-':
-            filename = loading.try_select_path(os.curdir, os.curdir, filename)
+            filename = file_selection.try_select_path(
+                os.curdir,
+                os.curdir,
+                filename,
+            )
 
         loading.try_load_file(filename, {
             **builtin_functions.BUILTIN_FUNCTIONS,

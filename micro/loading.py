@@ -1,6 +1,5 @@
 import sys
 import os
-import inspect
 
 from . import input_utilities
 from . import evaluate
@@ -8,9 +7,7 @@ from . import error
 from . import function_type
 from . import string_utilities
 from . import utilities
-
-_SCRIPT_EXTENSION = '.micro'
-_LIBRARY_VARIABLE = 'MICRO_LIBRARY'
+from . import file_selection
 
 def try_load_code(
     code,
@@ -51,37 +48,6 @@ def try_load_file(
         base_path,
     )
 
-def try_select_path(base_path, local_base_path, filename):
-    if local_base_path is not None:
-        full_path = _try_select_file(os.path.join(local_base_path, filename))
-        if full_path is not None:
-            return full_path
-
-    if base_path is not None:
-        full_path = _try_select_file(
-            os.path.join(base_path, 'vendor', filename),
-        )
-        if full_path is not None:
-            return full_path
-
-    if os.getenv(_LIBRARY_VARIABLE) is not None:
-        for library_path in os.getenv(_LIBRARY_VARIABLE).split(':'):
-            full_path = _try_select_file(os.path.join(library_path, filename))
-            if full_path is not None:
-                return full_path
-
-    full_path = _try_select_file(
-        os.path.join(
-            os.path.dirname(inspect.getfile(sys.modules[__name__])),
-            'data',
-            filename,
-        ),
-    )
-    if full_path is not None:
-        return full_path
-
-    raise Exception('unable to load {}'.format(filename))
-
 def _make_load_function(base_path, filename, functions):
     local_base_path = utilities.get_base_path(filename)
     return {
@@ -98,9 +64,11 @@ def _make_load_function(base_path, filename, functions):
 
 def _load_file(base_path, local_base_path, filename, functions, file_cache={}):
     result = None
-    filename = os.path.abspath(
-        try_select_path(base_path, local_base_path, filename),
-    )
+    filename = os.path.abspath(file_selection.try_select_path(
+        base_path,
+        local_base_path,
+        filename,
+    ))
     if filename not in file_cache:
         result = try_load_file(filename, functions, base_path=base_path)
         file_cache[filename] = result
@@ -108,17 +76,3 @@ def _load_file(base_path, local_base_path, filename, functions, file_cache={}):
         result = file_cache[filename]
 
     return result
-
-def _try_select_file(path):
-    if os.path.splitext(path)[1] == _SCRIPT_EXTENSION and os.path.isfile(path):
-        return path
-
-    full_path = path + _SCRIPT_EXTENSION
-    if os.path.isfile(full_path):
-        return full_path
-
-    full_path = os.path.join(path, '__main__' + _SCRIPT_EXTENSION)
-    if os.path.isfile(full_path):
-        return full_path
-
-    return None
