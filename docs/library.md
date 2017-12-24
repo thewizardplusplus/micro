@@ -1,21 +1,6 @@
 ### ![](logo/logo.png) Библиотека
 
-* `std/cli/` &mdash; модуль для работы с CLI:
-	* `ansi(name: str, text: str): str` &mdash; возвращает строку `text`, обёрнутую в [управляющую последовательность ANSI](https://ru.wikipedia.org/wiki/Управляющие_последовательности_ANSI); выбор конкретной последовательности осуществляется на основе имени `name`:
-		* стили:
-			* `"bold"`;
-			* `"italic"`;
-			* `"underline"`;
-			* `"strikethrough"`;
-		* цвета:
-			* `"black"`;
-			* `"red"`;
-			* `"green"`;
-			* `"yellow"`;
-			* `"blue"`;
-			* `"magenta"`;
-			* `"cyan"`;
-			* `"white"`;
+* `while(initial: any, checker: closure(result: any): bool, handler: closure(result: any): any): any`;
 * `std/list/` &mdash; модуль для работы со списками:
 	* `generate(initial: any, number: num, generator: closure(result: any): any): list<any>`;
 	* `generate_while(initial: any, checker: closure(result: any): bool, generator: closure(result: any): any): list<any>`;
@@ -34,4 +19,19 @@
 	* `take(number: num, list: list<any>): list<any>`;
 	* `drop(number: num, list: list<any>): list<any>`;
 	* `sort(list: list<any>, lesser: closure(item_i: any, item_ii: any): bool): list<any>`;
-* `while(initial: any, checker: closure(result: any): bool, handler: closure(result: any): any): any`.
+* `std/cli/` &mdash; модуль для работы с CLI:
+	* `ansi(name: str, text: str): str` &mdash; возвращает строку `text`, обёрнутую в [управляющую последовательность ANSI](https://ru.wikipedia.org/wiki/Управляющие_последовательности_ANSI); выбор конкретной последовательности осуществляется на основе имени `name`:
+		* стили:
+			* `"bold"`;
+			* `"italic"`;
+			* `"underline"`;
+			* `"strikethrough"`;
+		* цвета:
+			* `"black"`;
+			* `"red"`;
+			* `"green"`;
+			* `"yellow"`;
+			* `"blue"`;
+			* `"magenta"`;
+			* `"cyan"`;
+			* `"white"`.
