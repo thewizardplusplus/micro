@@ -48,7 +48,7 @@ let training_inputs_set tail generate nil ++ TRAINS_NUMBER fn()
 ;;
 let perceptron
 	as(."iterate_trains"perceptron):3 perceptron training_inputs_set fn(inputs)
-		as(FUNCTION):1 Point .0 inputs .1 inputs
+		as(FUNCTION):1 as(."from_inputs" Point 0 0):2 nil inputs
 	;
 ;
 outln

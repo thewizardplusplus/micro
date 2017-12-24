@@ -18,6 +18,10 @@ fn Point(x y)
 		;
 	;
 
+	#"from_inputs" fn(this inputs)
+		Point head inputs head tail inputs
+	;
+
 	#"to_inputs" fn(this)
 		nb 1 is a bias
 		, ."x"this , ."y"this , 1 []
