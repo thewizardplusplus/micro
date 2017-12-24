@@ -31,7 +31,7 @@ def _select_path(base_path, local_base_path, filename, file_selector=None):
 
     library_paths = os.getenv(_LIBRARY_VARIABLE)
     if library_paths is not None:
-        for library_path in library_paths.split(':'):
+        for library_path in reversed(library_paths.split(':')):
             full_path = file_selector(os.path.join(library_path, filename))
             if full_path is not None:
                 return full_path
