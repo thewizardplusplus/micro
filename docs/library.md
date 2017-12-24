@@ -1,7 +1,9 @@
 ### ![](logo/logo.png) Библиотека
 
+Библиотека представлена модулем `std/`.
+
 * `while(initial: any, checker: closure(result: any): bool, handler: closure(result: any): any): any`;
-* `std/list/` &mdash; модуль для работы со списками:
+* `list/` &mdash; модуль для работы со списками:
 	* `generate(initial: any, number: num, generator: closure(result: any): any): list<any>`;
 	* `generate_while(initial: any, checker: closure(result: any): bool, generator: closure(result: any): any): list<any>`;
 	* `for_each(list: list<any>, handler: closure(item: any): nil): nil`;
@@ -19,7 +21,7 @@
 	* `take(number: num, list: list<any>): list<any>`;
 	* `drop(number: num, list: list<any>): list<any>`;
 	* `sort(list: list<any>, lesser: closure(item_i: any, item_ii: any): bool): list<any>`;
-* `std/cli/` &mdash; модуль для работы с CLI:
+* `cli/` &mdash; модуль для работы с CLI:
 	* `ansi(name: str, text: str): str` &mdash; возвращает строку `text`, обёрнутую в [управляющую последовательность ANSI](https://ru.wikipedia.org/wiki/Управляющие_последовательности_ANSI); выбор конкретной последовательности осуществляется на основе имени `name`:
 		* стили:
 			* `"bold"`;
