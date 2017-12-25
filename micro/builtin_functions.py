@@ -15,6 +15,9 @@ from . import bitwise_operations
 from . import utilities
 from . import error
 
+CLOSURE_TRAMPOLINE_WRAPPER = utilities.make_arguments_processor(
+    trampoline.closure_trampoline,
+)
 BUILTIN_FUNCTIONS = {
     'nil': function_type.make_type([], handler=lambda: None),
     'false': function_type.make_type([], handler=lambda: 0.0),
@@ -239,10 +242,9 @@ BUILTIN_FUNCTIONS = {
     'load': function_type.make_type([1]), # dummy
     'args': function_type.make_type([]), # dummy
 }
+
 _NOT_TRAMPOLINED_FUNCTIONS = ['&&', '||', 'if', '>@']
-_CLOSURE_TRAMPOLINE_WRAPPER = utilities.make_arguments_processor(
-    trampoline.closure_trampoline,
-)
+
 for name, entity_type in BUILTIN_FUNCTIONS.items():
     if name not in _NOT_TRAMPOLINED_FUNCTIONS and entity_type.arity > 0:
-        entity_type.handler = _CLOSURE_TRAMPOLINE_WRAPPER(entity_type.handler)
+        entity_type.handler = CLOSURE_TRAMPOLINE_WRAPPER(entity_type.handler)
