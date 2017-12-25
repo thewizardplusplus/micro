@@ -41,12 +41,14 @@ def load_code(
     functions={},
     target='evaluation',
     filename=None,
+    is_main_file=False,
     base_path=None,
     file_cache=None,
 ):
     result, errors = evaluate.evaluate_code(code, {
         **functions,
         **_make_load_function(file_cache, base_path, filename, functions),
+        **_make_is_main_function(is_main_file),
     }, target)
     if target != 'evaluation':
         print(result)
@@ -66,6 +68,7 @@ def load_file(
     filename='-',
     functions={},
     target='evaluation',
+    is_main_file=False,
     base_path=None,
     file_cache=None,
 ):
@@ -74,6 +77,7 @@ def load_file(
         functions,
         target,
         filename,
+        is_main_file,
         base_path,
         file_cache,
     )
@@ -94,3 +98,9 @@ def _make_load_function(file_cache, base_path, filename, functions):
         load_function = _default_load_function
 
     return {'load': function_type.make_type([1], handler=load_function)}
+
+def _make_is_main_function(is_main_file):
+    return {'is_main': function_type.make_type(
+        [],
+        handler=lambda: is_main_file,
+    )}

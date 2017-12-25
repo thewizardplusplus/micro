@@ -30,6 +30,7 @@ def main():
                 **options.make_args_function(processed_options),
             },
             processed_options.target,
+            True,
             utilities.get_base_path(filename),
             specific_file_cache,
         )
