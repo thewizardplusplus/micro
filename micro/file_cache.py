@@ -1,5 +1,7 @@
 import abc
 
+from . import loading
+
 class BaseFileLoader(abc.ABC):
     @abc.abstractmethod
     def make_file_id(self, base_path, local_base_path, filename):
@@ -18,7 +20,9 @@ class BaseFileLoader(abc.ABC):
 
 class FileCache:
     def __init__(self, file_loader=None):
-        self._file_loader = file_loader
+        self._file_loader = file_loader \
+            if file_loader is not None \
+            else loading.FileLoader()
         self._file_cache = {}
 
     def get_file(self, base_path, local_base_path, filename, functions={}):

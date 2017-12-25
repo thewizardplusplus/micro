@@ -8,6 +8,25 @@ from . import function_type
 from . import string_utilities
 from . import utilities
 from . import file_selection
+from . import file_cache
+
+class FileLoader(file_cache.BaseFileLoader):
+    def make_file_id(self, base_path, local_base_path, filename):
+        return os.path.abspath(file_selection.try_select_path(
+            base_path,
+            local_base_path,
+            filename,
+        ))
+
+    def load_file(
+        self,
+        base_path,
+        local_base_path,
+        filename,
+        file_id,
+        functions={},
+    ):
+        return try_load_file(file_id, functions, base_path=base_path)
 
 def try_load_code(
     code,
