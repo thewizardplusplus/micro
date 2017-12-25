@@ -7,6 +7,7 @@ from . import loading
 from . import utilities
 from . import error
 from . import file_selection
+from . import file_cache
 
 def main():
     try:
@@ -21,10 +22,17 @@ def main():
                 filename,
             )
 
-        loading.load_file(filename, {
-            **builtin_functions.BUILTIN_FUNCTIONS,
-            **options.make_args_function(processed_options),
-        }, processed_options.target, utilities.get_base_path(filename))
+        specific_file_cache = file_cache.FileCache()
+        loading.load_file(
+            filename,
+            {
+                **builtin_functions.BUILTIN_FUNCTIONS,
+                **options.make_args_function(processed_options),
+            },
+            processed_options.target,
+            utilities.get_base_path(filename),
+            specific_file_cache,
+        )
     except Exception as exception:
         sys.exit('error: ' + str(exception))
     except KeyboardInterrupt:
