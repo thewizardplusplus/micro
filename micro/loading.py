@@ -11,6 +11,9 @@ from . import file_selection
 from . import file_cache
 
 class FileLoader(file_cache.BaseFileLoader):
+    def __init__(self, file_cache):
+        self._file_cache = file_cache
+
     def make_file_id(self, base_path, local_base_path, filename):
         return os.path.abspath(file_selection.try_select_path(
             base_path,
@@ -26,7 +29,12 @@ class FileLoader(file_cache.BaseFileLoader):
         file_id,
         functions={},
     ):
-        return load_file(file_id, functions, base_path=base_path)
+        return load_file(
+            file_id,
+            functions,
+            base_path=base_path,
+            file_cache=self._file_cache,
+        )
 
 def load_code(
     code,

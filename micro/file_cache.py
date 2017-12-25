@@ -22,7 +22,7 @@ class FileCache:
     def __init__(self, file_loader=None):
         self._file_loader = file_loader \
             if file_loader is not None \
-            else loading.FileLoader()
+            else loading.FileLoader(self)
         self._file_cache = {}
 
     def get_file(self, base_path, local_base_path, filename, functions={}):
