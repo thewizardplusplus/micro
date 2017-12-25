@@ -14,10 +14,7 @@ fn sort(list lesser:2)
 								_sort filter list_tail fn(item)
 									! lesser item list_head
 								; fn(right_part)
-									>@fn()
-										continuation
-											+ left_part , list_head right_part
-									;
+									>@fn() continuation + left_part , list_head right_part;
 								;
 							;
 						;

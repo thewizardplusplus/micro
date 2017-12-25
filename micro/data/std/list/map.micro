@@ -3,7 +3,10 @@ let reverse:1 load "reverse";
 fn map(list handler:1)
 	reverse <<@ as(fn _map(list result)
 		if != [] list
-			>@fn() _map tail list , handler head list result;
+			fn()
+				let item handler head list;
+				>@fn() _map tail list , item result;
+			;
 			fn() result;
 	;):2 list []
 ;

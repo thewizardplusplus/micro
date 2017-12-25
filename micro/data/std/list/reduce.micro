@@ -1,7 +1,10 @@
 fn reduce(list initial handler:2)
 	<<@ as(fn _reduce(list result)
 		if != [] list
-			>@fn() _reduce tail list handler result head list;
+			fn()
+				let result handler result head list;
+				>@fn() _reduce tail list result;
+			;
 			fn() result;
 	;):2 list initial
 ;
