@@ -9,6 +9,7 @@ from . import string_utilities
 from . import utilities
 from . import file_selection
 from . import file_cache
+from . import builtin_functions
 
 class FileLoader(file_cache.BaseFileLoader):
     def __init__(self, file_cache):
@@ -97,7 +98,10 @@ def _make_load_function(file_cache, base_path, filename, functions):
     else:
         load_function = _default_load_function
 
-    return {'load': function_type.make_type([1], handler=load_function)}
+    return {'load': function_type.make_type(
+        [1],
+        handler=builtin_functions.CLOSURE_TRAMPOLINE_WRAPPER(load_function),
+    )}
 
 def _make_is_main_function(is_main_file):
     return {'is_main': function_type.make_type(
