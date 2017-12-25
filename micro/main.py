@@ -21,7 +21,7 @@ def main():
                 filename,
             )
 
-        loading.try_load_file(filename, {
+        loading.load_file(filename, {
             **builtin_functions.BUILTIN_FUNCTIONS,
             **options.make_args_function(processed_options),
         }, processed_options.target, utilities.get_base_path(filename))

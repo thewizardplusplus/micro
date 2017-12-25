@@ -26,18 +26,19 @@ class FileLoader(file_cache.BaseFileLoader):
         file_id,
         functions={},
     ):
-        return try_load_file(file_id, functions, base_path=base_path)
+        return load_file(file_id, functions, base_path=base_path)
 
-def try_load_code(
+def load_code(
     code,
     functions={},
     target='evaluation',
     filename=None,
     base_path=None,
+    file_cache=None,
 ):
     result, errors = evaluate.evaluate_code(code, {
         **functions,
-        **_make_load_function(base_path, filename, functions),
+        **_make_load_function(file_cache, base_path, filename, functions),
     }, target)
     if target != 'evaluation':
         print(result)
@@ -53,45 +54,35 @@ def try_load_code(
 
     return result
 
-def try_load_file(
+def load_file(
     filename='-',
     functions={},
     target='evaluation',
     base_path=None,
+    file_cache=None,
 ):
-    return try_load_code(
+    return load_code(
         input_utilities.read_code(filename),
         functions,
         target,
         filename,
         base_path,
+        file_cache,
     )
 
-def _make_load_function(base_path, filename, functions):
-    local_base_path = utilities.get_base_path(filename)
-    return {
-        'load': function_type.make_type(
-            [1],
-            handler=lambda filename: _load_file(
-                base_path,
-                local_base_path,
-                string_utilities.make_string_from_list(filename),
-                functions,
-            ),
-        ),
-    }
+def _default_load_function(filename):
+    raise Exception("the load function isn't available")
 
-def _load_file(base_path, local_base_path, filename, functions, file_cache={}):
-    result = None
-    filename = os.path.abspath(file_selection.try_select_path(
-        base_path,
-        local_base_path,
-        filename,
-    ))
-    if filename not in file_cache:
-        result = try_load_file(filename, functions, base_path=base_path)
-        file_cache[filename] = result
+def _make_load_function(file_cache, base_path, filename, functions):
+    if file_cache is not None:
+        local_base_path = utilities.get_base_path(filename)
+        load_function = lambda filename: file_cache.get_file(
+            base_path,
+            local_base_path,
+            string_utilities.make_string_from_list(filename),
+            functions,
+        )
     else:
-        result = file_cache[filename]
+        load_function = _default_load_function
 
-    return result
+    return {'load': function_type.make_type([1], handler=load_function)}
