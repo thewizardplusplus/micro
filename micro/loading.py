@@ -83,6 +83,25 @@ def load_file(
         file_cache,
     )
 
+def load_main_file(filename='-', functions={}, target='evaluation'):
+    if filename != '-':
+        filename = file_selection.try_select_path(
+            os.curdir,
+            os.curdir,
+            filename,
+        )
+
+    base_path = utilities.get_base_path(filename)
+    specific_file_cache = file_cache.FileCache()
+    return load_file(
+        filename,
+        functions,
+        target,
+        True,
+        base_path,
+        specific_file_cache,
+    )
+
 def _default_load_function(filename):
     raise Exception("the load function isn't available")
 
