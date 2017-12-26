@@ -240,6 +240,7 @@ BUILTIN_FUNCTIONS = {
     ),
     'exit': function_type.make_type([1], handler=error.exit),
     'load': function_type.make_type([1]), # dummy
+    'is_main': function_type.make_type([]), # dummy
     'args': function_type.make_type([]), # dummy
 }
 
