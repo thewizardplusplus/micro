@@ -1,0 +1,52 @@
+nb http://rosettacode.org/wiki/Draw_a_sphere
+
+let VectorIIID:3 load "VectorIIID";
+let Point:2 load "Point";
+let Rectangle:2 load "Rectangle";
+let calculate_intensity:4 load "calculate_intensity";
+
+let SHADES ".:!*oe&#%@";
+let LIGHT_DIRECTION VectorIIID 30 _30 _50;
+
+let SPHERE_RADIUS num ? env "SPHERE_RADIUS" "20";
+let SPECULAR_EXPONENT num ? env "SPECULAR_EXPONENT" "4";
+let AMBIENT_LIGHT num ? env "AMBIENT_LIGHT" "0.1";
+
+let rectangle
+	Rectangle
+		Point floor _ * 2 SPHERE_RADIUS floor _ SPHERE_RADIUS
+		Point ceil * 2 SPHERE_RADIUS ceil -- SPHERE_RADIUS
+;
+as(."display"rectangle):2 rectangle fn(point)
+	let point as(."scale"point):2 point Point 0.5 1;
+	let point as(."translate"point):2 point Point 0.5 0.5;
+	if >= pow SPHERE_RADIUS 2 as(."squared_length"point):1 point
+		fn()
+			let eye_direction
+				VectorIIID
+					."x"point
+					."y"point
+					sqrt - pow SPHERE_RADIUS 2 as(."squared_length"point):1 point
+			;
+			let intensity
+				calculate_intensity
+					eye_direction
+					LIGHT_DIRECTION
+					SPECULAR_EXPONENT
+					AMBIENT_LIGHT
+			;
+			let shade_index * size SHADES - 1 intensity;
+			let shade_index
+				if > 0 shade_index
+					fn() 0;
+					fn()
+						if <= size SHADES shade_index
+							fn() -- size SHADES;
+							fn() shade_index;
+					;
+			;
+			let shade . shade_index SHADES;
+			out ,shade[]
+		;
+		fn() out " ";
+;
