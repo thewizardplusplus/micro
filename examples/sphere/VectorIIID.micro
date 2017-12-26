@@ -1,0 +1,14 @@
+fn VectorIIID(x y z)
+	#"x" x
+	#"y" y
+	#"z" z
+
+	#"normalized" fn(this)
+		let length sqrt as(."dot"this):2 this this;
+		VectorIIID / ."x"this length / ."y"this length / ."z"this length
+	;
+
+	#"dot" fn(this other)
+		+ * ."x"this ."x"other + * ."y"this ."y"other * ."z"this ."z"other
+	;
+{};
