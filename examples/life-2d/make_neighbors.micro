@@ -1,9 +1,9 @@
 let generate_while:3 load "std/list/generate_while";
 let map:2 load "std/list/map";
-let reduce:3 load "std/list/reduce";
 let filter:2 load "std/list/filter";
 
 let Point:2 load "Point";
+let flatten:1 load "flatten";
 
 fn make_neighbors_axis_shifts()
 	generate_while _1 fn(result)
@@ -14,13 +14,10 @@ fn make_neighbors_axis_shifts()
 ;
 
 fn make_neighbors_shifts()
-	let rows map make_neighbors_axis_shifts fn(y)
+	let shifts flatten map make_neighbors_axis_shifts fn(y)
 		map make_neighbors_axis_shifts fn(x)
 			Point x y
 		;
-	;;
-	let shifts reduce rows [] fn(shifts row)
-		+ shifts row
 	;;
 	filter shifts fn(shift)
 		|| != 0 ."x"shift != 0 ."y"shift
