@@ -1,7 +1,6 @@
 nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 
 let generate:3 load "std/list/generate";
-let last:1 load "std/list/last";
 let reverse:1 load "std/list/reverse";
 let for_each:2 load "std/list/for_each";
 let ansi:2 load "std/cli/ansi";
@@ -14,8 +13,6 @@ fn populate_cell(previous_cell current_cell next_cell)
 ;
 
 fn populate(field)
-	let front_cell last field;
-	let back_cell head field;
 	reverse <<@ as(fn _populate(
 		old_front_cell
 		old_field
@@ -31,9 +28,7 @@ fn populate(field)
 						fn() head tail old_field;
 						fn() old_back_cell;
 				;
-				let populated_cell
-					populate_cell previous_cell current_cell next_cell
-				;
+				let populated_cell populate_cell previous_cell current_cell next_cell;
 				>@fn()
 					_populate
 						head old_field
@@ -43,7 +38,7 @@ fn populate(field)
 				;
 			;
 			fn() new_field;
-	;):4 front_cell field back_cell []
+	;):4 false field false []
 ;
 
 fn iterate_populations(field handler:1)
