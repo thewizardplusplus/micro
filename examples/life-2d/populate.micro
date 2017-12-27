@@ -1,5 +1,4 @@
 let map:2 load "std/list/map";
-let sort:2 load "std/list/sort";
 
 let make_neighbors:1 load "make_neighbors";
 let flatten:1 load "flatten";
@@ -7,8 +6,5 @@ let flatten:1 load "flatten";
 fn populate(points)
 	let neighbors flatten map points fn(point)
 		make_neighbors point
-	;;
-	let neighbors sort neighbors fn(point_i point_ii)
-		< as(."to_list"point_i):1 point_i as(."to_list"point_ii):1 point_ii
 	;;
 ;
