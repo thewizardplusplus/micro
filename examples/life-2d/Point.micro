@@ -1,4 +1,8 @@
 fn Point(x y)
 	#"x" x
 	#"y" y
+
+	#"translate" fn(this other)
+		Point + ."x"this ."x"other + ."y"this ."y"other
+	;
 {};
