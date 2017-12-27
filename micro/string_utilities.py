@@ -32,6 +32,9 @@ def unquote(string):
         lambda matches: r'\u00{}'.format(matches.group(1)),
         string,
     )
+    # replace line breaks to the corresponding escape sequence (before a JSON
+    # decoding)
+    string = string.replace('\n', '\\n')
     return json.loads(string)
 
 def get_representation(value):
