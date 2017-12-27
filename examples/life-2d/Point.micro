@@ -5,4 +5,8 @@ fn Point(x y)
 	#"translate" fn(this other)
 		Point + ."x"this ."x"other + ."y"this ."y"other
 	;
+
+	#"to_list" fn(this)
+		, ."x"this , ."y"this []
+	;
 {};
