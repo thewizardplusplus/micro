@@ -6,6 +6,7 @@ let find:2 load "std/list/find";
 let make_neighbors:1 load "make_neighbors";
 let flatten:1 load "flatten";
 let add_to_multiset:2 load "add_to_multiset";
+let Point:2 load "Point";
 
 fn populate(points)
 	let neighbors flatten map points fn(point)
@@ -14,10 +15,13 @@ fn populate(points)
 	let neighbors_numbers reduce neighbors {} fn(neighbors_numbers point)
 		add_to_multiset neighbors_numbers as(."to_list"point):1 point
 	;;
-	filter keys neighbors_numbers fn(point_as_list)
+	let new_points filter keys neighbors_numbers fn(point_as_list)
 		|| == 3 . point_as_list neighbors_numbers
 			&& == 2 . point_as_list neighbors_numbers != nil find points fn(point)
 				== point_as_list as(."to_list"point):1 point
 			;
+	;;
+	map new_points fn(point_as_list)
+		as(."from_list" Point 0 0):2 nil point_as_list
 	;
 ;
