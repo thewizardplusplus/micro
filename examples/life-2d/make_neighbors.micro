@@ -1,6 +1,7 @@
 let generate_while:3 load "std/list/generate_while";
 let map:2 load "std/list/map";
 let reduce:3 load "std/list/reduce";
+let filter:2 load "std/list/filter";
 
 let Point:2 load "Point";
 
@@ -18,8 +19,11 @@ fn make_neighbors_shifts()
 			Point x y
 		;
 	;;
-	reduce rows [] fn(shifts row)
+	let shifts reduce rows [] fn(shifts row)
 		+ shifts row
+	;;
+	filter shifts fn(shift)
+		|| != 0 ."x"shift != 0 ."y"shift
 	;
 ;
 
