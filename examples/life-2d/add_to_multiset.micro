@@ -1,0 +1,4 @@
+fn add_to_multiset(multiset item)
+	let number ? . item multiset 0;
+	# item ++ number multiset
+;
