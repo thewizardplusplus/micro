@@ -6,6 +6,10 @@ fn Point(x y)
 		Point + ."x"this ."x"other + ."y"this ."y"other
 	;
 
+	#"from_list" fn(this list)
+		Point head list head tail list
+	;
+
 	#"to_list" fn(this)
 		, ."x"this , ."y"this []
 	;
