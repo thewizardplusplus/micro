@@ -1,5 +1,6 @@
 let map:2 load "std/list/map";
 let reduce:3 load "std/list/reduce";
+let sort:2 load "std/list/sort";
 
 let make_neighbors:1 load "make_neighbors";
 
@@ -9,5 +10,8 @@ fn populate(points)
 	;;
 	let neighbors reduce neighbors [] fn(result group)
 		+ result group
+	;;
+	let neighbors sort neighbors fn(point_i point_ii)
+		< as(."to_list"point_i):1 point_i as(."to_list"point_ii):1 point_ii
 	;;
 ;
