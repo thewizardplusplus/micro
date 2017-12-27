@@ -1,0 +1,9 @@
+let map:2 load "std/list/map";
+
+let make_neighbors:1 load "make_neighbors";
+
+fn populate(points)
+	let neighbors map points fn(point)
+		make_neighbors point
+	;;
+;
