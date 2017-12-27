@@ -1,0 +1,13 @@
+let while:3 load "std/while";
+
+let populate:1 load "populate";
+let display:3 load "display";
+
+fn run_life(rectangle points point_displayer)
+	while points fn()
+		true
+	; fn(points)
+		display rectangle points point_displayer
+		populate points
+	;
+;
