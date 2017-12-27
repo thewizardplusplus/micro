@@ -22,3 +22,9 @@ fn make_neighbors_shifts()
 		+ shifts row
 	;
 ;
+
+fn make_neighbors(point)
+	map make_neighbors_shifts fn(shift)
+		as(."translate"point):2 point shift
+	;
+;
