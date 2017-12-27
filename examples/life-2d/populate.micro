@@ -1,9 +1,13 @@
 let map:2 load "std/list/map";
+let reduce:3 load "std/list/reduce";
 
 let make_neighbors:1 load "make_neighbors";
 
 fn populate(points)
 	let neighbors map points fn(point)
 		make_neighbors point
+	;;
+	let neighbors reduce neighbors [] fn(result group)
+		+ result group
 	;;
 ;
