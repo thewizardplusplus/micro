@@ -8,6 +8,8 @@ fn run_life(rectangle points point_displayer)
 		true
 	; fn(points)
 		display rectangle points point_displayer
+		outln ""
+
 		populate points
 	;
 ;
