@@ -16,3 +16,9 @@ fn make_neighbors_row_shifts(y)
 		Point x y
 	;
 ;
+
+fn make_neighbors_shifts()
+	map make_neighbors_axis_shifts fn(y)
+		make_neighbors_row_shifts y
+	;
+;
