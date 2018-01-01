@@ -13,7 +13,7 @@ fn Perceptron(size_ learning_constant activator)
 		let products zip ."weights"this inputs fn(weight input)
 			* weight input
 		;;
-		let sum reduce products 0 fn(sum product)
+		let sum reduce 0 products fn(sum product)
 			+ sum product
 		;;
 		as(."activator"this):1 sum
