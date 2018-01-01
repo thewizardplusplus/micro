@@ -54,7 +54,7 @@ fn iterate_populations(field handler:1)
 ;
 
 let start_field tail generate nil ++ 80 fn()
-	> random 0.5
+	< 0.5 random
 ;;
 iterate_populations start_field fn(field)
 	for_each field fn(cell)

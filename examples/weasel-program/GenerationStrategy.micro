@@ -5,7 +5,7 @@ fn GenerationStrategy(genes)
 	nb returns a new gene
 	#"create" fn(this)
 		nb pick a random gene from allowed genes
-		let index * size ."genes"this random;
+		let index * random size ."genes"this;
 		. index ."genes"this
 	;
 
