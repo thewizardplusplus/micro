@@ -1,4 +1,4 @@
-fn reduce(list initial handler:2)
+fn reduce(initial list handler:2)
 	<<@ as(fn _reduce(list result)
 		if != [] list
 			fn()
