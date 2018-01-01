@@ -45,7 +45,7 @@ fn Evolver(length generator strategy)
 	this;
 
 	#"get_fittest" fn(this)
-		reduce ."population"."population"this nil fn(best individual)
+		reduce nil ."population"."population"this fn(best individual)
 			let current_score
 				as(."get_score"."strategy"this):2 ."strategy"this individual
 			;

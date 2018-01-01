@@ -13,7 +13,7 @@ fn FitnessStrategy(target)
 		;;
 
 		nb count a number of discrepancies
-		reduce diff 0 fn(number is_different)
+		reduce 0 diff fn(number is_different)
 			+ number is_different
 		;
 	;

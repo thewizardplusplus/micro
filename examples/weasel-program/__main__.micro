@@ -31,7 +31,7 @@ as(."run"evolver):2 evolver fn(generation_number evolver)
 				;
 			;
 			let individual
-				reduce marked_genes "" fn(result marked_gene)
+				reduce "" marked_genes fn(result marked_gene)
 					+ result marked_gene
 				;
 			;
