@@ -87,7 +87,10 @@ BUILTIN_FUNCTIONS = {
     'arcsin': function_type.make_type([1], handler=math.asin),
     'arccos': function_type.make_type([1], handler=math.acos),
     'arctn': function_type.make_type([1], handler=math.atan),
-    'angle': function_type.make_type([2], handler=math.atan2),
+    'angle': function_type.make_type(
+        [2],
+        handler=lambda x, y: math.atan2(y, x),
+    ),
     'pow': function_type.make_type([2], handler=math.pow),
     'sqrt': function_type.make_type([1], handler=math.sqrt),
     'exp': function_type.make_type([1], handler=math.exp),

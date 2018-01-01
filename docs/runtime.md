@@ -59,7 +59,7 @@
 		* `arcsin(x: num): num`;
 		* `arccos(x: num): num`;
 		* `arctn(x: num): num`;
-		* `angle(y: num, x: num): num` &mdash; atan2;
+		* `angle(x: num, y: num): num` &mdash; atan2;
 		* `pow(base: num, exponent: num): num`;
 		* `sqrt(x: num): num`;
 		* `exp(x: num): num`;
