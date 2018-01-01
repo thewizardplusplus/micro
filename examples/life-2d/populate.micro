@@ -12,7 +12,7 @@ fn populate(points)
 	let neighbors flatten map points fn(point)
 		make_neighbors point
 	;;
-	let neighbors_numbers reduce neighbors {} fn(neighbors_numbers point)
+	let neighbors_numbers reduce {} neighbors fn(neighbors_numbers point)
 		add_to_multiset neighbors_numbers as(."to_list"point):1 point
 	;;
 	let new_points filter keys neighbors_numbers fn(point_as_list)

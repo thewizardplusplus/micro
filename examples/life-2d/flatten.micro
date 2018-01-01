@@ -1,7 +1,7 @@
 let reduce:3 load "std/list/reduce";
 
 fn flatten(list)
-	reduce list [] fn(result item)
+	reduce [] list fn(result item)
 		+ result item
 	;
 ;
