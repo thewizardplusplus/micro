@@ -1,37 +1,78 @@
 # Change Log
 
-## [v2.2](https://github.com/thewizardplusplus/micro/tree/v2.2) (2017-08-09)
+## [v2.2](https://github.com/thewizardplusplus/micro/tree/v2.2) (2018-01-04)
 
-- Удалить из примеров тесты [\#83](https://github.com/thewizardplusplus/micro/issues/83)
-- Перевести имена служебных файлов в верхний регистр [\#97](https://github.com/thewizardplusplus/micro/issues/97)
-- Возвращать код завершения 1 при перехвате исключения KeyboardInterrupt \(<kbd>Ctrl+C</kbd>\) [\#101](https://github.com/thewizardplusplus/micro/issues/101)
+* Перевести имена служебных файлов в верхний регистр [\#97](https://github.com/thewizardplusplus/micro/issues/97)
+* Возвращать код завершения 1 при перехвате исключения KeyboardInterrupt \(Ctrl+C\) [\#101](https://github.com/thewizardplusplus/micro/issues/101)
+* Добавить поддержку shebang [\#102](https://github.com/thewizardplusplus/micro/issues/102)
+* Привести к единообразию обработку концов строк [\#116](https://github.com/thewizardplusplus/micro/issues/116)
+* Вернуть поддержку многострочных строковых литералов [\#132](https://github.com/thewizardplusplus/micro/issues/132)
 * Потенциальная поддержка REPL:
-	- Скорректировать обработку исключений во время вычислений [\#78](https://github.com/thewizardplusplus/micro/issues/78)
-	- Поддерживать повторные вычисления с тем же списком функций [\#79](https://github.com/thewizardplusplus/micro/issues/79)
+	* Скорректировать обработку исключений во время вычислений [\#78](https://github.com/thewizardplusplus/micro/issues/78)
+	* Поддерживать повторные вычисления с тем же списком функций [\#79](https://github.com/thewizardplusplus/micro/issues/79)
+	* Добавить заглушки для генерируемых функций рантайма [\#109](https://github.com/thewizardplusplus/micro/issues/109)
+	* Хранить ошибки индивидуально в каждом экземпляре парсера [\#110](https://github.com/thewizardplusplus/micro/issues/110)
+* Рефакторинг:
+	* Выделить отдельную функцию для парсинга кода из строки [\#108](https://github.com/thewizardplusplus/micro/issues/108)
+	* Выделить отдельную функцию для выполнения кода из строки [\#118](https://github.com/thewizardplusplus/micro/issues/118)
+	* Выделить логику выбора конкретного файла для загрузки в отдельный подпакет [\#126](https://github.com/thewizardplusplus/micro/issues/126)
+	* Выделить логику кеширования загружаемых файлов в отдельный класс [\#127](https://github.com/thewizardplusplus/micro/issues/127)
 * Рантайм:
-	- Добавить в рантайм функцию bool [\#70](https://github.com/thewizardplusplus/micro/issues/70)
-	- Удалить функцию рантайма arity [\#85](https://github.com/thewizardplusplus/micro/issues/85)
-	- Добавить в рантайм поддержку NaN и infinity [\#92](https://github.com/thewizardplusplus/micro/issues/92)
-	- Добавить в рантайм константы pi и e [\#93](https://github.com/thewizardplusplus/micro/issues/93)
+	* Удалить функцию рантайма arity [\#85](https://github.com/thewizardplusplus/micro/issues/85)
+	* Добавление функций:
+		* Добавить в рантайм функцию bool [\#70](https://github.com/thewizardplusplus/micro/issues/70)
+		* Добавить в рантайм поддержку NaN и infinity [\#92](https://github.com/thewizardplusplus/micro/issues/92)
+		* Добавить в рантайм константы pi и e [\#93](https://github.com/thewizardplusplus/micro/issues/93)
+		* Добавить в рантайм функцию sleep [\#106](https://github.com/thewizardplusplus/micro/issues/106)
+		* Добавить в рантайм функцию seed [\#112](https://github.com/thewizardplusplus/micro/issues/112)
+		* Добавить в рантайм функцию is\_main [\#129](https://github.com/thewizardplusplus/micro/issues/129)
+	* Изменение функций:
+		* Добавить функции рантайма env поддержку конфигов .env [\#72](https://github.com/thewizardplusplus/micro/issues/72)
+		* Поменять порядок аргументов в функции рантайма angle [\#134](https://github.com/thewizardplusplus/micro/issues/134)
+		* Функция load:
+			* Поддерживать задание внешней реализации функции рантайма load [\#103](https://github.com/thewizardplusplus/micro/issues/103)
+			* Обернуть функцию рантайма load в closure\_trampoline [\#130](https://github.com/thewizardplusplus/micro/issues/130)
 * Библиотека:
-	- Удалить функцию while из библиотеки [\#69](https://github.com/thewizardplusplus/micro/issues/69)
-	- Включить библиотеку в pip-пакет [\#73](https://github.com/thewizardplusplus/micro/issues/73)
-	- Добавить место установки pip-пакета как путь для поиска скриптов после переменной MICRO\_LIBRARY [\#74](https://github.com/thewizardplusplus/micro/issues/74)
-	- Поддерживать указание нескольких путей в переменной MICRO\_LIBRARY [\#77](https://github.com/thewizardplusplus/micro/issues/77)
-	- Упростить функцию библиотеки ansi [\#89](https://github.com/thewizardplusplus/micro/issues/89)
+	* Дополнить библиотеку для работы со списками [\#98](https://github.com/thewizardplusplus/micro/issues/98)
+	* Поиск файлов при загрузке:
+		* Включить библиотеку в pip-пакет [\#73](https://github.com/thewizardplusplus/micro/issues/73)
+		* Добавить место установки pip-пакета как путь для поиска скриптов после переменной MICRO\_LIBRARY [\#74](https://github.com/thewizardplusplus/micro/issues/74)
+		* Поддерживать указание нескольких путей в переменной MICRO\_LIBRARY [\#77](https://github.com/thewizardplusplus/micro/issues/77)
+	* Изменение функций:
+		* Упростить функцию библиотеки ansi [\#89](https://github.com/thewizardplusplus/micro/issues/89)
+		* Доработать функцию библиотеки generate [\#111](https://github.com/thewizardplusplus/micro/issues/111)
+		* Поменять порядок аргументов в функции библиотеки reduce [\#135](https://github.com/thewizardplusplus/micro/issues/135)
+	* Удаление функций:
+		* Удалить функцию библиотеки count [\#105](https://github.com/thewizardplusplus/micro/issues/105)
+		* Удалить из библиотеки модуль для юнит-тестирования [\#107](https://github.com/thewizardplusplus/micro/issues/107)
+* Примеры:
+	* Удалить из примеров тесты [\#83](https://github.com/thewizardplusplus/micro/issues/83)
+	* Убрать закольцовывание из примера 1D-жизнь [\#131](https://github.com/thewizardplusplus/micro/issues/131)
+	* Улучшить стиль кода в примерах [\#133](https://github.com/thewizardplusplus/micro/issues/133)
+	* Добавление примеров:
+		* Добавить новый пример - перцептрон [\#120](https://github.com/thewizardplusplus/micro/issues/120)
+		* Добавить новый пример - множество Мандельброта [\#121](https://github.com/thewizardplusplus/micro/issues/121)
+		* Добавить новый пример - сфера [\#124](https://github.com/thewizardplusplus/micro/issues/124)
+		* Добавить новый пример - 2D-жизнь [\#125](https://github.com/thewizardplusplus/micro/issues/125)
 * pip-пакет:
-	- Указать в setup.py требуемую версию Python [\#75](https://github.com/thewizardplusplus/micro/issues/75)
-	- Рефакторинг парсинга версии pip-пакета [\#100](https://github.com/thewizardplusplus/micro/issues/100)
+	* Указать в setup.py требуемую версию Python [\#75](https://github.com/thewizardplusplus/micro/issues/75)
+	* Рефакторинг парсинга версии pip-пакета [\#100](https://github.com/thewizardplusplus/micro/issues/100)
+	* Убрать явную установку группы для файла parsetab.py [\#119](https://github.com/thewizardplusplus/micro/issues/119)
 * Плагин для редактора Atom:
-	- Удалить поддержку сниппетов из плагина для редактора Atom [\#80](https://github.com/thewizardplusplus/micro/issues/80)
-	- Упростить обработку отступов в плагине для редактора Atom [\#81](https://github.com/thewizardplusplus/micro/issues/81)
-	- Добавить описание установки в плагин для редактора Atom [\#82](https://github.com/thewizardplusplus/micro/issues/82)
-	- Улучшить стиль кода в плагине для редактора Atom [\#86](https://github.com/thewizardplusplus/micro/issues/86)
+	* Удалить поддержку сниппетов из плагина для редактора Atom [\#80](https://github.com/thewizardplusplus/micro/issues/80)
+	* Упростить обработку отступов в плагине для редактора Atom [\#81](https://github.com/thewizardplusplus/micro/issues/81)
+	* Добавить описание установки в плагин для редактора Atom [\#82](https://github.com/thewizardplusplus/micro/issues/82)
+	* Улучшить стиль кода в плагине для редактора Atom [\#86](https://github.com/thewizardplusplus/micro/issues/86)
 * Документация:
-	- Упростить регулярные выражения для пунктуационных идентификаторов в документации [\#87](https://github.com/thewizardplusplus/micro/issues/87)
-	- Добавить логотип языка [\#90](https://github.com/thewizardplusplus/micro/issues/90)
-	- Добавить оглавление к документации [\#96](https://github.com/thewizardplusplus/micro/issues/96)
-	- Изменить в документации описание типизации со слабой на сильную [\#99](https://github.com/thewizardplusplus/micro/issues/99)
+	* Упростить регулярные выражения для пунктуационных идентификаторов в документации [\#87](https://github.com/thewizardplusplus/micro/issues/87)
+	* Добавить логотип языка [\#90](https://github.com/thewizardplusplus/micro/issues/90)
+	* Добавить оглавление к документации [\#96](https://github.com/thewizardplusplus/micro/issues/96)
+	* Изменить в документации описание типизации со слабой на сильную [\#99](https://github.com/thewizardplusplus/micro/issues/99)
+	* Указать наименование \(путь\) модулей в документации на библиотеку [\#104](https://github.com/thewizardplusplus/micro/issues/104)
+	* Исправить описание некоторых функций рантайма в документации [\#117](https://github.com/thewizardplusplus/micro/issues/117)
+	* Поменять порядок функций в документации на библиотеку [\#122](https://github.com/thewizardplusplus/micro/issues/122)
+	* Дополнить описание модульности в документации [\#123](https://github.com/thewizardplusplus/micro/issues/123)
+	* Дополнить описание требований к файлам исходного кода в документации [\#136](https://github.com/thewizardplusplus/micro/issues/136)
 
 ## [v2.1](https://github.com/thewizardplusplus/micro/tree/v2.1) (2017-04-30)
 
