@@ -57,6 +57,7 @@
 	* Пример 1D-жизнь:
 		* Убрать закольцовывание из примера 1D-жизнь [\#131](https://github.com/thewizardplusplus/micro/issues/131)
 		* Разделить пример 1D-жизни на модули [\#137](https://github.com/thewizardplusplus/micro/issues/137)
+		* Вынести магические константы из примера 1D-жизнь в его параметры [\#139](https://github.com/thewizardplusplus/micro/issues/139)
 * pip-пакет:
 	* Указать в setup.py требуемую версию Python [\#75](https://github.com/thewizardplusplus/micro/issues/75)
 	* Рефакторинг парсинга версии pip-пакета [\#100](https://github.com/thewizardplusplus/micro/issues/100)
