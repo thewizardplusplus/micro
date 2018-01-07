@@ -1,0 +1,8 @@
+let ansi:2 load "std/cli/ansi";
+
+fn display_cell(cell)
+	out
+		if cell
+			fn() ansi "bold" ansi "white" "#";
+			fn() ansi "black" ".";
+;

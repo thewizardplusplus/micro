@@ -1,17 +1,11 @@
 nb http://rosettacode.org/wiki/Conway%27s_Game_of_Life
 
-let ansi:2 load "std/cli/ansi";
-
 let Point:2 load "Point";
 let Rectangle:2 load "Rectangle";
 let make_points:2 load "make_points";
+let display_cell load "../common/display_cell";
 let run_life:3 load "run_life";
 
 let rectangle Rectangle Point 0 0 Point 10 10;
 let points make_points rectangle 50;
-run_life rectangle points fn(is_alive)
-	out
-		if is_alive
-			fn() ansi "bold" ansi "white" "#";
-			fn() ansi "black" ".";
-;
+run_life rectangle points display_cell
