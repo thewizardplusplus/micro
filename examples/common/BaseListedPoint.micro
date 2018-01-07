@@ -1,0 +1,13 @@
+let BasePoint:3 load "BasePoint";
+
+fn BaseListedPoint(x y builder)
+	+BasePoint x y builder
+
+	#"from_list" fn(this list)
+		as(builder):2 head list head tail list
+	;
+
+	#"to_list" fn(this)
+		, ."x"this , ."y"this []
+	;
+{};
