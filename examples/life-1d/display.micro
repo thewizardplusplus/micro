@@ -1,0 +1,6 @@
+let for_each:2 load "std/list/for_each";
+
+fn display(field point_displayer)
+	for_each field point_displayer
+	outln ""
+;

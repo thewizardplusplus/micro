@@ -1,10 +1,11 @@
+let display:3 load "display";
 let populate:1 load "populate";
 
-fn run_life(field field_displayer:1)
+fn run_life(field point_displayer)
 	<<@ as(fn _iterate_populations(previous_field field)
 		if != previous_field field
 			fn()
-				field_displayer field
+				display field point_displayer
 
 				let next_field populate field;
 				>@fn() _iterate_populations field next_field;

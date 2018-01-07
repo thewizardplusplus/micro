@@ -1,7 +1,6 @@
 nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 
 let generate:3 load "std/list/generate";
-let for_each:2 load "std/list/for_each";
 let ansi:2 load "std/cli/ansi";
 
 let run_life:2 load "run_life";
@@ -11,13 +10,9 @@ let FIELD_LENGTH num ? env "FIELD_LENGTH" "80";
 let start_field tail generate nil ++ FIELD_LENGTH fn()
 	< 0.5 random
 ;;
-run_life start_field fn(field)
-	for_each field fn(cell)
-		out
-			if cell
-				fn() ansi "bold" ansi "white" "#";
-				fn() ansi "black" ".";
-	;
-
-	outln ""
+run_life start_field fn(cell)
+	out
+		if cell
+			fn() ansi "bold" ansi "white" "#";
+			fn() ansi "black" ".";
 ;
