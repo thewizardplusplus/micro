@@ -1,51 +1,16 @@
-let Point:2 load "Point";
+let Point load "Point";
+let BaseRectangle:3 load "../common/BaseRectangle";
 
 fn Rectangle(minimum maximum)
-	#"minimum" minimum
-	#"maximum" maximum
-
-	#"iterate_axis" fn(this start end handler:1)
-		<<@ as(fn _iterate_axis(axis)
-			if <= axis end
-				fn()
-					handler axis
-
-					>@fn() _iterate_axis ++ axis;
-				;
-				fn();
-		;):1 start
-	;
-
-	#"iterate_points" fn(this handler:1)
-		as(."iterate_axis"this):4 this ."y"."minimum"this ."y"."maximum"this fn(y)
-			as(."iterate_axis"this):4 this ."x"."minimum"this ."x"."maximum"this fn(x)
-				handler Point x y
-			;
-		;
-	;
+	+BaseRectangle minimum maximum Point
 
 	#"get_random_axis" fn(this start end)
 		+ start * random - end start
 	;
 
 	#"get_random_point" fn(this)
-		Point
+		as(Point):2
 			as(."get_random_axis"this):3 this ."x"."minimum"this ."x"."maximum"this
 			as(."get_random_axis"this):3 this ."y"."minimum"this ."y"."maximum"this
-	;
-
-	#"display" fn(this point_displayer:1)
-		let y_middle / + ."y"."minimum"this ."y"."maximum"this 2;
-		as(."iterate_points"this):2 this fn(point)
-			nb mirror the point in the X axis
-			let point as(."translate"point):2 point Point 0 _ y_middle;
-			let point as(."scale"point):2 point Point 1 _ 1;
-			let point as(."translate"point):2 point Point 0 y_middle;
-			point_displayer point
-
-			if == ."x"point ."x"."maximum"this
-				fn() outln "";
-				fn();
-		;
 	;
 {};
