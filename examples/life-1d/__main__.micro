@@ -1,13 +1,10 @@
 nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
 
-let generate:3 load "std/list/generate";
-
+let make_field:1 load "make_field";
 let display_cell load "../common/display_cell";
 let run_life:2 load "run_life";
 
 let FIELD_LENGTH num ? env "FIELD_LENGTH" "80";
 
-let start_field tail generate nil ++ FIELD_LENGTH fn()
-	< 0.5 random
-;;
-run_life start_field display_cell
+let field make_field FIELD_LENGTH;
+run_life field display_cell

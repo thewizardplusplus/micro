@@ -1,0 +1,7 @@
+let generate:3 load "std/list/generate";
+
+fn make_field(length)
+	tail generate nil ++ length fn()
+		< 0.5 random
+	;
+;
