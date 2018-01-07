@@ -1,0 +1,10 @@
+let generate:3 load "std/list/generate";
+
+let Point:2 load "Point";
+
+fn make_points(rectangle number)
+	let points tail generate nil ++ number fn()
+		let point as(."get_random_point"rectangle):1 rectangle;
+		Point trunc ."x"point trunc ."y"point
+	;;
+;
