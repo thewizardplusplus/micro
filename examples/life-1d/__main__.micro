@@ -6,7 +6,9 @@ let ansi:2 load "std/cli/ansi";
 
 let run_life:2 load "run_life";
 
-let start_field tail generate nil ++ 80 fn()
+let FIELD_LENGTH num ? env "FIELD_LENGTH" "80";
+
+let start_field tail generate nil ++ FIELD_LENGTH fn()
 	< 0.5 random
 ;;
 run_life start_field fn(field)
