@@ -8,6 +8,13 @@ let flatten:1 load "flatten";
 let add_to_multiset:2 load "add_to_multiset";
 let Point:2 load "Point";
 
+fn populate_cell(points neighbors_numbers origin_point)
+	|| == 3 . origin_point neighbors_numbers
+		&& == 2 . origin_point neighbors_numbers != nil find points fn(point)
+			== origin_point as(."to_list"point):1 point
+		;
+;
+
 fn populate(points)
 	let neighbors flatten map points fn(point)
 		make_neighbors point
@@ -15,11 +22,8 @@ fn populate(points)
 	let neighbors_numbers reduce {} neighbors fn(neighbors_numbers point)
 		add_to_multiset neighbors_numbers as(."to_list"point):1 point
 	;;
-	let new_points filter keys neighbors_numbers fn(point_as_list)
-		|| == 3 . point_as_list neighbors_numbers
-			&& == 2 . point_as_list neighbors_numbers != nil find points fn(point)
-				== point_as_list as(."to_list"point):1 point
-			;
+	let new_points filter keys neighbors_numbers fn(origin_point)
+		populate_cell points neighbors_numbers origin_point
 	;;
 	map new_points fn(point_as_list)
 		as(."from_list" Point 0 0):2 nil point_as_list
