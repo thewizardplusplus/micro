@@ -1,0 +1,36 @@
+let while:3 load "std/while";
+
+fn iterate_axis(start end handler:1)
+	while start fn(axis) <= axis end; fn(axis)
+		handler axis
+		++ axis
+	;
+;
+
+fn BaseRectangle(minimum maximum point_builder)
+	#"minimum" minimum
+	#"maximum" maximum
+
+	#"iterate_points" fn(this handler:1)
+		iterate_axis ."y"."minimum"this ."y"."maximum"this fn(y)
+			iterate_axis ."x"."minimum"this ."x"."maximum"this fn(x)
+				handler as(point_builder):2 x y
+			;
+		;
+	;
+
+	#"display" fn(this point_displayer:1)
+		let y_middle / + ."y"."minimum"this ."y"."maximum"this 2;
+		as(."iterate_points"this):2 this fn(point)
+			nb mirror the point in the X axis
+			let point as(."translate"point):2 point as(point_builder):2 0 _ y_middle;
+			let point as(."scale"point):2 point as(point_builder):2 1 _ 1;
+			let point as(."translate"point):2 point as(point_builder):2 0 y_middle;
+			point_displayer point
+
+			if == ."x"point ."x"."maximum"this
+				fn() outln "";
+				fn();
+		;
+	;
+{};
