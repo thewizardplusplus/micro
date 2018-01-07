@@ -47,13 +47,15 @@
 		* Удалить из библиотеки модуль для юнит-тестирования [\#107](https://github.com/thewizardplusplus/micro/issues/107)
 * Примеры:
 	* Удалить из примеров тесты [\#83](https://github.com/thewizardplusplus/micro/issues/83)
-	* Убрать закольцовывание из примера 1D-жизнь [\#131](https://github.com/thewizardplusplus/micro/issues/131)
 	* Улучшить стиль кода в примерах [\#133](https://github.com/thewizardplusplus/micro/issues/133)
 	* Добавление примеров:
 		* Добавить новый пример - перцептрон [\#120](https://github.com/thewizardplusplus/micro/issues/120)
 		* Добавить новый пример - множество Мандельброта [\#121](https://github.com/thewizardplusplus/micro/issues/121)
 		* Добавить новый пример - сфера [\#124](https://github.com/thewizardplusplus/micro/issues/124)
 		* Добавить новый пример - 2D-жизнь [\#125](https://github.com/thewizardplusplus/micro/issues/125)
+	* Пример 1D-жизнь:
+		* Убрать закольцовывание из примера 1D-жизнь [\#131](https://github.com/thewizardplusplus/micro/issues/131)
+		* Разделить пример 1D-жизни на модули [\#137](https://github.com/thewizardplusplus/micro/issues/137)
 * pip-пакет:
 	* Указать в setup.py требуемую версию Python [\#75](https://github.com/thewizardplusplus/micro/issues/75)
 	* Рефакторинг парсинга версии pip-пакета [\#100](https://github.com/thewizardplusplus/micro/issues/100)
