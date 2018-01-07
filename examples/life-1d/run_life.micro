@@ -1,0 +1,14 @@
+let populate:1 load "populate";
+
+fn run_life(field field_displayer:1)
+	<<@ as(fn _iterate_populations(previous_field field)
+		if != previous_field field
+			fn()
+				field_displayer field
+
+				let next_field populate field;
+				>@fn() _iterate_populations field next_field;
+			;
+			fn();
+	;):2 [] field
+;

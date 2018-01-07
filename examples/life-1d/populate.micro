@@ -1,0 +1,32 @@
+let reverse:1 load "std/list/reverse";
+
+fn populate_cell(previous_cell current_cell next_cell)
+	let neighbours + previous_cell next_cell;
+	if current_cell
+		fn() == 1 neighbours;
+		fn() == 2 neighbours;
+;
+
+fn populate(field)
+	reverse <<@ as(fn _populate(old_front_cell old_field old_back_cell new_field)
+		if != [] old_field
+			fn()
+				let previous_cell old_front_cell;
+				let current_cell head old_field;
+				let next_cell
+					if != [] tail old_field
+						fn() head tail old_field;
+						fn() old_back_cell;
+				;
+				let populated_cell populate_cell previous_cell current_cell next_cell;
+				>@fn()
+					_populate
+						head old_field
+						tail old_field
+						old_back_cell
+						, populated_cell new_field
+				;
+			;
+			fn() new_field;
+	;):4 false field false []
+;
