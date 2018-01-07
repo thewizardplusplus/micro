@@ -48,6 +48,7 @@
 * Примеры:
 	* Удалить из примеров тесты [\#83](https://github.com/thewizardplusplus/micro/issues/83)
 	* Улучшить стиль кода в примерах [\#133](https://github.com/thewizardplusplus/micro/issues/133)
+	* Выделить общий код из примеров [\#138](https://github.com/thewizardplusplus/micro/issues/138)
 	* Добавление примеров:
 		* Добавить новый пример - перцептрон [\#120](https://github.com/thewizardplusplus/micro/issues/120)
 		* Добавить новый пример - множество Мандельброта [\#121](https://github.com/thewizardplusplus/micro/issues/121)
