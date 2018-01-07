@@ -1,20 +1,7 @@
+let BasePoint:3 load "../common/BasePoint";
+
 fn Point(x y)
-	#"x" x
-	#"y" y
-
-	#"combine" fn(this other combiner:2)
-		Point combiner ."x"this ."x"other combiner ."y"this ."y"other
-	;
-
-	#"translate" fn(this other)
-		as(."combine"this):3 this other fn(axis_i axis_ii)
-			+ axis_i axis_ii
-		;
-	;
-
-	#"scale" fn(this other)
-		as(."combine"this):3 this other fn(axis_i axis_ii)
-			* axis_i axis_ii
-		;
+	+BasePoint x y fn(x y)
+		Point x y
 	;
 {};
