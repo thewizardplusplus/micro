@@ -1,0 +1,15 @@
+let BaseRectangle:3 load "BaseRectangle";
+
+fn get_random_axis(start end)
+	+ start * random - end start
+;
+
+fn BaseRandomRectangle(minimum maximum point_builder)
+	+BaseRectangle minimum maximum point_builder
+
+	#"get_random_point" fn(this)
+		as(point_builder):2
+			get_random_axis ."x"."minimum"this ."x"."maximum"this
+			get_random_axis ."y"."minimum"this ."y"."maximum"this
+	;
+{};
