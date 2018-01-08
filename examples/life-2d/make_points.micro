@@ -13,7 +13,7 @@ fn make_unique(list)
 fn make_points(rectangle number)
 	from_lists make_unique tail generate nil ++ number fn()
 		let point as(."get_random_point"rectangle):1 rectangle;
-		let point Point trunc ."x"point trunc ."y"point;
+		let point Point round ."x"point round ."y"point;
 		as(."to_list"point):1 point
 	;
 ;
