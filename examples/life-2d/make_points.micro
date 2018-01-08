@@ -1,10 +1,22 @@
+let reduce:3 load "std/list/reduce";
 let generate:3 load "std/list/generate";
+let map:2 load "std/list/map";
 
 let Point:2 load "Point";
 
+fn make_unique(list)
+	keys reduce {} list fn(result item)
+		# item true result
+	;
+;
+
 fn make_points(rectangle number)
-	let points tail generate nil ++ number fn()
+	let points make_unique tail generate nil ++ number fn()
 		let point as(."get_random_point"rectangle):1 rectangle;
-		Point trunc ."x"point trunc ."y"point
+		let point Point trunc ."x"point trunc ."y"point;
+		as(."to_list"point):1 point
 	;;
+	map points fn(point_as_list)
+		as(."from_list" Point 0 0):2 nil point_as_list
+	;
 ;
