@@ -1,0 +1,9 @@
+let map:2 load "std/list/map";
+
+let Point:2 load "Point";
+
+fn from_lists(points_as_list)
+	map points_as_list fn(point_as_list)
+		as(."from_list" Point 0 0):2 nil point_as_list
+	;
+;
