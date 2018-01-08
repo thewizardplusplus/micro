@@ -21,7 +21,7 @@ $ cd micro
 Create a symbolic link to the package directory:
 
 ```
-$ ln -s "`pwd`/tools/atom-plugin/language-micro/" ~/.atom/packages/
+$ ln -s "$(pwd)/tools/atom-plugin/language-micro/" ~/.atom/packages/
 ```
 
 Restart Atom.
