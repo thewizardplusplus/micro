@@ -6,6 +6,10 @@ let make_points:2 load "make_points";
 let display_cell load "../common/display_cell";
 let run_life:3 load "run_life";
 
-let rectangle Rectangle Point 0 0 Point 10 10;
-let points make_points rectangle 50;
+let FIELD_WIDTH num ? env "FIELD_WIDTH" "10";
+let FIELD_HEIGHT num ? env "FIELD_HEIGHT" "10";
+let POINTS_NUMBER num ? env "POINTS_NUMBER" "50";
+
+let rectangle Rectangle Point 0 0 Point FIELD_WIDTH FIELD_HEIGHT;
+let points make_points rectangle POINTS_NUMBER;
 run_life rectangle points display_cell
