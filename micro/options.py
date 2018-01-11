@@ -28,7 +28,7 @@ def process_options():
         action='version',
         help='- show the version message and exit',
         version='Micro interpreter, v{}\n'.format(utilities.MICRO_VERSION) \
-            + 'Copyright (c) 2016-2018 thewizardplusplus',
+            + 'Copyright (C) 2016-2018 thewizardplusplus',
     )
     parser.add_argument(
         '-h',
