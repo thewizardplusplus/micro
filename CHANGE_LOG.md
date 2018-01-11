@@ -1,6 +1,6 @@
 # Change Log
 
-## [v2.2](https://github.com/thewizardplusplus/micro/tree/v2.2) (2018-01-04)
+## [v2.2](https://github.com/thewizardplusplus/micro/tree/v2.2) (2018-01-11)
 
 * Перевести имена служебных файлов в верхний регистр [\#97](https://github.com/thewizardplusplus/micro/issues/97)
 * Возвращать код завершения 1 при перехвате исключения KeyboardInterrupt \(Ctrl+C\) [\#101](https://github.com/thewizardplusplus/micro/issues/101)
@@ -77,6 +77,7 @@
 	* Поменять порядок функций в документации на библиотеку [\#122](https://github.com/thewizardplusplus/micro/issues/122)
 	* Дополнить описание модульности в документации [\#123](https://github.com/thewizardplusplus/micro/issues/123)
 	* Дополнить описание требований к файлам исходного кода в документации [\#136](https://github.com/thewizardplusplus/micro/issues/136)
+	* Исправить знак копирайта [\#140](https://github.com/thewizardplusplus/micro/issues/140)
 
 ## [v2.1](https://github.com/thewizardplusplus/micro/tree/v2.1) (2017-04-30)
 
