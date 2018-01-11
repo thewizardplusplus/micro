@@ -75,4 +75,4 @@ Arguments:
 
 The MIT License (MIT)
 
-Copyright &copy; 2016, 2017 thewizardplusplus
+Copyright &copy; 2016-2018 thewizardplusplus

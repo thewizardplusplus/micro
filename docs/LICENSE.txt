@@ -1,6 +1,6 @@
 CC BY 4.0
 
-Copyright (c) 2016, 2017 thewizardplusplus <thewizardplusplus@yandex.ru>
+Copyright (c) 2016-2018 thewizardplusplus <thewizardplusplus@yandex.ru>
 
 This documentation is licensed under a
 Creative Commons Attribution 4.0 International License.
