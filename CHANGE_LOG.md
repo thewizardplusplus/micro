@@ -69,15 +69,18 @@
 	* Улучшить стиль кода в плагине для редактора Atom [\#86](https://github.com/thewizardplusplus/micro/issues/86)
 * Документация:
 	* Упростить регулярные выражения для пунктуационных идентификаторов в документации [\#87](https://github.com/thewizardplusplus/micro/issues/87)
-	* Добавить логотип языка [\#90](https://github.com/thewizardplusplus/micro/issues/90)
-	* Добавить оглавление к документации [\#96](https://github.com/thewizardplusplus/micro/issues/96)
 	* Изменить в документации описание типизации со слабой на сильную [\#99](https://github.com/thewizardplusplus/micro/issues/99)
-	* Указать наименование \(путь\) модулей в документации на библиотеку [\#104](https://github.com/thewizardplusplus/micro/issues/104)
 	* Исправить описание некоторых функций рантайма в документации [\#117](https://github.com/thewizardplusplus/micro/issues/117)
-	* Поменять порядок функций в документации на библиотеку [\#122](https://github.com/thewizardplusplus/micro/issues/122)
-	* Дополнить описание модульности в документации [\#123](https://github.com/thewizardplusplus/micro/issues/123)
-	* Дополнить описание требований к файлам исходного кода в документации [\#136](https://github.com/thewizardplusplus/micro/issues/136)
-	* Исправить знак копирайта [\#140](https://github.com/thewizardplusplus/micro/issues/140)
+	* Общее описание:
+		* Дополнить описание модульности в документации [\#123](https://github.com/thewizardplusplus/micro/issues/123)
+		* Дополнить описание требований к файлам исходного кода в документации [\#136](https://github.com/thewizardplusplus/micro/issues/136)
+	* Библиотека:
+		* Указать наименование \(путь\) модулей в документации на библиотеку [\#104](https://github.com/thewizardplusplus/micro/issues/104)
+		* Поменять порядок функций в документации на библиотеку [\#122](https://github.com/thewizardplusplus/micro/issues/122)
+	* Оформление:
+		* Добавить логотип языка [\#90](https://github.com/thewizardplusplus/micro/issues/90)
+		* Добавить оглавление к документации [\#96](https://github.com/thewizardplusplus/micro/issues/96)
+		* Исправить знак копирайта [\#140](https://github.com/thewizardplusplus/micro/issues/140)
 
 ## [v2.1](https://github.com/thewizardplusplus/micro/tree/v2.1) (2017-04-30)
 
