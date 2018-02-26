@@ -22,7 +22,7 @@ as(."display"rectangle):2 rectangle fn(point)
 	let point as(."translate"point):2 point Point 0.5 0.5;
 	if >= pow SPHERE_RADIUS 2 as(."squared_length"point):1 point
 		fn()
-			let eye_direction
+			let normal
 				VectorIIID
 					."x"point
 					."y"point
@@ -30,7 +30,7 @@ as(."display"rectangle):2 rectangle fn(point)
 			;
 			let intensity
 				calculate_intensity
-					eye_direction
+					normal
 					LIGHT_DIRECTION
 					SPECULAR_EXPONENT
 					AMBIENT_LIGHT

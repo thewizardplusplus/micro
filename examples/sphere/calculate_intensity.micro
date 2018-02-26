@@ -1,16 +1,7 @@
-fn calculate_intensity(
-	eye_direction
-	light_direction
-	specular_exponent
-	ambient_light
-)
-	let eye_direction as(."normalized"eye_direction):1 eye_direction;
+fn calculate_intensity(normal light_direction specular_exponent ambient_light)
+	let normal as(."normalized"normal):1 normal;
 	let light_direction as(."normalized"light_direction):1 light_direction;
-	let directions_product
-		as(."dot"eye_direction):2
-			eye_direction
-			light_direction
-	;
+	let directions_product as(."dot"normal):2 normal light_direction;
 	let directions_product
 		if > 0 directions_product
 			fn() _ directions_product;
