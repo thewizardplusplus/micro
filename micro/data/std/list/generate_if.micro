@@ -1,11 +1,11 @@
 let reverse:1 load "reverse";
 
-fn generate_while(initial checker:1 generator:1)
-	reverse <<@ as(fn _generate_while(result)
+fn generate_if(initial checker:1 generator:1)
+	reverse <<@ as(fn _generate_if(result)
 		if checker head result
 			fn()
 				let item generator head result;
-				>@fn() _generate_while , item result;
+				>@fn() _generate_if , item result;
 			;
 			fn() tail result;
 	;):1 ,initial[]

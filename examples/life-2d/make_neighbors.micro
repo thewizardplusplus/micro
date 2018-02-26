@@ -1,4 +1,4 @@
-let generate_while:3 load "std/list/generate_while";
+let generate_if:3 load "std/list/generate_if";
 let map:2 load "std/list/map";
 let filter:2 load "std/list/filter";
 
@@ -6,7 +6,7 @@ let Point:2 load "Point";
 let flatten:1 load "flatten";
 
 fn make_neighbors_axis_shifts()
-	generate_while _1 fn(result)
+	generate_if _1 fn(result)
 		> 2 result
 	; fn(result)
 		++ result
