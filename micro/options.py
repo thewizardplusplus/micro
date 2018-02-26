@@ -56,7 +56,7 @@ def process_options():
     return parser.parse_args()
 
 def get_script_name(filename):
-    return filename if filename != '-' else 'stdin'
+    return filename if filename != '-' else '__stdin__'
 
 def make_args_function(options):
     arguments = list_utilities.reduce_list(
