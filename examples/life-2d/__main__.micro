@@ -10,7 +10,7 @@ let FIELD_WIDTH num ?? env "FIELD_WIDTH" "10";
 let FIELD_HEIGHT num ?? env "FIELD_HEIGHT" "5";
 let FILL_FACTOR num ?? env "FILL_FACTOR" "0.75";
 let POINTS_NUMBER
-  round num ?? env "POINTS_NUMBER" str * FILL_FACTOR * FIELD_WIDTH FIELD_HEIGHT
+	round num ?? env "POINTS_NUMBER" str * FILL_FACTOR * FIELD_WIDTH FIELD_HEIGHT
 ;
 
 let rectangle Rectangle Point 0 0 Point -- FIELD_WIDTH -- FIELD_HEIGHT;
