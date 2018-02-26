@@ -1,4 +1,5 @@
 nb http://www.rosettacode.org/wiki/One-dimensional_cellular_automata
+nb https://en.wikipedia.org/wiki/Elementary_cellular_automaton, Rule 104
 
 let make_field:1 load "make_field";
 let display_cell load "../common/display_cell";
