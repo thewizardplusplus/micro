@@ -4,7 +4,7 @@ let make_field:1 load "make_field";
 let display_cell load "../common/display_cell";
 let run_life:2 load "run_life";
 
-let FIELD_LENGTH num ? env "FIELD_LENGTH" "80";
+let FIELD_LENGTH num ?? env "FIELD_LENGTH" "80";
 
 let field make_field FIELD_LENGTH;
 run_life field display_cell

@@ -10,11 +10,11 @@ let Generator:3 load "Generator";
 let FitnessStrategy:1 load "FitnessStrategy";
 let Evolver:3 load "Evolver";
 
-let ALLOWED_GENES ? env "ALLOWED_GENES" "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-let TARGET ? env "TARGET" "METHINKS IT IS LIKE A WEASEL";
-let MUTATION_RATE num ? env "MUTATION_RATE" "0.05";
-let POPULATION_SIZE num ? env "POPULATION_SIZE" "50";
-let OUTPUT_RATE num ? env "OUTPUT_RATE" "10";
+let ALLOWED_GENES ?? env "ALLOWED_GENES" "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+let TARGET ?? env "TARGET" "METHINKS IT IS LIKE A WEASEL";
+let MUTATION_RATE num ?? env "MUTATION_RATE" "0.05";
+let POPULATION_SIZE num ?? env "POPULATION_SIZE" "50";
+let OUTPUT_RATE num ?? env "OUTPUT_RATE" "10";
 
 let generation_strategy GenerationStrategy ALLOWED_GENES;
 let generator Generator size TARGET MUTATION_RATE generation_strategy;

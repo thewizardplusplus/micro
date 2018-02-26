@@ -8,9 +8,9 @@ let calculate_intensity:4 load "calculate_intensity";
 let SHADES ".:!*oe&#%@";
 let LIGHT_DIRECTION VectorIIID 30 _30 _50;
 
-let SPHERE_RADIUS num ? env "SPHERE_RADIUS" "20";
-let SPECULAR_EXPONENT num ? env "SPECULAR_EXPONENT" "4";
-let AMBIENT_LIGHT num ? env "AMBIENT_LIGHT" "0.1";
+let SPHERE_RADIUS num ?? env "SPHERE_RADIUS" "20";
+let SPECULAR_EXPONENT num ?? env "SPECULAR_EXPONENT" "4";
+let AMBIENT_LIGHT num ?? env "AMBIENT_LIGHT" "0.1";
 
 let rectangle
 	Rectangle

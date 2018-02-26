@@ -5,8 +5,8 @@ fn zip(list_i list_ii handler:2)
 		if && != [] list_i != [] list_ii
 			fn()
 				let result_item handler head list_i head list_ii;
-				let list_i ? tail list_i [];
-				let list_ii ? tail list_ii [];
+				let list_i ?? tail list_i [];
+				let list_ii ?? tail list_ii [];
 				>@fn() _zip list_i list_ii , result_item result;
 			;
 			fn() result;
