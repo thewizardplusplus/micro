@@ -1,0 +1,9 @@
+fn clamp(minimum maximum value)
+	if < value minimum
+		fn() minimum;
+		fn()
+			if > value maximum
+				fn() maximum;
+				fn() value;
+		;
+;
