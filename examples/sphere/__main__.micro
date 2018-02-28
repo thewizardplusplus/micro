@@ -4,6 +4,7 @@ let VectorIIID:3 load "VectorIIID";
 let Point:2 load "Point";
 let Rectangle:2 load "Rectangle";
 let calculate_intensity:4 load "calculate_intensity";
+let clamp:3 load "clamp";
 
 let SHADES ".:!*oe&#%@";
 let LIGHT_DIRECTION VectorIIID 30 _30 _50;
@@ -35,16 +36,7 @@ as(."display"rectangle):2 rectangle fn(point)
 					SPECULAR_EXPONENT
 					AMBIENT_LIGHT
 			;
-			let shade_index * size SHADES - 1 intensity;
-			let shade_index
-				if > 0 shade_index
-					fn() 0;
-					fn()
-						if <= size SHADES shade_index
-							fn() -- size SHADES;
-							fn() shade_index;
-					;
-			;
+			let shade_index clamp 0 -- size SHADES * size SHADES - 1 intensity;
 			let shade . shade_index SHADES;
 			out ,shade[]
 		;
