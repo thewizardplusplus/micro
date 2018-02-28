@@ -7,11 +7,9 @@ import glob
 if not (0x030500f0 <= sys.hexversion < 0x040000a0):
     raise Exception('requires Python >=3.5, <4.0')
 
+project_path = os.path.dirname(os.path.abspath(__file__))
 package_name, *_ = setuptools.find_packages()
-package_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    package_name,
-)
+package_path = os.path.join(project_path, package_name)
 with open(
     os.path.join(package_path, 'utilities.py'),
     encoding='utf-8',
@@ -22,9 +20,27 @@ with open(
         re.MULTILINE,
     ).group(1)
 
+with open(
+    os.path.join(project_path, 'README.md'),
+    encoding='utf-8',
+) as readme_file:
+    long_description = readme_file.read()
+long_description = long_description[
+    long_description.find('## Installation')
+    : long_description.find('## IDE support')
+].rstrip()
+try:
+    import pypandoc
+
+    long_description = pypandoc.convert_text(long_description, 'rst', 'md')
+except ImportError:
+    pass
+
 setuptools.setup(
     name=package_name,
     version=version,
+    description='Interpreter of the Micro programming language',
+    long_description=long_description,
     license='MIT',
     author='thewizardplusplus',
     author_email='thewizardplusplus@yandex.ru',
