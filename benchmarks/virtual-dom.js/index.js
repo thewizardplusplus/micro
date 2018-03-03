@@ -5,6 +5,10 @@ function make_node(type, ...children) {
   return {type, children}
 }
 
+function make_difference(path, action, ...parameters) {
+  return {path, action, parameters}
+}
+
 module.exports = {
   make_node,
 }
