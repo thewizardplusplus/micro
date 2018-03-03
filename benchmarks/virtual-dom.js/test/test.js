@@ -1,5 +1,6 @@
 require('chai').should()
-const {make_node, compare_nodes} = require('..')
+// const {make_node, compare_nodes} = require('..')
+const {make_node, compare_nodes} = require('../index.min.js')
 
 describe('compare_nodes', () => {
   it("should create a node when there's no old node at same place", () => {

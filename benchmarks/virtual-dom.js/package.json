@@ -17,6 +17,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "minify": "google-closure-compiler-js --languageOut=ES6 index.js | grep -v ES3 > index.min.js"
   }
 }
