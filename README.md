@@ -4,8 +4,40 @@ Interpreter of the Micro programming language.
 
 ## Installation
 
+Clone this repository:
+
 ```
-$ pip install micro
+$ git clone https://github.com/thewizardplusplus/micro.git
+$ cd micro
+```
+
+Then install the interpreter with [pip](https://pip.pypa.io/) tool:
+
+```
+$ sudo -H python3.5 -m pip install .
+```
+
+`sudo` command is required to install `micro` console script. If it's not required, `sudo` command can be omitted:
+
+```
+$ python3.5 -m pip install .
+```
+
+But then the interpreter should be started as `python3.5 -m micro`.
+
+### Fix the warning from PLY library
+
+When you're running the interpreter, you can get the following error:
+
+```
+WARNING: Couldn't create 'parsetab'. [Errno 13] Permission denied: '/usr/local/lib/python3.5/dist-packages/micro/parsetab.py'
+```
+
+In this case, you need to adjust permissions of the specified file:
+
+```
+$ sudo touch /usr/local/lib/python3.5/dist-packages/micro/parsetab.py
+$ sudo chown "$USER:" /usr/local/lib/python3.5/dist-packages/micro/parsetab.py
 ```
 
 ## Usage
