@@ -21,4 +21,15 @@ describe('compare_nodes', () => {
       parameters: [5],
     }])
   })
+
+  it("should replace a node when there's a different node at same place", () => {
+    const old_node = make_node('input')
+    const new_node = make_node('textarea')
+    const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
+    difference.should.deep.equal([{
+      path: ['section', 'form'],
+      action: 'replace',
+      parameters: [5, new_node],
+    }])
+  })
 })
