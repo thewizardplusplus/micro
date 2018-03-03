@@ -1,0 +1,14 @@
+{
+  "name": "virtual-dom",
+  "version": "2.3.0",
+  "license": "MIT",
+  "author": "thewizardplusplus <thewizardplusplus@yandex.ru>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thewizardplusplus/micro.git"
+  },
+  "engines": {
+    "node": "^8.9.4"
+  },
+  "main": "index.js"
+}
