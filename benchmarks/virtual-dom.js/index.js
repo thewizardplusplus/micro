@@ -42,9 +42,12 @@ function compare_nodes(old_node, new_node, index=0, path=[]) {
   } else if (is_different(old_node, new_node)) {
     difference.push(make_difference(path, 'replace', index, new_node))
   } else if (old_node.type) {
-    const maximal_length = Math.max(old_node.children.length, new_node.children.length)
-    for (let i = 0; i < maximal_length; i++) {
-      const child_path = [...path, old_node.type]
+    const child_path = [...path, old_node.type]
+    const properties_difference = compare_properties(child_path, old_node.properties, new_node.properties)
+    difference.push(...properties_difference)
+
+    const maximal_children_length = Math.max(old_node.children.length, new_node.children.length)
+    for (let i = 0; i < maximal_children_length; i++) {
       const child_difference = compare_nodes(old_node.children[i], new_node.children[i], i, child_path)
       difference.push(...child_difference)
     }
