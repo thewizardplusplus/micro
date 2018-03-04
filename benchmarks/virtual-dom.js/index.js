@@ -56,7 +56,5 @@ function compare_nodes(old_node, new_node, index=0, path=[]) {
   return difference
 }
 
-module.exports = {
-  make_node,
-  compare_nodes,
-}
+// verbose naming is needed for Google Closure Compiler
+module['exports'] = {'make_node': make_node, 'compare_nodes': compare_nodes}

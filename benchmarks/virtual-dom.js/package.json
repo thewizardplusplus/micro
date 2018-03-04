@@ -19,6 +19,6 @@
   "scripts": {
     "test": "TEST_SOURCE=../index.js mocha",
     "test-min": "TEST_SOURCE=../index.min.js mocha",
-    "minify": "google-closure-compiler-js --languageOut=ES6 index.js | grep -v ES3 > index.min.js"
+    "minify": "google-closure-compiler-js --assumeFunctionWrapper --compilationLevel=ADVANCED --languageOut=ES6 externs.js index.js | grep -v ES3 | sed \"s/'use strict';//\" | sed -E 's/Object.assign\\(\\{\\},(\\w+),(\\w+)\\)/{...\\1,...\\2}/' > index.min.js"
   }
 }
