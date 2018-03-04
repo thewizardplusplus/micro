@@ -26,6 +26,13 @@ function compare_property(path, name, old_value, new_value) {
   return difference
 }
 
+function compare_properties(path, old_properties, new_properties) {
+  const properties = Object.assign({}, old_properties, new_properties)
+  return Object.keys(properties)
+    .map(name => compare_property(path, name, old_properties[name], new_properties[name]))
+    .filter(difference => difference)
+}
+
 function compare_nodes(old_node, new_node, index=0, path=[]) {
   let difference = []
   if (!old_node) {
