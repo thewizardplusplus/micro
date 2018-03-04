@@ -56,8 +56,8 @@ describe('compare_nodes', () => {
   })
 
   it("should go deeper when there're same nodes at same place", () => {
-    const old_node = make_node('label', 'Message', make_node('input'))
-    const new_node = make_node('label', 'Message', make_node('textarea'))
+    const old_node = make_node('label', {}, 'Message', make_node('input'))
+    const new_node = make_node('label', {}, 'Message', make_node('textarea'))
     const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
     difference.should.deep.equal([{
       path: ['section', 'form', 'label'],
