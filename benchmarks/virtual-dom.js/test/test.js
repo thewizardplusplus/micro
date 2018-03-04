@@ -22,7 +22,7 @@ describe('compare_nodes', () => {
     }])
   })
 
-  it("should replace a node when there's a different node at same place", () => {
+  it("should replace a node when there's a different object at same place", () => {
     const old_node = make_node('input')
     const new_node = make_node('textarea')
     const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
@@ -33,9 +33,31 @@ describe('compare_nodes', () => {
     }])
   })
 
+  it("should replace a node when there's an object and a string at same place", () => {
+    const old_node = make_node('input')
+    const new_node = 'text'
+    const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
+    difference.should.deep.equal([{
+      path: ['section', 'form'],
+      action: 'replace',
+      parameters: [5, new_node],
+    }])
+  })
+
+  it("should replace a node when there's a different string at same place", () => {
+    const old_node = 'text #1'
+    const new_node = 'text #2'
+    const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
+    difference.should.deep.equal([{
+      path: ['section', 'form'],
+      action: 'replace',
+      parameters: [5, new_node],
+    }])
+  })
+
   it("should go deeper when there're same nodes at same place", () => {
-    const old_node = make_node('label', make_node('span'), make_node('input'))
-    const new_node = make_node('label', make_node('span'), make_node('textarea'))
+    const old_node = make_node('label', 'Message', make_node('input'))
+    const new_node = make_node('label', 'Message', make_node('textarea'))
     const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
     difference.should.deep.equal([{
       path: ['section', 'form', 'label'],
