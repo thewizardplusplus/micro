@@ -15,6 +15,17 @@ function is_different(node_1, node_2) {
     || node_1.type !== node_2.type
 }
 
+function compare_property(path, name, old_value, new_value) {
+  let difference
+  if (!new_value) {
+    difference = make_difference(path, 'remove_property', name)
+  } else if (!old_value || new_value !== old_value) {
+    difference = make_difference(path, 'set_property', name, new_value)
+  }
+
+  return difference
+}
+
 function compare_nodes(old_node, new_node, index=0, path=[]) {
   let difference = []
   if (!old_node) {
