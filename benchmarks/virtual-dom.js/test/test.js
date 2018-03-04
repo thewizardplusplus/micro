@@ -65,4 +65,37 @@ describe('compare_nodes', () => {
       parameters: [1, make_node('textarea')],
     }])
   })
+
+  it("should set a property when an old node hasn't a property with same name", () => {
+    const old_node = make_node('input', {class: 'form-control'})
+    const new_node = make_node('input', {class: 'form-control', type: 'email'})
+    const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
+    difference.should.deep.equal([{
+      path: ['section', 'form', 'input'],
+      action: 'set_property',
+      parameters: ['type', 'email'],
+    }])
+  })
+
+  it("should remove a property when a new node hasn't a property with same name", () => {
+    const old_node = make_node('input', {class: 'form-control', type: 'email'})
+    const new_node = make_node('input', {class: 'form-control'})
+    const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
+    difference.should.deep.equal([{
+      path: ['section', 'form', 'input'],
+      action: 'remove_property',
+      parameters: ['type'],
+    }])
+  })
+
+  it("should set a property when a property with same name has a different value", () => {
+    const old_node = make_node('input', {class: 'form-control', type: 'username'})
+    const new_node = make_node('input', {class: 'form-control', type: 'email'})
+    const difference = compare_nodes(old_node, new_node, 5, ['section', 'form'])
+    difference.should.deep.equal([{
+      path: ['section', 'form', 'input'],
+      action: 'set_property',
+      parameters: ['type', 'email'],
+    }])
+  })
 })
