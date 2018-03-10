@@ -31,7 +31,7 @@ $ npm run test
 $ npm run test-min
 ```
 
-## Result
+## Benchmark
 
 Parameter | Value
 --- | ---
