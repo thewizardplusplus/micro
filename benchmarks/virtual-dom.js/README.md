@@ -33,6 +33,10 @@ $ npm run test-min
 
 ## Benchmark
 
+```
+$ npm run benchmark
+```
+
 Parameter | Value
 --- | ---
 Size of the full version | 2381 B
