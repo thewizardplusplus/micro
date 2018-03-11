@@ -8,7 +8,7 @@
     "url": "https://github.com/thewizardplusplus/micro.git"
   },
   "engines": {
-    "node": "^8.9.4"
+    "node": "^6.12.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
