@@ -38,4 +38,4 @@
 			* `"white"`;
 * `test/` &mdash; модуль для юнит-тестирования:
 	* `test(name: str, test: closure(): bool): bool`;
-	* `group(name: str, tests: closure(): list<bool>): list<bool>`.
+	* `group(name: str, tests: closure(): list<bool>): list<bool>` (переменная окружения `TEST_SEPARATOR_LENGTH` задаёт ширину разделителей групп; по умолчанию: 80).
