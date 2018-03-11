@@ -1,8 +1,14 @@
+let filter:2 load "../list/filter";
 let ansi:2 load "../cli/ansi";
-let generate:2 load "../list/generate";
-let count:2 load "../list/count";
+let generate:3 load "../list/generate";
 
 let LINE_WIDTH 80;
+
+fn count(list value)
+	size filter list fn(item)
+		== item value
+	;
+;
 
 fn format_results(results)
 	+ "total: " + str size results + "  "
@@ -14,15 +20,15 @@ fn group(name tests)
 	if != "" name
 		fn()
 			outln
-				+ generate LINE_WIDTH '=' + "\n"
+				+ tail generate nil ++ LINE_WIDTH fn() '='; + "\n"
 				+ ansi "bold" name + "\n"
-				generate LINE_WIDTH '-'
+				tail generate nil ++ LINE_WIDTH fn() '-';
 		;
 		fn();
 
 	let results tests;
 	outln
-		+ generate LINE_WIDTH '-' + "\n"
+		+ tail generate nil ++ LINE_WIDTH fn() '-'; + "\n"
 		format_results results
 
 	results
