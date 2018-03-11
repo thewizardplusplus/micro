@@ -1,8 +1,14 @@
+let generate:3 load "../list/generate";
 let filter:2 load "../list/filter";
 let ansi:2 load "../cli/ansi";
-let generate:3 load "../list/generate";
 
 let LINE_WIDTH 80;
+
+fn generate_line(length symbol)
+	tail generate nil ++ length fn()
+		symbol
+	;
+;
 
 fn count(list value)
 	size filter list fn(item)
@@ -20,15 +26,15 @@ fn group(name tests)
 	if != "" name
 		fn()
 			outln
-				+ tail generate nil ++ LINE_WIDTH fn() '='; + "\n"
+				+ generate_line LINE_WIDTH '=' + "\n"
 				+ ansi "bold" name + "\n"
-				tail generate nil ++ LINE_WIDTH fn() '-';
+				generate_line LINE_WIDTH '-'
 		;
 		fn();
 
 	let results tests;
 	outln
-		+ tail generate nil ++ LINE_WIDTH fn() '-'; + "\n"
+		+ generate_line LINE_WIDTH '-' + "\n"
 		format_results results
 
 	results
