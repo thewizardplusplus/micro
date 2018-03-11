@@ -5,7 +5,4 @@ google-closure-compiler-js \
   --compilationLevel=ADVANCED \
   --assumeFunctionWrapper \
   --languageOut=ES6 \
-  | grep --invert-match ES3 \
-  | tr --delete '\n' \
-  | sed "s/'use strict';//" \
-  | sed --regexp-extended 's/Object.assign\(\{\},(\w+),(\w+)\)/{...\1,...\2}/'
+  | grep --invert-match ES3

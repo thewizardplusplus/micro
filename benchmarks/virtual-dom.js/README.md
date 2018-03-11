@@ -35,6 +35,6 @@ $ npm run test-min
 
 Parameter | Value
 --- | ---
-Size of the full version | 2366 B
-Size of the minified version | **768 B**
-Saved | 67.55%
+Size of the full version | 2381 B
+Size of the minified version | **794 B**
+Saved | 66.66%
