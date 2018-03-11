@@ -2,7 +2,7 @@ let generate:3 load "../list/generate";
 let filter:2 load "../list/filter";
 let ansi:2 load "../cli/ansi";
 
-let LINE_WIDTH 80;
+let TEST_SEPARATOR_LENGTH num ?? env "TEST_SEPARATOR_LENGTH" "80";
 
 fn generate_line(length symbol)
 	tail generate nil ++ length fn()
@@ -26,15 +26,15 @@ fn group(name tests)
 	if != "" name
 		fn()
 			outln
-				+ generate_line LINE_WIDTH '=' + "\n"
+				+ generate_line TEST_SEPARATOR_LENGTH '=' + "\n"
 				+ ansi "bold" name + "\n"
-				generate_line LINE_WIDTH '-'
+				generate_line TEST_SEPARATOR_LENGTH '-'
 		;
 		fn();
 
 	let results tests;
 	outln
-		+ generate_line LINE_WIDTH '-' + "\n"
+		+ generate_line TEST_SEPARATOR_LENGTH '-' + "\n"
 		format_results results
 
 	results
