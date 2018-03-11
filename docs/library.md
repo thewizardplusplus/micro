@@ -35,4 +35,7 @@
 			* `"blue"`;
 			* `"magenta"`;
 			* `"cyan"`;
-			* `"white"`.
+			* `"white"`;
+* `test/` &mdash; модуль для юнит-тестирования:
+	* `test(name: str, test: closure(): bool): bool`;
+	* `group(name: str, tests: closure(): list<bool>): list<bool>`.
