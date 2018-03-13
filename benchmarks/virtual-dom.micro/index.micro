@@ -6,3 +6,9 @@ fn make_node(kind properties children)
   #"properties" properties
   #"children" children
 {};
+
+fn make_difference(path action parameters)
+  #"path" path
+  #"action" action
+  #"parameters" parameters
+{};
