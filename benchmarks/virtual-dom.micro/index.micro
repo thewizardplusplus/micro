@@ -12,3 +12,11 @@ fn make_difference(path action parameters)
   #"action" action
   #"parameters" parameters
 {};
+
+fn is_different(node_i node_ii)
+  || != type node_i type node_ii fn()
+    if == "hash" type node_i
+      fn() != ."type"node_i ."type"node_ii;
+      fn() != node_i node_ii;
+  ;
+;
