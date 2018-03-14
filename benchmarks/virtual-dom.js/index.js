@@ -45,26 +45,26 @@ function compare_properties(path, old_properties, new_properties) {
 }
 
 function compare_nodes(old_node, new_node, index=0, path=[]) {
-  let difference = []
+  let differences = []
   if (!old_node) {
-    difference.push(make_difference(path, 'create', new_node))
+    differences.push(make_difference(path, 'create', new_node))
   } else if (!new_node) {
-    difference.push(make_difference(path, 'remove', index))
+    differences.push(make_difference(path, 'remove', index))
   } else if (is_different(old_node, new_node)) {
-    difference.push(make_difference(path, 'replace', index, new_node))
+    differences.push(make_difference(path, 'replace', index, new_node))
   } else if (old_node['type']) {
     const child_path = [...path, old_node['type']]
-    const properties_difference = compare_properties(child_path, old_node['properties'], new_node['properties'])
-    difference.push(...properties_difference)
+    const properties_differences = compare_properties(child_path, old_node['properties'], new_node['properties'])
+    differences.push(...properties_differences)
 
     const maximal_children_length = Math.max(old_node['children'].length, new_node['children'].length)
     for (let i = 0; i < maximal_children_length; i++) {
-      const child_difference = compare_nodes(old_node['children'][i], new_node['children'][i], i, child_path)
-      difference.push(...child_difference)
+      const child_differences = compare_nodes(old_node['children'][i], new_node['children'][i], i, child_path)
+      differences.push(...child_differences)
     }
   }
 
-  return difference
+  return differences
 }
 
 module['exports'] = {
