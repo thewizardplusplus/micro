@@ -39,6 +39,6 @@ $ npm run benchmark
 
 Parameter | Value
 --- | ---
-Size of the full version | 2381 B
+Size of the full version | 2387 B
 Size of the minified version | **794 B**
-Saved | 66.66%
+Saved | 66.74%

@@ -21,8 +21,9 @@ function make_difference(path, action, ...parameters) {
 
 function is_different(node_1, node_2) {
   return typeof node_1 !== typeof node_2
-    || (typeof node_1 === 'string' && node_1 !== node_2)
-    || node_1['type'] !== node_2['type']
+    || (typeof node_1 === 'object'
+      ? node_1['type'] !== node_2['type']
+      : node_1 !== node_2)
 }
 
 function compare_property(path, name, old_value, new_value) {
