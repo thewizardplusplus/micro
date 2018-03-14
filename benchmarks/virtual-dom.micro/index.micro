@@ -20,3 +20,13 @@ fn is_different(node_i node_ii)
       fn() != node_i node_ii;
   ;
 ;
+
+fn compare_property(path name old_value new_value)
+  if !new_value
+    fn() make_difference path "remove_property" ,name[];
+    fn()
+      if || !old_value != new_value old_value
+        fn() make_difference path "set_property" ,name,new_value[];
+        fn() nil;
+    ;
+;
