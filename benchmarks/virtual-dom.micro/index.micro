@@ -1,6 +1,9 @@
 nb https://medium.com/@deathmood/how-to-write-your-own-virtual-dom-ee74acc13060
 nb https://medium.com/@deathmood/write-your-virtual-dom-2-props-events-a957608f5c76
 
+let map:2 load "std/list/map";
+let filter:2 load "std/list/filter";
+
 fn make_node(kind properties children)
   #"type" kind
   #"properties" properties
@@ -29,4 +32,14 @@ fn compare_property(path name old_value new_value)
         fn() make_difference path "set_property" ,name,new_value[];
         fn() nil;
     ;
+;
+
+fn compare_properties(path old_properties new_properties)
+  let properties + old_properties new_properties;
+  let differences map keys properties fn(name)
+    compare_property path name .name old_properties .name new_properties
+  ;;
+  filter differences fn(difference)
+    difference
+  ;
 ;
