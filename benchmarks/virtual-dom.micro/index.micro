@@ -43,3 +43,21 @@ fn compare_properties(path old_properties new_properties)
     difference
   ;
 ;
+
+fn compare_nodes(old_node new_node index path)
+  if !old_node
+    fn() , make_difference path "create" ,new_node[] [];
+    fn()
+      if !new_node
+        fn() , make_difference path "remove" ,index[] [];
+        fn()
+          if is_different old_node new_node
+            fn() , make_difference path "replace" ,index,new_node[] [];
+            fn()
+              if ."type"old_node
+                fn() nb:...nb;;
+                fn() [];
+            ;
+        ;
+    ;
+;
