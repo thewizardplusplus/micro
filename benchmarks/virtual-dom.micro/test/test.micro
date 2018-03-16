@@ -19,4 +19,17 @@ group "compare_nodes()" fn()
       format_differences differences
     ;
   ;
+
+  ,test "should remove a node when there's no new node at same place" fn()
+    let old_node make_node "input" {} [];
+    let difference compare_nodes old_node nil 5 ,"section","form"[];
+    let expected
+      #"path" ,"section","form"[]
+      #"action" "remove"
+      #"parameters" ,5[]
+    {};
+    assert_equality difference ,expected[] fn(differences)
+      format_differences differences
+    ;
+  ;
 [];
