@@ -1,8 +1,5 @@
 let debug_items:2 load "debug_items";
-
-fn debug_node(node)
-  "<node>"
-;
+let debug_node:1 load "debug_node";
 
 fn debug_parameters(parameters)
   debug_items parameters fn(parameter)

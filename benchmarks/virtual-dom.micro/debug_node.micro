@@ -1,0 +1,15 @@
+let debug_items:2 load "debug_items";
+
+fn debug_properties(properties)
+  "<properties>"
+;
+
+fn debug_node(node)
+  + "{"
+    + "\"type\": " + strs ."type"node + ", "
+    + "\"properties\": " + debug_properties ."properties"node + ", "
+    + "\"children\": " + debug_items ."children"node fn(child)
+      debug_node child
+    ;
+  "}"
+;
