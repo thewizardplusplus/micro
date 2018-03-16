@@ -56,7 +56,7 @@ fn compare_nodes(old_node new_node index path)
           if is_different old_node new_node
             fn() , make_difference path "replace" ,index,new_node[] [];
             fn()
-              if ."type"old_node
+              if == "hash" type old_node
                 fn()
                   let child_path + path , ."type"old_node [];
                   let properties_differences
