@@ -1,8 +1,16 @@
+let map:2 load "std/list/map";
+let reduce:3 load "std/list/reduce";
 let ansi:2 load "std/cli/ansi";
 let for_each:2 load "std/list/for_each";
 
 fn debug_parameters(parameters)
-  "<parameters>"
+  let formatted_parameters map parameters fn(parameter)
+    "<parameter>"
+  ;;
+  reduce "" formatted_parameters fn(result formatted_parameter)
+    let separator && result ", ";
+    + result + separator formatted_parameter
+  ;
 ;
 
 fn debug_differences(differences)
