@@ -7,106 +7,106 @@ let zip_longest:3 load "std/list/zip_longest";
 let reduce:3 load "std/list/reduce";
 
 fn make_node(kind properties children)
-  #"type" kind
-  #"properties" properties
-  #"children" children
+	#"type" kind
+	#"properties" properties
+	#"children" children
 {};
 
 fn make_difference(path action parameters)
-  #"path" path
-  #"action" action
-  #"parameters" parameters
+	#"path" path
+	#"action" action
+	#"parameters" parameters
 {};
 
 fn is_different(node_i node_ii)
-  || != type node_i type node_ii fn()
-    if == "hash" type node_i
-      fn() != ."type"node_i ."type"node_ii;
-      fn() != node_i node_ii;
-  ;
+	|| != type node_i type node_ii fn()
+		if == "hash" type node_i
+			fn() != ."type"node_i ."type"node_ii;
+			fn() != node_i node_ii;
+	;
 ;
 
 fn compare_property(path name old_value new_value)
-  if !new_value
-    fn() make_difference path "remove_property" ,name[];
-    fn()
-      if || !old_value != new_value old_value
-        fn() make_difference path "set_property" ,name,new_value[];
-        fn() nil;
-    ;
+	if !new_value
+		fn() make_difference path "remove_property" ,name[];
+		fn()
+			if || !old_value != new_value old_value
+				fn() make_difference path "set_property" ,name,new_value[];
+				fn() nil;
+		;
 ;
 
 fn compare_properties(path old_properties new_properties)
-  let properties + old_properties new_properties;
-  let differences map keys properties fn(name)
-    compare_property path name .name old_properties .name new_properties
-  ;;
-  filter differences fn(difference)
-    difference
-  ;
+	let properties + old_properties new_properties;
+	let differences map keys properties fn(name)
+		compare_property path name .name old_properties .name new_properties
+	;;
+	filter differences fn(difference)
+		difference
+	;
 ;
 
 fn compare_nodes(old_node new_node index path)
-  if !old_node
-    fn() , make_difference path "create" ,new_node[] [];
-    fn()
-      if !new_node
-        fn() , make_difference path "remove" ,index[] [];
-        fn()
-          if is_different old_node new_node
-            fn() , make_difference path "replace" ,index,new_node[] [];
-            fn()
-              if == "hash" type old_node
-                fn()
-                  let child_path + path , ."type"old_node [];
-                  let properties_differences
-                    compare_properties
-                      child_path
-                      ."properties"old_node
-                      ."properties"new_node
-                  ;
-                  let children_pairs
-                    zip_longest
-                      ."children"old_node
-                      ."children"new_node
-                      fn(node_i node_ii)
-                        ,node_i,node_ii[]
-                      ;
-                  ;
-                  let children_differences
-                    let result
-                      reduce {} children_pairs fn(result children_pair)
-                        let index ?? ."index"result 0;
-                        let differences
-                          compare_nodes
-                            .0 children_pair
-                            .1 children_pair
-                            index
-                            child_path
-                        ;
+	if !old_node
+		fn() , make_difference path "create" ,new_node[] [];
+		fn()
+			if !new_node
+				fn() , make_difference path "remove" ,index[] [];
+				fn()
+					if is_different old_node new_node
+						fn() , make_difference path "replace" ,index,new_node[] [];
+						fn()
+							if == "hash" type old_node
+								fn()
+									let child_path + path , ."type"old_node [];
+									let properties_differences
+										compare_properties
+											child_path
+											."properties"old_node
+											."properties"new_node
+									;
+									let children_pairs
+										zip_longest
+											."children"old_node
+											."children"new_node
+											fn(node_i node_ii)
+												,node_i,node_ii[]
+											;
+									;
+									let children_differences
+										let result
+											reduce {} children_pairs fn(result children_pair)
+												let index ?? ."index"result 0;
+												let differences
+													compare_nodes
+														.0 children_pair
+														.1 children_pair
+														index
+														child_path
+												;
 
-                        #"differences" + ?? ."differences"result [] differences
-                        #"index" ++ index
-                      {};
-                    ;
+												#"differences" + ?? ."differences"result [] differences
+												#"index" ++ index
+											{};
+										;
 
-                    ?? ."differences"result []
-                  ;
+										?? ."differences"result []
+									;
 
-                  + properties_differences children_differences
-                ;
-                fn() [];
-            ;
-        ;
-    ;
+									+ properties_differences children_differences
+								;
+								fn() [];
+						;
+				;
+		;
 ;
 
 nb exports
-  #"make_node" fn(kind properties children)
-    make_node kind properties children
-  ;
+	#"make_node" fn(kind properties children)
+		make_node kind properties children
+	;
 
-  #"compare_nodes" fn(old_node new_node index path)
-    compare_nodes old_node new_node index path
-  ;
+	#"compare_nodes" fn(old_node new_node index path)
+		compare_nodes old_node new_node index path
+	;
 {}

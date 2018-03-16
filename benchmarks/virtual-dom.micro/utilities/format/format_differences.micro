@@ -2,23 +2,23 @@ let format_items:4 load "format_items";
 let format_node:1 load "format_node";
 
 fn format_parameters(parameters)
-  format_items "[" parameters "]" fn(parameter)
-    if == "num" type parameter
-      fn() str parameter;
-      fn()
-        if == "list" type parameter
-          fn() strs parameter;
-          fn() format_node parameter;
-      ;
-  ;
+	format_items "[" parameters "]" fn(parameter)
+		if == "num" type parameter
+			fn() str parameter;
+			fn()
+				if == "list" type parameter
+					fn() strs parameter;
+					fn() format_node parameter;
+			;
+	;
 ;
 
 fn format_differences(differences)
-  format_items "[" differences "]" fn(difference)
-    + "{"
-      + "\"path\": " + strl ."path"difference + ", "
-      + "\"action\": " + strs ."action"difference + ", "
-      + "\"parameters\": " + format_parameters ."parameters"difference
-    "}"
-  ;
+	format_items "[" differences "]" fn(difference)
+		+ "{"
+			+ "\"path\": " + strl ."path"difference + ", "
+			+ "\"action\": " + strs ."action"difference + ", "
+			+ "\"parameters\": " + format_parameters ."parameters"difference
+		"}"
+	;
 ;

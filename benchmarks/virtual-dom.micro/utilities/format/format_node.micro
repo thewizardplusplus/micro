@@ -1,17 +1,17 @@
 let format_items:4 load "format_items";
 
 fn format_properties(properties)
-  format_items "{" keys properties "}" fn(key)
-    + strs key + ": " strs .key properties
-  ;
+	format_items "{" keys properties "}" fn(key)
+		+ strs key + ": " strs .key properties
+	;
 ;
 
 fn format_node(node)
-  + "{"
-    + "\"type\": " + strs ."type"node + ", "
-    + "\"properties\": " + format_properties ."properties"node + ", "
-    + "\"children\": " + format_items "[" ."children"node "]" fn(child)
-      format_node child
-    ;
-  "}"
+	+ "{"
+		+ "\"type\": " + strs ."type"node + ", "
+		+ "\"properties\": " + format_properties ."properties"node + ", "
+		+ "\"children\": " + format_items "[" ."children"node "]" fn(child)
+			format_node child
+		;
+	"}"
 ;
