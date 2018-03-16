@@ -1,7 +1,9 @@
 let debug_items:2 load "debug_items";
 
 fn debug_properties(properties)
-  "<properties>"
+  debug_items keys properties fn(key)
+    + strs key + ": " strs .key properties
+  ;
 ;
 
 fn debug_node(node)
