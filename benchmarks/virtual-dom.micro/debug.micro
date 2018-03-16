@@ -15,10 +15,14 @@ fn debug_parameters(parameters)
           fn() debug_node parameter;
       ;
   ;;
-  reduce "" formatted_parameters fn(result formatted_parameter)
-    let separator && result ", ";
-    + result + separator formatted_parameter
+  let formatted_parameters
+    reduce "" formatted_parameters fn(result formatted_parameter)
+      let separator && result ", ";
+      + result + separator formatted_parameter
+    ;
   ;
+
+  + "[" + formatted_parameters "]"
 ;
 
 fn debug_differences(differences)
