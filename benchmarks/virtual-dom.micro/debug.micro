@@ -1,12 +1,11 @@
-let map:2 load "std/list/map";
-let reduce:3 load "std/list/reduce";
+let debug_items:2 load "debug_items";
 
 fn debug_node(node)
   "<node>"
 ;
 
 fn debug_parameters(parameters)
-  let formatted_parameters map parameters fn(parameter)
+  debug_items parameters fn(parameter)
     if == "num" type parameter
       fn() str parameter;
       fn()
@@ -14,31 +13,15 @@ fn debug_parameters(parameters)
           fn() strs parameter;
           fn() debug_node parameter;
       ;
-  ;;
-  let formatted_parameters
-    reduce "" formatted_parameters fn(result formatted_parameter)
-      let separator && result ", ";
-      + result + separator formatted_parameter
-    ;
   ;
-
-  + "[" + formatted_parameters "]"
 ;
 
 fn debug_differences(differences)
-  let formatted_differences map differences fn(difference)
+  debug_items differences fn(difference)
     + "{"
       + "\"path\": " + strl ."path"difference + ", "
       + "\"action\": " + strs ."action"difference + ", "
       + "\"parameters\": " + debug_parameters ."parameters"difference
     "}"
-  ;;
-  let formatted_differences
-    reduce "" formatted_differences fn(result formatted_difference)
-      let separator && result ", ";
-      + result + separator formatted_difference
-    ;
   ;
-
-  + "[" + formatted_differences "]"
 ;

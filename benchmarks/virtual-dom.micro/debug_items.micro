@@ -1,0 +1,15 @@
+let map:2 load "std/list/map";
+let reduce:3 load "std/list/reduce";
+
+fn debug_items(items item_formatter)
+  let formatted_items map items item_formatter;
+  let joined_result
+    reduce "" formatted_items fn(result formatted_item)
+      nb if the result is empty then use the result else use the constant
+      let separator && result ", ";
+      + result + separator formatted_item
+    ;
+  ;
+
+  + "[" + joined_result "]"
+;
