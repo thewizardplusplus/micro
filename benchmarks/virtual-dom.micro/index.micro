@@ -100,3 +100,13 @@ fn compare_nodes(old_node new_node index path)
         ;
     ;
 ;
+
+nb exports
+  #"make_node" fn(kind properties children)
+    make_node kind properties children
+  ;
+
+  #"compare_nodes" fn(old_node new_node index path)
+    compare_nodes old_node new_node index path
+  ;
+{}
