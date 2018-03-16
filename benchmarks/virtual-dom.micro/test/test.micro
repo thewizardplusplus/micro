@@ -102,4 +102,18 @@ group "compare_nodes()" fn()
       format_differences differences
     ;
   ;
+
+  ,test "should remove a property when a new node hasn't a property with same name" fn()
+    let old_node make_node "input" #"class""form-control" #"type""email" {} [];
+    let new_node make_node "input" #"class""form-control" {} [];
+    let difference compare_nodes old_node new_node 5 ,"section","form"[];
+    let expected
+      #"path" ,"section","form","input"[]
+      #"action" "remove_property"
+      #"parameters" ,"type"[]
+    {};
+    assert_equality difference ,expected[] fn(differences)
+      format_differences differences
+    ;
+  ;
 [];
