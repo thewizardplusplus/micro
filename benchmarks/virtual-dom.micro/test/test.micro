@@ -7,4 +7,16 @@ let assert_equality:3 load "../utilities/assert_equality";
 let format_differences:1 load "../utilities/format/format_differences";
 
 group "compare_nodes()" fn()
+  ,test "should create a node when there's no old node at same place" fn()
+    let new_node make_node "input" {} [];
+    let difference compare_nodes nil new_node 5 ,"section","form"[];
+    let expected
+      #"path" ,"section","form"[]
+      #"action" "create"
+      #"parameters" ,new_node[]
+    {};
+    assert_equality difference ,expected[] fn(differences)
+      format_differences differences
+    ;
+  ;
 [];
