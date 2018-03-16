@@ -1,0 +1,15 @@
+let ansi:2 load "std/cli/ansi";
+
+fn assert_equality(actual expected formatter:1)
+  let is_equal == actual expected;
+  if !is_equal
+    fn()
+      errln
+        + "\n"
+        + "* expected: " + ansi "green" formatter expected + ";\n"
+        + "* actual: " + ansi "red" formatter actual ";"
+    ;
+    fn();
+
+  is_equal
+;
