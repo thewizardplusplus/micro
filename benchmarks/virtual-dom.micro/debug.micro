@@ -1,0 +1,16 @@
+let ansi:2 load "std/cli/ansi";
+let for_each:2 load "std/list/for_each";
+
+fn debug_parameters(parameters)
+  "<parameters>"
+;
+
+fn debug_differences(differences)
+  for_each differences fn(difference)
+    outln
+      + ansi "bold" "path: " + strl ."path"difference + "; "
+      + ansi "bold" "action: " + strs ."action"difference + "; "
+      + ansi "bold" "parameters: "
+        + debug_parameters ."parameters"difference ";"
+  ;
+;
