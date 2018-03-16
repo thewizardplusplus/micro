@@ -46,4 +46,18 @@ group "compare_nodes()" fn()
       format_differences differences
     ;
   ;
+
+  ,test "should replace a node when there's an object and a string at same place" fn()
+    let old_node make_node "input" {} [];
+    let new_node "text";
+    let difference compare_nodes old_node new_node 5 ,"section","form"[];
+    let expected
+      #"path" ,"section","form"[]
+      #"action" "replace"
+      #"parameters" ,5,new_node[]
+    {};
+    assert_equality difference ,expected[] fn(differences)
+      format_differences differences
+    ;
+  ;
 [];
