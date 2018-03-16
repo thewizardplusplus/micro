@@ -116,4 +116,18 @@ group "compare_nodes()" fn()
       format_differences differences
     ;
   ;
+
+  ,test "should set a property when a property with same name has a different value" fn()
+    let old_node make_node "input" #"class""form-control" #"type""username" {} [];
+    let new_node make_node "input" #"class""form-control" #"type""email" {} [];
+    let difference compare_nodes old_node new_node 5 ,"section","form"[];
+    let expected
+      #"path" ,"section","form","input"[]
+      #"action" "set_property"
+      #"parameters" ,"type","email"[]
+    {};
+    assert_equality difference ,expected[] fn(differences)
+      format_differences differences
+    ;
+  ;
 [];
