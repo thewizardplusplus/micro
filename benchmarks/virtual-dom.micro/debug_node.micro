@@ -1,7 +1,7 @@
-let debug_items:2 load "debug_items";
+let debug_items:4 load "debug_items";
 
 fn debug_properties(properties)
-  debug_items keys properties fn(key)
+  debug_items "{" keys properties "}" fn(key)
     + strs key + ": " strs .key properties
   ;
 ;
@@ -10,7 +10,7 @@ fn debug_node(node)
   + "{"
     + "\"type\": " + strs ."type"node + ", "
     + "\"properties\": " + debug_properties ."properties"node + ", "
-    + "\"children\": " + debug_items ."children"node fn(child)
+    + "\"children\": " + debug_items "[" ."children"node "]" fn(child)
       debug_node child
     ;
   "}"

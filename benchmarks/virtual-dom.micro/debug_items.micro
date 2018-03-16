@@ -1,7 +1,7 @@
 let map:2 load "std/list/map";
 let reduce:3 load "std/list/reduce";
 
-fn debug_items(items item_formatter)
+fn debug_items(prefix items suffix item_formatter)
   let formatted_items map items item_formatter;
   let joined_result
     reduce "" formatted_items fn(result formatted_item)
@@ -11,5 +11,5 @@ fn debug_items(items item_formatter)
     ;
   ;
 
-  + "[" + joined_result "]"
+  + prefix + joined_result suffix
 ;

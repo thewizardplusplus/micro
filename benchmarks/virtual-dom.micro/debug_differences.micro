@@ -1,8 +1,8 @@
-let debug_items:2 load "debug_items";
+let debug_items:4 load "debug_items";
 let debug_node:1 load "debug_node";
 
 fn debug_parameters(parameters)
-  debug_items parameters fn(parameter)
+  debug_items "[" parameters "]" fn(parameter)
     if == "num" type parameter
       fn() str parameter;
       fn()
@@ -14,7 +14,7 @@ fn debug_parameters(parameters)
 ;
 
 fn debug_differences(differences)
-  debug_items differences fn(difference)
+  debug_items "[" differences "]" fn(difference)
     + "{"
       + "\"path\": " + strl ."path"difference + ", "
       + "\"action\": " + strs ."action"difference + ", "
