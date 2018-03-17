@@ -1,0 +1,4 @@
+nb if the text is empty, then return the text, else return the separator
+fn get_separator(text separator)
+	&& text separator
+;

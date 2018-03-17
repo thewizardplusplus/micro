@@ -1,11 +1,10 @@
 let group:2 load "std/test/group";
 let test:2 load "std/test/test";
 
+let get_separator:2 load "../utilities/get_separator";
 let index_module
 	let extension ?? .1 args "";
-	nb if the extension is empty then use the extension else use the constant
-	let separator && extension ".";
-	load + "../index" + separator extension
+	load + "../index" + get_separator extension "." extension
 ;
 let make_node:3 ."make_node"index_module;
 let compare_nodes:4 ."compare_nodes"index_module;
