@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o pipefail
+
 declare -r BOLD_FONT="$(tput bold)"
 declare -r RESET_FONT="$(tput sgr0)"
 
