@@ -7,7 +7,7 @@
 
 ## Benchmark
 
-### In JavaScript
+### Of [the JavaScript implementation](virtual-dom.js/)
 
 ```
 $ ./tools/benchmarker.bash virtual-dom.js/
@@ -19,7 +19,7 @@ Size of the full version | 2398 B
 Size of the minified version | **794 B**
 Saved | 66.89%
 
-### In Micro
+### Of [the Micro implementation](virtual-dom.micro/)
 
 ```
 $ ./tools/benchmarker.bash virtual-dom.micro/
