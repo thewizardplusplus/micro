@@ -1,4 +1,4 @@
-# Virtual DOM
+# Virtual DOM in JavaScript
 
 ## Algorithm
 
