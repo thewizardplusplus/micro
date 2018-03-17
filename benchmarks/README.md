@@ -10,7 +10,7 @@
 ### Of the [JavaScript Implementation](virtual-dom.js/)
 
 ```
-$ ./tools/benchmarker.bash virtual-dom.js/
+$ ./tools/benchmarker.bash js
 ```
 
 Parameter | Value
@@ -22,7 +22,7 @@ Saved | 66.89%
 ### Of the [Micro Implementation](virtual-dom.micro/)
 
 ```
-$ ./tools/benchmarker.bash virtual-dom.micro/
+$ ./tools/benchmarker.bash micro
 ```
 
 Parameter | Value

@@ -34,7 +34,7 @@ $ npm run test-min
 ## Benchmark
 
 ```
-$ ../tools/benchmarker.bash
+$ ../tools/benchmarker.bash js
 ```
 
 Parameter | Value

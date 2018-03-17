@@ -7,21 +7,20 @@ declare -r BOLD_FONT="$(tput bold)"
 declare -r RESET_FONT="$(tput sgr0)"
 
 function get_source() {
-  declare -r base_path="$1"
-  declare -r base_name="$2"
+  declare -r _script_path="$1"
+  declare -r _language="$2"
+  declare -r _extension="$3"
 
-  find "$base_path" \
-    -maxdepth 1 \
-    \( -name "${base_name}js" -o -name "${base_name}micro" \) \
-    -exec cat "{}" \;
+  cat "$_script_path/../virtual-dom.$_language/index$_extension.$_language"
 }
 
-declare -r custom_base_path="${1:-.}"
+declare -r language="$1"
 
-declare -ri full_size=$(get_source "$custom_base_path" "index." | wc -m)
+declare -r script_path="$(dirname "$0")"
+declare -ri full_size=$(get_source "$script_path" "$language" | wc -m)
 echo "Size of the full version: $full_size B"
 
-declare -ri minified_size=$(get_source "$custom_base_path" "index.min." | wc -m)
+declare -ri minified_size=$(get_source "$script_path" "$language" .min | wc -m)
 echo "Size of the minified version: $BOLD_FONT$minified_size B$RESET_FONT"
 
 declare -r saved="$(echo "scale=2; 100 - 100*$minified_size/$full_size" | bc)"

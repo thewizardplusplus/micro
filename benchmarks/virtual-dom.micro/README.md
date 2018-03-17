@@ -22,7 +22,7 @@ $ micro test min
 ## Benchmark
 
 ```
-$ ../tools/benchmarker.bash
+$ ../tools/benchmarker.bash micro
 ```
 
 Parameter | Value
