@@ -16,7 +16,7 @@ function get_source() {
     -exec cat "{}" \;
 }
 
-declare -r custom_base_path="$1"
+declare -r custom_base_path="${1:-.}"
 
 declare -ri full_size=$(get_source "$custom_base_path" "index." | wc -m)
 echo "Size of the full version: $full_size B"
