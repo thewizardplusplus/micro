@@ -19,7 +19,6 @@
   "scripts": {
     "test": "TEST_SOURCE=../index.js mocha",
     "test-min": "TEST_SOURCE=../index.min.js mocha",
-    "minify": "cat index.js | ./tools/minifier.bash > index.min.js",
-    "benchmark": "./tools/benchmarker.bash"
+    "minify": "cat index.js | ./tools/minifier.bash > index.min.js"
   }
 }
