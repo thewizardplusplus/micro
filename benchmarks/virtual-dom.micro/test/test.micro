@@ -1,8 +1,14 @@
 let group:2 load "std/test/group";
 let test:2 load "std/test/test";
 
-let make_node:3 ."make_node" load "../index";
-let compare_nodes:4 ."compare_nodes" load "../index";
+let index_module
+	let extension ?? .1 args "";
+	nb if the extension is empty then use the extension else use the constant
+	let separator && extension ".";
+	load + "../index" + separator extension
+;
+let make_node:3 ."make_node"index_module;
+let compare_nodes:4 ."compare_nodes"index_module;
 let assert_equality:3 load "../utilities/assert_equality";
 let format_differences:1 load "../utilities/format/format_differences";
 
