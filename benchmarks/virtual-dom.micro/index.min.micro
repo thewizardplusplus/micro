@@ -1,6 +1,3 @@
-nb https://medium.com/@deathmood/how-to-write-your-own-virtual-dom-ee74acc13060
-nb https://medium.com/@deathmood/write-your-virtual-dom-2-props-events-a957608f5c76
-
 let map:2 load "std/list/map";
 let filter:2 load "std/list/filter";
 let zip_longest:3 load "std/list/zip_longest";
@@ -101,7 +98,6 @@ fn compare_nodes(old_node new_node index path)
 		;
 ;
 
-nb exports
 	#"make_node" fn(kind properties children)
 		make_node kind properties children
 	;
