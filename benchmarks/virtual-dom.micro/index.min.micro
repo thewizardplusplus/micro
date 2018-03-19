@@ -5,21 +5,12 @@ let reduce:3 load "std/list/reduce";
 
 fn d(t~r)#"path"t#"action"~ #"parameters"r{};
 fn@(n~)|| !=type n type~fn()if=="hash"type n fn()!= ."type"n."type"~;fn()!=n~;;;
-
-fn compare_property(path name old_value new_value)
-	if !new_value
-		fn() d path "remove_property" ,name[];
-		fn()
-			if || !old_value != new_value old_value
-				fn() d path "set_property" ,name,new_value[];
-				fn() nil;
-		;
-;
+fn$(~a@e)if!e fn()d~"remove_property",a[];fn()if|| ! @ !=e@fn()d~"set_property",a,e[];fn();;;
 
 fn compare_properties(path old_properties new_properties)
 	let properties + old_properties new_properties;
 	let differences map keys properties fn(name)
-		compare_property path name .name old_properties .name new_properties
+		$ path name .name old_properties .name new_properties
 	;;
 	filter differences fn(difference)
 		difference
