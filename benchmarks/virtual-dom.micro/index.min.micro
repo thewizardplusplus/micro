@@ -13,42 +13,15 @@ fn compare_nodes(o n i~)
 		if!n fn(),d~"remove",i[] [];fn()
 			if@o n fn(),d~"replace",i,n[] [];fn()
 				if=="hash"type o fn()
-					let child_path + ~ , ."type"o [];
-					let properties_differences
-						%
-							child_path
-							."properties"o
-							."properties"n
-					;
-					let children_pairs
-						zip_longest
-							."children"o
-							."children"n
-							fn(node_i node_ii)
-								,node_i,node_ii[]
-							;
-					;
-					let children_differences
-						let result
-							reduce {} children_pairs fn(result children_pair)
-								let index ?? ."index"result 0;
-								let differences
-									compare_nodes
-										.0 children_pair
-										.1 children_pair
-										index
-										child_path
-								;
-
-								#"differences" + ?? ."differences"result [] differences
-								#"index" ++ index
-							{};
-						;
-
-						?? ."differences"result []
-					;
-
-					+ properties_differences children_differences
+					let c+ ~ , ."type"o[];
+					let p%c."properties"o."properties"n;
+					let^zip_longest."children"o."children"n fn(a b),a,b[];;
+					let&let*reduce{} ^fn(r~)
+						let i?? ."index"r0;
+						let d compare_nodes.0~ .1~i c;
+						#"differences"+ ?? ."differences"r[]d#"index"++i{}
+					;;?? ."differences"* [];
+					+p&
 				;fn()[];
 			;
 		;
