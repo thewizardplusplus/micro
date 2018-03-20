@@ -1,12 +1,12 @@
-let map:2 load "std/list/map";
-let filter:2 load "std/list/filter";
-let zip_longest:3 load "std/list/zip_longest";
-let reduce:3 load "std/list/reduce";
+let^:2load"std/list/map";
+let f:2load"std/list/filter";
+let z:3load"std/list/zip_longest";
+let r:3load"std/list/reduce";
 
 fn d(t~r)#"path"t#"action"~ #"parameters"r{};
 fn@(n~)|| !=type n type~fn()if=="hash"type n fn()!= ."type"n."type"~;fn()!=n~;;;
 fn$(~a@e)if!e fn()d~"remove_property",a[];fn()if|| ! @ !=e@fn()d~"set_property",a,e[];fn();;;
-fn%(p o~)let@ +o~;let#map keys@fn(n)$p n.n o.n~;;filter#fn(d)d;;
+fn%(p o~)let@ +o~;let# ^keys@fn(n)$p n.n o.n~;;f#fn(d)d;;
 
 #"make_node"fn(k~c)#"type"k#"properties"~ #"children"c{};
 #"compare_nodes"fn=(o n i~)
@@ -16,8 +16,8 @@ if@o n fn(),d~"replace",i,n[] [];fn()
 if=="hash"type o fn()
 let c+ ~ , ."type"o[];
 let p%c."properties"o."properties"n;
-let^zip_longest."children"o."children"n fn(a b),a,b[];;
-let&let*reduce{} ^fn(r~)
+let^z."children"o."children"n fn(a b),a,b[];;
+let&let*r{} ^fn(r~)
 let i?? ."index"r0;
 let d= .0~ .1~i c;
 #"differences"+ ?? ."differences"r[]d#"index"++i{}
