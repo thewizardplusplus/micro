@@ -28,5 +28,5 @@ $ ./tools/benchmarker.bash micro
 Parameter | Value
 --- | ---
 Size of the full version | 2827 B
-Size of the minified version | **2827 B**
-Saved | 0%
+Size of the minified version | **872 B**
+Saved | 69.16%
