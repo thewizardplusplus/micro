@@ -1,5 +1,29 @@
 # Change Log
 
+## [v2.3](https://github.com/thewizardplusplus/micro/tree/v2.3) (2018-03-29)
+
+* Рантайм:
+	* Переименовать функцию рантайма `?` в `??` [\#142](https://github.com/thewizardplusplus/micro/issues/142)
+	* Исправить результат функции рантайма `args` при чтении кода скрипта с stdin \(первым аргументом возвращать строку `__stdin__`\) [\#143](https://github.com/thewizardplusplus/micro/issues/143)
+* Библиотека:
+	* Переименовать функцию библиотеки `generate_while` в `generate_if` [\#144](https://github.com/thewizardplusplus/micro/issues/144)
+	* Восстановить в библиотеке модуль для юнит-тестирования [\#153](https://github.com/thewizardplusplus/micro/issues/153)
+* Примеры:
+	* Добавить в пример 1D-жизнь комментарий о том, что данный алгоритм является правилом 104 для элементарных клеточных автоматов \([https://en.wikipedia.org/wiki/Elementary_cellular_automaton](https://en.wikipedia.org/wiki/Elementary_cellular_automaton)\) [\#145](https://github.com/thewizardplusplus/micro/issues/145)
+	* Добавить в пример 2D-жизнь параметр `FILL_FACTOR` \(рассчитывать по нему параметр `POINTS_NUMBER`, если тот не задан\) [\#146](https://github.com/thewizardplusplus/micro/issues/146)
+	* Сфера:
+		* Переименовать переменную `eye_direction` в `normal` [\#148](https://github.com/thewizardplusplus/micro/issues/148)
+		* Выделить функцию `clamp` [\#149](https://github.com/thewizardplusplus/micro/issues/149)
+* Бенчмарк:
+	* Добавить бенчмарк минификации — Virtual DOM:
+		* на JavaScript [\#151](https://github.com/thewizardplusplus/micro/issues/151)
+		* на Micro [\#154](https://github.com/thewizardplusplus/micro/issues/154)
+	* Добавить утилиту для проведения бенчмарка [\#155](https://github.com/thewizardplusplus/micro/issues/155)
+	* Добавить общее описание бенчмарка [\#156](https://github.com/thewizardplusplus/micro/issues/156)
+* Пакеты:
+	* Подготовить проект к публикации в репозиторий пакетов Python [\#141](https://github.com/thewizardplusplus/micro/issues/141)
+	* Подготовить плагин для редактора Atom к публикации в репозиторий пакетов Atom [\#152](https://github.com/thewizardplusplus/micro/issues/152)
+
 ## [v2.2](https://github.com/thewizardplusplus/micro/tree/v2.2) (2018-01-11)
 
 * Перевести имена служебных файлов в верхний регистр [\#97](https://github.com/thewizardplusplus/micro/issues/97)
